@@ -1,0 +1,43 @@
+<?php 
+
+class MY_Controller extends CI_Controller {
+	
+	/*
+	 * Este controller deve estender o CI_Controller
+	 * Verifica a linguagem do navegador e sugere ao usuário a linguagem, caso não encontre definide a linguagem definida no default
+	 * Abaixo verifica se o conteúdo da variável logado na sessão é igual a 1, caso seja, não faz nada, 
+	 * caso não seja então redireciona novamente para o controller de login.
+	 */
+
+ 	public function __construct()
+       {
+            parent::__construct();
+           	$idioma = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"], 0, 5);
+
+            
+		switch($idioma){
+		case 'pt-BR': //Caso seja português
+			$this->lang->load("error","pt-BR");
+			$this->lang->load("labels","pt-BR");
+			$this->lang->load("message","pt-BR");
+			break;
+		case 'en-US': //Caso seja espanhol
+			$this->lang->load("error","en-US");
+			$this->lang->load("labels","en-US");
+			$this->lang->load("message","en-US");
+			break;
+		default:
+			$this->lang->load("error","en-US");
+			$this->lang->load("labels","en-US");
+			$this->lang->load("message","en-US");
+			break;
+		}
+	    	
+			$logado = $this->session->userdata("logado");
+			
+			if ($logado != 1) 
+				redirect(base_url('index.php/login'));				
+       }
+
+
+}
