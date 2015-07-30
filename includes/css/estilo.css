@@ -1,0 +1,114 @@
+body{
+	overflow: auto; /* cria barra de rolagem se tela menor */
+}
+a:link, a:visited {
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: none; 
+}
+a:active {
+	text-decoration: none;
+}
+.menu{
+	background:#006dcc;
+	height:80px;
+	border-radius: 10px;
+}
+img#sair{
+	float: right;
+	margin-top: -70px;
+}
+
+h2.center{
+	text-align: center;;
+}
+
+h3.center{
+	text-align: center;;
+}
+
+ h3.alerta{
+ 	font-size: 20.5px;
+ 	margin-top: 0px;
+ }
+
+form.paineldecontrole{
+	text-align: center;
+	width: 22.2%;
+	min-height:220px;
+	float:left;
+	border:3px solid #006DCC;
+	border-radius: 5px;
+	margin: 1% 0.5% auto;
+	padding: 5px;
+	color:#000;
+	font-size:11pt;
+	font-weight: bold;
+}
+
+legend.sala{
+	 font-size:13pt;
+}
+
+div.error{
+	 width:80px;
+	 height:40px;
+	 margin: 0 auto;
+	 background-color:#CA3C3C;
+	 color:white;
+	 border-radius: 8px;		  
+}
+
+div.normal{
+	 width:90px;
+	 height:35px;
+	 margin: 0 auto;
+	 background-color:#1CB841;
+	 color:white;
+	 border-radius: 8px;	 
+}
+
+table.detalhes{
+	font-size: 8pt;
+}
+
+div#linha{
+	width:49%; height:300px;float:left;
+}
+
+div#barra{
+	width:49%; height:300px; float:left;
+}
+
+div#graficolinha{
+	min-height:310px;border:1px solid #000; padding-bottom: 5px;
+}
+
+div#faselinha{
+	margin:auto; width:70%;height:300px;border:1px solid #000;margin-top:10px;
+}
+
+div#fasebarra{
+	margin:auto; width:70%;height:300px;border:1px solid #000;margin-top:10px;
+}
+
+div#fugalinha{
+	margin:auto; width:70%;height:300px;border:1px solid #000;margin-top:10px;
+}
+
+div#fugabarra{
+	margin:auto; width:70%;height:300px;border:1px solid #000;margin-top:10px;
+}
+
+
+textarea.comentario{
+	width: 35%;
+}
+
+.footer{
+	margin-top: 2px;
+	height:70px;
+	border:1px solid #999; 
+	border-radius: 10px;
+}
