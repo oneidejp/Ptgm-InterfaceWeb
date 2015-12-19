@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title><?php echo $this->lang->line('page_title_v_home'); ?></title>
+  <title><?= $this->lang->line('page_title_v_home'); ?></title>
   <script src="includes/bootstrap/js/jquery.min"></script>
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="<? echo base_url('includes/bootstrap/css/bootstrap.css') ?>">
@@ -22,7 +22,7 @@
           <a href="<?= base_url('index.php/login/logout') ?>"> <img id="sair" src="<? echo base_url('includes/imagens/deslogar.png') ?>" /></a>
         </div>
         <div id="aba">
-          <h1 class="text-center"><?php echo $this->lang->line('page_title_v_home')." "; echo $this->session->userdata('nome')." "; ?><?php echo $this->lang->line('logged'); ?></h1>
+          <h1 class="text-center"><?= $this->lang->line('page_title_v_home')." "; echo $this->session->userdata('nome')." "; ?><?= $this->lang->line('logged'); ?></h1>
         </div>
         <div class="row-fluid"><? include ("footer.php"); ?></div>
       </div>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title><?php echo $this->lang->line('compare'); ?></title>
+	<title><?= $this->lang->line('compare'); ?></title>
 	<script src="includes/bootstrap/js/jquery.min"></script>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="<? echo base_url('includes/bootstrap/css/bootstrap.css') ?>">
@@ -27,10 +27,10 @@
 		
 		<?php //cria gráifcos fase/fuga fasepadrão/fugapadrão
 		foreach ($fase as $dados) { ?>			
-			captura = "<?php echo $dados->codCaptura; ?>";
+			captura = "<?= $dados->codCaptura; ?>";
 			if(old==1){
 				$.ajax({
-					url: "<?php echo base_url(); ?>" + "index.php/comparar/graficos",
+					url: "<?= base_url(); ?>" + "index.php/comparar/graficos",
 					dataType: 'json',
 					scriptCharset: 'UTF-8',
 					type: "POST",
@@ -42,7 +42,7 @@
 						if(dados){
 							var chart = $('#fasebarra').highcharts();
 							chart.addSeries({
-								name: "<?php echo $dados->codCaptura; ?>",
+								name: "<?= $dados->codCaptura; ?>",
 								data: dados.barra
 							});
 							var chart = $('#faselinha').highcharts();
@@ -61,10 +61,10 @@
 			old =1;
 			<?php 
 			foreach ($fuga as $dados) { ?>			
-				captura = "<?php echo $dados->codCaptura; ?>";
+				captura = "<?= $dados->codCaptura; ?>";
 				if(old==1){
 					$.ajax({
-						url: "<?php echo base_url(); ?>" + "index.php/comparar/graficos",
+						url: "<?= base_url(); ?>" + "index.php/comparar/graficos",
 						dataType: 'json',
 						scriptCharset: 'UTF-8',
 						type: "POST",
@@ -76,7 +76,7 @@
 							if(dados){
 								var chart = $('#fugabarra').highcharts();
 								chart.addSeries({
-									name: "<?php echo $dados->codCaptura; ?>",
+									name: "<?= $dados->codCaptura; ?>",
 									data: dados.barra
 								});
 								var chart = $('#fugalinha').highcharts();
@@ -94,9 +94,9 @@
 				<?php }; ?>
 				<?php 
 				foreach ($fasepadrao as $dados) { ?>			
-					captura = "<?php echo $dados->codondapadrao; ?>";
+					captura = "<?= $dados->codondapadrao; ?>";
 					$.ajax({
-						url: "<?php echo base_url(); ?>" + "index.php/comparar/graficos",
+						url: "<?= base_url(); ?>" + "index.php/comparar/graficos",
 						dataType: 'json',
 						scriptCharset: 'UTF-8',
 						type: "POST",
@@ -108,7 +108,7 @@
 							if(dados){
 								var chart = $('#fugabarra').highcharts();
 								chart.addSeries({
-									name: "<?php echo $dados->codondapadrao; ?>",
+									name: "<?= $dados->codondapadrao; ?>",
 									data: dados.barra
 								});
 								var chart = $('#fugalinha').highcharts();
@@ -124,9 +124,9 @@
 					<?php }; ?>
 					<?php 
 					foreach ($fugapadrao as $dados) { ?>			
-						captura = "<?php echo $dados->codondapadrao; ?>";
+						captura = "<?= $dados->codondapadrao; ?>";
 						$.ajax({
-							url: "<?php echo base_url(); ?>" + "index.php/comparar/graficos",
+							url: "<?= base_url(); ?>" + "index.php/comparar/graficos",
 							dataType: 'json',
 							scriptCharset: 'UTF-8',
 							type: "POST",
@@ -138,7 +138,7 @@
 								if(dados){
 									var chart = $('#fugabarra').highcharts();
 									chart.addSeries({
-										name: "<?php echo $dados->codondapadrao; ?>",
+										name: "<?= $dados->codondapadrao; ?>",
 										data: dados.barra
 									});
 									var chart = $('#fugalinha').highcharts();
@@ -163,7 +163,7 @@
 			if(nome == "fase"){
 				if(checkado == true){
 					$.ajax({
-						url: "<?php echo base_url(); ?>" + "index.php/comparar/graficos",
+						url: "<?= base_url(); ?>" + "index.php/comparar/graficos",
 						dataType: 'json',
 						scriptCharset: 'UTF-8',
 						type: "POST",
@@ -207,7 +207,7 @@
 			}else{
 				if(checkado == true){
 					$.ajax({
-						url: "<?php echo base_url(); ?>" + "index.php/comparar/graficos",
+						url: "<?= base_url(); ?>" + "index.php/comparar/graficos",
 						dataType: 'json',
 						scriptCharset: 'UTF-8',
 						type: "POST",
@@ -261,7 +261,7 @@
 			var id = $(this).attr('id');
 			var classe = $(this).attr('class');
 			var nome = $(this).attr('name');
-			var sala = "<?php echo $codUsoSala; ?>";
+			var sala = "<?= $codUsoSala; ?>";
 
 			if(id=="fase"){
 				if(nome=="maisfase"){
@@ -273,7 +273,7 @@
 				}
 
 				$.ajax({
-					url: "<?php echo base_url(); ?>" + "index.php/comparar/atualiza_fase",
+					url: "<?= base_url(); ?>" + "index.php/comparar/atualiza_fase",
 					dataType: 'json',
 					scriptCharset: 'UTF-8',
 					type: "POST",
@@ -301,7 +301,7 @@
 				}
 
 				$.ajax({
-					url: "<?php echo base_url(); ?>" + "index.php/comparar/atualiza_fuga",
+					url: "<?= base_url(); ?>" + "index.php/comparar/atualiza_fuga",
 					dataType: 'json',
 					scriptCharset: 'UTF-8',
 					type: "POST",
@@ -336,14 +336,14 @@
 					<div class="row-fluid">
 						<div class="span12">
 							<?php foreach($equipamento as $equip){ ?>
-							<h3 class="center"><?php echo $equip->equipamento; ?></h3>
+							<h3 class="center"><?= $equip->equipamento; ?></h3>
 							<br/>
 							<table class="table table-striped table-bordered">
 								<tr>
-									<td><h4><?php echo $equip->codModelo." - "; echo $equip->modelo; ?></h4></td>
-									<td><h4><?php echo $equip->codMarca." - "; echo $equip->marca; ?></h4></td>
-									<td><h4><?php echo "Rfid: ".$equip->rfid; ?></h4></td>
-									<td><h4><?php echo $tempodeuso;?></h4></td>
+									<td><h4><?= $equip->codModelo." - "; echo $equip->modelo; ?></h4></td>
+									<td><h4><?= $equip->codMarca." - "; echo $equip->marca; ?></h4></td>
+									<td><h4><?= "Rfid: ".$equip->rfid; ?></h4></td>
+									<td><h4><?= $tempodeuso;?></h4></td>
 								</tr>
 							</table>
 							<?php      		
@@ -353,55 +353,55 @@
 			</div>	
 			<div class="row-fluid">
 				<div class="span6">
-					<h3 class="center"><?php echo $this->lang->line('phase'); ?></h3>
+					<h3 class="center"><?= $this->lang->line('phase'); ?></h3>
 					<table class="table table-striped table-bordered">
 						<thead>
 							<tr>
-								<th><?php echo $this->lang->line('compare'); ?></th>
-								<th><?php echo $this->lang->line('capture'); ?></th>
-								<th><?php echo $this->lang->line('valor_medio'); ?></th>
-								<th><?php echo $this->lang->line('effective'); ?></th>
-								<th><?php echo $this->lang->line('plug'); ?></th>
-								<th><?php echo $this->lang->line('date'); ?></th>
+								<th><?= $this->lang->line('compare'); ?></th>
+								<th><?= $this->lang->line('capture'); ?></th>
+								<th><?= $this->lang->line('valor_medio'); ?></th>
+								<th><?= $this->lang->line('effective'); ?></th>
+								<th><?= $this->lang->line('plug'); ?></th>
+								<th><?= $this->lang->line('date'); ?></th>
 							</tr>
 						</thead>
 						<tbody>									
 							<tr>
 								<?php if (empty($fase)) { 	
 									?>
-									<td><?php echo $this->lang->line('empty'); ?></td>
-									<td><?php echo $this->lang->line('empty'); ?></td>
-									<td><?php echo $this->lang->line('empty'); ?></td>
-									<td><?php echo $this->lang->line('empty'); ?></td>
-									<td><?php echo $this->lang->line('empty'); ?></td>
-									<td><?php echo $this->lang->line('empty'); ?></td>
+									<td><?= $this->lang->line('empty'); ?></td>
+									<td><?= $this->lang->line('empty'); ?></td>
+									<td><?= $this->lang->line('empty'); ?></td>
+									<td><?= $this->lang->line('empty'); ?></td>
+									<td><?= $this->lang->line('empty'); ?></td>
+									<td><?= $this->lang->line('empty'); ?></td>
 								</tr>
 								<?php 
 							}else{ 
 								$anterior = 0;
 								foreach($fase as $dados){ 
 									if($anterior == $dados->codTomada){	?>
-									<tr id="fase<?php echo $dados->codCaptura;?>">
-										<td id="<?php echo $dados->codCaptura;?>-1"><input type="checkbox" id="<?php echo $dados->codTomada;?>" class="<?php echo $dados->codCaptura;?>" name="fase"  /></td>
-										<td id="<?php echo $dados->codCaptura;?>-2"><?php echo $dados->codCaptura; ?></td>
-										<td id="<?php echo $dados->codCaptura;?>-3"><?php echo $dados->valorMedio; ?></td>
-										<td id="<?php echo $dados->codCaptura;?>-4"><?php echo $dados->eficaz; ?></td>
-										<td id="<?php echo $dados->codCaptura;?>-5"><?php echo $dados->codTomada; ?></td>
-										<td id="<?php echo $dados->codCaptura;?>-6"><?php echo $dados->dataAtual; ?></td>
+									<tr id="fase<?= $dados->codCaptura;?>">
+										<td id="<?= $dados->codCaptura;?>-1"><input type="checkbox" id="<?= $dados->codTomada;?>" class="<?= $dados->codCaptura;?>" name="fase"  /></td>
+										<td id="<?= $dados->codCaptura;?>-2"><?= $dados->codCaptura; ?></td>
+										<td id="<?= $dados->codCaptura;?>-3"><?= $dados->valorMedio; ?></td>
+										<td id="<?= $dados->codCaptura;?>-4"><?= $dados->eficaz; ?></td>
+										<td id="<?= $dados->codCaptura;?>-5"><?= $dados->codTomada; ?></td>
+										<td id="<?= $dados->codCaptura;?>-6"><?= $dados->dataAtual; ?></td>
 									</tr>
 									<script type="text/javascript">
-									$("#fase<?php echo $dados->codCaptura;?>").hide();
-									$("#<?php echo $capanterior;?>-2").html("<img id='fase' class='<?php echo $dados->codTomada;?>' name='maisfase' src='<? echo base_url('includes/imagens/mais.jpg') ?>'> <?php echo $capanterior; ?>");
+									$("#fase<?= $dados->codCaptura;?>").hide();
+									$("#<?= $capanterior;?>-2").html("<img id='fase' class='<?= $dados->codTomada;?>' name='maisfase' src='<? echo base_url('includes/imagens/mais.jpg') ?>'> <?= $capanterior; ?>");
 									</script>
 									<?php }else{ 
 										?>
-										<tr id="fase<?php echo $dados->codCaptura;?>">
-											<td id="<?php echo $dados->codCaptura;?>-1"><input type="checkbox" checked="cheked" id="<?php echo $dados->codTomada;?>" class="<?php echo $dados->codCaptura;?>" name="fase"  /></td>
-											<td id="<?php echo $dados->codCaptura;?>-2"><?php echo $dados->codCaptura; ?></td>
-											<td id="<?php echo $dados->codCaptura;?>-3"><?php echo $dados->valorMedio; ?></td>
-											<td id="<?php echo $dados->codCaptura;?>-4"><?php echo $dados->eficaz; ?></td>
-											<td id="<?php echo $dados->codCaptura;?>-5"><?php echo $dados->codTomada; ?></td>
-											<td id="<?php echo $dados->codCaptura;?>-6"><?php echo $dados->dataAtual; ?></td>
+										<tr id="fase<?= $dados->codCaptura;?>">
+											<td id="<?= $dados->codCaptura;?>-1"><input type="checkbox" checked="cheked" id="<?= $dados->codTomada;?>" class="<?= $dados->codCaptura;?>" name="fase"  /></td>
+											<td id="<?= $dados->codCaptura;?>-2"><?= $dados->codCaptura; ?></td>
+											<td id="<?= $dados->codCaptura;?>-3"><?= $dados->valorMedio; ?></td>
+											<td id="<?= $dados->codCaptura;?>-4"><?= $dados->eficaz; ?></td>
+											<td id="<?= $dados->codCaptura;?>-5"><?= $dados->codTomada; ?></td>
+											<td id="<?= $dados->codCaptura;?>-6"><?= $dados->dataAtual; ?></td>
 										</tr>
 										<?php $anterior = $dados->codTomada;
 										$capanterior = $dados->codCaptura;
@@ -413,35 +413,35 @@
 					<table class="table table-striped table-bordered">
 						<thead>
 							<tr>
-								<th><?php echo $this->lang->line('cod_onda_padrao'); ?></th>
-								<th><?php echo $this->lang->line('valor_medio'); ?></th>
-								<th><?php echo $this->lang->line('effective'); ?></th>
-								<th><?php echo $this->lang->line('plug'); ?></th>
-								<th><?php echo $this->lang->line('date'); ?></th>
-								<th><?php echo $this->lang->line('standard'); ?></th>
+								<th><?= $this->lang->line('cod_onda_padrao'); ?></th>
+								<th><?= $this->lang->line('valor_medio'); ?></th>
+								<th><?= $this->lang->line('effective'); ?></th>
+								<th><?= $this->lang->line('plug'); ?></th>
+								<th><?= $this->lang->line('date'); ?></th>
+								<th><?= $this->lang->line('standard'); ?></th>
 							</tr>
 						</thead>
 						<tbody>									
 							<tr>
 								<?php if (empty($fasepadrao)) { 	
 									?>
-									<td><?php echo $this->lang->line('empty'); ?></td>
-									<td><?php echo $this->lang->line('empty'); ?></td>
-									<td><?php echo $this->lang->line('empty'); ?></td>
-									<td><?php echo $this->lang->line('empty'); ?></td>
-									<td><?php echo $this->lang->line('empty'); ?></td>
+									<td><?= $this->lang->line('empty'); ?></td>
+									<td><?= $this->lang->line('empty'); ?></td>
+									<td><?= $this->lang->line('empty'); ?></td>
+									<td><?= $this->lang->line('empty'); ?></td>
+									<td><?= $this->lang->line('empty'); ?></td>
 									<td><input type="checkbox"/></td>
 								</tr>
 								<?php 
 							}else{ 								
 								foreach($fasepadrao as $dados){ ?>
 								<tr>
-									<td><?php echo $dados->codondapadrao; ?></td>
-									<td><?php echo $dados->valorMedio; ?></td>
-									<td><?php echo $dados->eficaz; ?></td>
-									<td><?php echo $dados->codTomada; ?></td>
-									<td><?php echo $dados->datapadrao; ?></td>
-									<td><input type="checkbox" checked="cheked" id="<?php echo $dados->codTomada;?>" class="<?php echo $dados->codondapadrao;?>" name="fase" /></td>
+									<td><?= $dados->codondapadrao; ?></td>
+									<td><?= $dados->valorMedio; ?></td>
+									<td><?= $dados->eficaz; ?></td>
+									<td><?= $dados->codTomada; ?></td>
+									<td><?= $dados->datapadrao; ?></td>
+									<td><input type="checkbox" checked="cheked" id="<?= $dados->codTomada;?>" class="<?= $dados->codondapadrao;?>" name="fase" /></td>
 								</tr>
 								<?php }							
 							}?>
@@ -455,55 +455,55 @@
 					</div>
 				</div>
 				<div class="span6">
-					<h3 class="center"><?php echo $this->lang->line('flight'); ?></h3>
+					<h3 class="center"><?= $this->lang->line('flight'); ?></h3>
 					<table class="table table-striped table-bordered">
 						<thead>
 							<tr>
-								<th><?php echo $this->lang->line('compare'); ?></th>
-								<th><?php echo $this->lang->line('capture'); ?></th>
-								<th><?php echo $this->lang->line('valor_medio'); ?></th>
-								<th><?php echo $this->lang->line('effective'); ?></th>
-								<th><?php echo $this->lang->line('plug'); ?></th>
-								<th><?php echo $this->lang->line('date'); ?></th>
+								<th><?= $this->lang->line('compare'); ?></th>
+								<th><?= $this->lang->line('capture'); ?></th>
+								<th><?= $this->lang->line('valor_medio'); ?></th>
+								<th><?= $this->lang->line('effective'); ?></th>
+								<th><?= $this->lang->line('plug'); ?></th>
+								<th><?= $this->lang->line('date'); ?></th>
 							</tr>
 						</thead>
 						<tbody>									
 							<tr>
 								<?php if (empty($fuga)) { 	
 									?>
-									<td><?php echo $this->lang->line('empty'); ?></td>
-									<td><?php echo $this->lang->line('empty'); ?></td>
-									<td><?php echo $this->lang->line('empty'); ?></td>
-									<td><?php echo $this->lang->line('empty'); ?></td>
-									<td><?php echo $this->lang->line('empty'); ?></td>
-									<td><?php echo $this->lang->line('empty'); ?></td>
+									<td><?= $this->lang->line('empty'); ?></td>
+									<td><?= $this->lang->line('empty'); ?></td>
+									<td><?= $this->lang->line('empty'); ?></td>
+									<td><?= $this->lang->line('empty'); ?></td>
+									<td><?= $this->lang->line('empty'); ?></td>
+									<td><?= $this->lang->line('empty'); ?></td>
 								</tr>
 								<?php 
 							}else{ 
 								$anterior = 0;
 								foreach($fuga as $dados){ 
 									if($anterior == $dados->codTomada){	?>
-									<tr id="fuga<?php echo $dados->codCaptura;?>">
-										<td id="<?php echo $dados->codCaptura;?>-1"><input type="checkbox" id="<?php echo $dados->codTomada;?>" class="<?php echo $dados->codCaptura;?>" name="fuga"  /></td>
-										<td id="<?php echo $dados->codCaptura;?>-2"><?php echo $dados->codCaptura; ?></td>
-										<td id="<?php echo $dados->codCaptura;?>-3"><?php echo $dados->valorMedio; ?></td>
-										<td id="<?php echo $dados->codCaptura;?>-4"><?php echo $dados->eficaz; ?></td>
-										<td id="<?php echo $dados->codCaptura;?>-5"><?php echo $dados->codTomada; ?></td>
-										<td id="<?php echo $dados->codCaptura;?>-6"><?php echo $dados->dataAtual; ?></td>
+									<tr id="fuga<?= $dados->codCaptura;?>">
+										<td id="<?= $dados->codCaptura;?>-1"><input type="checkbox" id="<?= $dados->codTomada;?>" class="<?= $dados->codCaptura;?>" name="fuga"  /></td>
+										<td id="<?= $dados->codCaptura;?>-2"><?= $dados->codCaptura; ?></td>
+										<td id="<?= $dados->codCaptura;?>-3"><?= $dados->valorMedio; ?></td>
+										<td id="<?= $dados->codCaptura;?>-4"><?= $dados->eficaz; ?></td>
+										<td id="<?= $dados->codCaptura;?>-5"><?= $dados->codTomada; ?></td>
+										<td id="<?= $dados->codCaptura;?>-6"><?= $dados->dataAtual; ?></td>
 									</tr>
 									<script type="text/javascript">
-									$("#fuga<?php echo $dados->codCaptura;?>").hide();
-									$("#<?php echo $capanterior;?>-2").html("<img id='fuga' class='<?php echo $dados->codTomada;?>' name='maisfuga' src='<? echo base_url('includes/imagens/mais.jpg') ?>'> <?php echo $capanterior; ?>");
+									$("#fuga<?= $dados->codCaptura;?>").hide();
+									$("#<?= $capanterior;?>-2").html("<img id='fuga' class='<?= $dados->codTomada;?>' name='maisfuga' src='<? echo base_url('includes/imagens/mais.jpg') ?>'> <?= $capanterior; ?>");
 									</script>
 									<?php }else{ 
 										?>
-										<tr id="fuga<?php echo $dados->codCaptura;?>">
-											<td id="<?php echo $dados->codCaptura;?>-1"><input type="checkbox" checked="cheked" id="<?php echo $dados->codTomada;?>" class="<?php echo $dados->codCaptura;?>" name="fuga"  /></td>
-											<td id="<?php echo $dados->codCaptura;?>-2"><?php echo $dados->codCaptura; ?></td>
-											<td id="<?php echo $dados->codCaptura;?>-3"><?php echo $dados->valorMedio; ?></td>
-											<td id="<?php echo $dados->codCaptura;?>-4"><?php echo $dados->eficaz; ?></td>
-											<td id="<?php echo $dados->codCaptura;?>-5"><?php echo $dados->codTomada; ?></td>
-											<td id="<?php echo $dados->codCaptura;?>-6"><?php echo $dados->dataAtual; ?></td>
+										<tr id="fuga<?= $dados->codCaptura;?>">
+											<td id="<?= $dados->codCaptura;?>-1"><input type="checkbox" checked="cheked" id="<?= $dados->codTomada;?>" class="<?= $dados->codCaptura;?>" name="fuga"  /></td>
+											<td id="<?= $dados->codCaptura;?>-2"><?= $dados->codCaptura; ?></td>
+											<td id="<?= $dados->codCaptura;?>-3"><?= $dados->valorMedio; ?></td>
+											<td id="<?= $dados->codCaptura;?>-4"><?= $dados->eficaz; ?></td>
+											<td id="<?= $dados->codCaptura;?>-5"><?= $dados->codTomada; ?></td>
+											<td id="<?= $dados->codCaptura;?>-6"><?= $dados->dataAtual; ?></td>
 										</tr>
 										<?php $anterior = $dados->codTomada;
 										$capanterior = $dados->codCaptura;
@@ -515,35 +515,35 @@
 					<table class="table table-striped table-bordered">
 						<thead>
 							<tr>
-								<th><?php echo $this->lang->line('cod_onda_padrao'); ?></th>
-								<th><?php echo $this->lang->line('valor_medio'); ?></th>
-								<th><?php echo $this->lang->line('effective'); ?></th>
-								<th><?php echo $this->lang->line('plug'); ?></th>
-								<th><?php echo $this->lang->line('date'); ?></th>
-								<th><?php echo $this->lang->line('standard'); ?></th>
+								<th><?= $this->lang->line('cod_onda_padrao'); ?></th>
+								<th><?= $this->lang->line('valor_medio'); ?></th>
+								<th><?= $this->lang->line('effective'); ?></th>
+								<th><?= $this->lang->line('plug'); ?></th>
+								<th><?= $this->lang->line('date'); ?></th>
+								<th><?= $this->lang->line('standard'); ?></th>
 							</tr>
 						</thead>
 						<tbody>									
 							<tr>
 								<?php if (empty($fugapadrao)) { 	
 									?>
-									<td><?php echo $this->lang->line('empty'); ?></td>
-									<td><?php echo $this->lang->line('empty'); ?></td>
-									<td><?php echo $this->lang->line('empty'); ?></td>
-									<td><?php echo $this->lang->line('empty'); ?></td>
-									<td><?php echo $this->lang->line('empty'); ?></td>
+									<td><?= $this->lang->line('empty'); ?></td>
+									<td><?= $this->lang->line('empty'); ?></td>
+									<td><?= $this->lang->line('empty'); ?></td>
+									<td><?= $this->lang->line('empty'); ?></td>
+									<td><?= $this->lang->line('empty'); ?></td>
 									<td><input type="checkbox"/></td>
 								</tr>
 								<?php 
 							}else{ 
 								foreach($fugapadrao as $dados){ ?>
 								<tr>
-									<td><?php echo $dados->codondapadrao; ?></td>
-									<td><?php echo $dados->valorMedio; ?></td>
-									<td><?php echo $dados->eficaz; ?></td>
-									<td><?php echo $dados->codTomada; ?></td>
-									<td><?php echo $dados->datapadrao; ?></td>
-									<td><input type="checkbox" checked="cheked" id="<?php echo $dados->codTomada;?>" class="<?php echo $dados->codondapadrao;?>" name="fuga"  /></td>
+									<td><?= $dados->codondapadrao; ?></td>
+									<td><?= $dados->valorMedio; ?></td>
+									<td><?= $dados->eficaz; ?></td>
+									<td><?= $dados->codTomada; ?></td>
+									<td><?= $dados->datapadrao; ?></td>
+									<td><input type="checkbox" checked="cheked" id="<?= $dados->codTomada;?>" class="<?= $dados->codondapadrao;?>" name="fuga"  /></td>
 								</tr>
 								<?php }							
 							}?>
