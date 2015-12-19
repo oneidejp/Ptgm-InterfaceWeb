@@ -29,16 +29,16 @@ function secondsToTime($time){
 	<title><?= $this->lang->line('details'); ?></title>
 	<script src="includes/bootstrap/js/jquery.min"></script>
 	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="<? echo base_url('includes/bootstrap/css/bootstrap.css') ?>">
-	<link rel="stylesheet" href="<? echo base_url('includes/bootstrap/css/bootstrap-responsive.css') ?>">
-	<link rel="stylesheet" href="<? echo base_url('includes/css/abas.css') ?>">
-	<link rel="stylesheet" href="<? echo base_url('includes/css/estilo.css') ?>">
+	<link rel="stylesheet" href="<?= base_url('includes/bootstrap/css/bootstrap.css') ?>">
+	<link rel="stylesheet" href="<?= base_url('includes/bootstrap/css/bootstrap-responsive.css') ?>">
+	<link rel="stylesheet" href="<?= base_url('includes/css/abas.css') ?>">
+	<link rel="stylesheet" href="<?= base_url('includes/css/estilo.css') ?>">
 	<!-- Latest compiled and minified JavaScript -->
-	<script src="<? echo base_url('includes/bootstrap/js/bootstrap.min.js') ?>"></script> <!-- import bootstrap js -->
-	<script src="<? echo base_url('includes/js/jquery-2.1.1.js') ?>"></script> <!-- import jQuery -->
-	<script src="<? echo base_url('includes/js/highcharts.js') ?>"></script><!-- import Highcharts -->
-	<script src="<? echo base_url('includes/js/exporting.js') ?>"></script><!-- import Export Highcharts -->
-	<script type="text/javascript" src="<? echo base_url('includes/js/graficosdetalhes.js') ?>"></script><!-- import gráficos linha e barra -->
+	<script src="<?= base_url('includes/bootstrap/js/bootstrap.min.js') ?>"></script> <!-- import bootstrap js -->
+	<script src="<?= base_url('includes/js/jquery-2.1.1.js') ?>"></script> <!-- import jQuery -->
+	<script src="<?= base_url('includes/js/highcharts.js') ?>"></script><!-- import Highcharts -->
+	<script src="<?= base_url('includes/js/exporting.js') ?>"></script><!-- import Export Highcharts -->
+	<script type="text/javascript" src="<?= base_url('includes/js/graficosdetalhes.js') ?>"></script><!-- import gráficos linha e barra -->
 	<script type="text/javascript">
 	$(document).ready(function() {
 		var cont = 0;
@@ -151,7 +151,7 @@ function secondsToTime($time){
 			<div class="span12" id="centro">
 				<div class="row-fluid menu">
 					<? include ("menu.php"); ?>
-					<a href="<?= base_url('index.php/login/logout') ?>"> <img id="sair" src="<? echo base_url('includes/imagens/deslogar.png') ?>" /></a>
+					<a href="<?= base_url('index.php/login/logout') ?>"> <img id="sair" src="<?= base_url('includes/imagens/deslogar.png') ?>" /></a>
 				</div>
 				<div id="aba">
 					<div class="row-fluid">

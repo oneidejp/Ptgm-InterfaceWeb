@@ -5,14 +5,14 @@
 	<title><?= $this->lang->line('page_title_control_panel'); ?></title>
 	
 	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="<? echo base_url('includes/bootstrap/css/bootstrap.css') ?>">
-	<link rel="stylesheet" href="<? echo base_url('includes/bootstrap/css/bootstrap-responsive.css') ?>">
-	<link rel="stylesheet" href="<? echo base_url('includes/css/abas.css') ?>">
-	<link rel="stylesheet" href="<? echo base_url('includes/css/estilo.css') ?>">
+	<link rel="stylesheet" href="<?= base_url('includes/bootstrap/css/bootstrap.css') ?>">
+	<link rel="stylesheet" href="<?= base_url('includes/bootstrap/css/bootstrap-responsive.css') ?>">
+	<link rel="stylesheet" href="<?= base_url('includes/css/abas.css') ?>">
+	<link rel="stylesheet" href="<?= base_url('includes/css/estilo.css') ?>">
 	<!-- Latest compiled and minified JavaScript -->
 
-	<script src="<? echo base_url('includes/js/jquery-2.1.1.js') ?>"></script>		
-	<script src="<? echo base_url('includes/js/moment.js') ?>"></script>
+	<script src="<?= base_url('includes/js/jquery-2.1.1.js') ?>"></script>		
+	<script src="<?= base_url('includes/js/moment.js') ?>"></script>
 
 	<script type="text/javascript">
 	var atualizacao = "<?= TEMPOATUALIZA;?>"; 
@@ -58,7 +58,7 @@
 							type: "POST",
 							success: function( dados ) {
 								for (var j = 0; j < dados.horas.length;j++){
-									$("#aba").append('<form class="paineldecontrole"><fieldset><legend class="sala" id="descricao'+j+'">'+dados.desc[j]+'</legend><?= $this->lang->line("in_operation"); ?>:<br><span id='+j+'>'+dados.horas[j]+'</span><br><a href="<? echo base_url("index.php/detalhes/index/'+dados.codUsoSala[j]+'") ?>" target="_blanck" class="btn btn-primary"><?= $this->lang->line("details"); ?></a><br/><div id="alerta'+dados.codUsoSala[j]+'"><div class="normal"><h3 class="alerta"><?= $this->lang->line("normal"); ?></h3></div></div></fieldset></form>');
+									$("#aba").append('<form class="paineldecontrole"><fieldset><legend class="sala" id="descricao'+j+'">'+dados.desc[j]+'</legend><?= $this->lang->line("in_operation"); ?>:<br><span id='+j+'>'+dados.horas[j]+'</span><br><a href="<?= base_url("index.php/detalhes/index/'+dados.codUsoSala[j]+'") ?>" target="_blanck" class="btn btn-primary"><?= $this->lang->line("details"); ?></a><br/><div id="alerta'+dados.codUsoSala[j]+'"><div class="normal"><h3 class="alerta"><?= $this->lang->line("normal"); ?></h3></div></div></fieldset></form>');
 									descricao[j] = dados.desc[j];
 									codUsoSala[j] = dados.codUsoSala[j];
 									horas[j]= moment("2015-01-01 "+dados.horas[j]);			
@@ -69,7 +69,7 @@
 					}else{
 						for(var i=0;i<dados.usosala.length;i++){
 							if(codUsoSala[i] != dados.usosala[i].codUsoSala){
-								$("#aba").html('<form class="paineldecontrole"><fieldset><legend class="sala" id="descricao'+j+'">'+dados.desc[j]+'</legend><?= $this->lang->line("in_operation"); ?>:<br><span id='+j+'>'+dados.horas[j]+'</span><br><a href="<? echo base_url("index.php/detalhes/index/'+dados.codUsoSala[j]+'") ?>" target="_blanck" class="btn btn-primary"><?= $this->lang->line("details"); ?></a><br/><div id="alerta'+dados.codUsoSala[j]+'"><div class="normal"><h3 class="alerta"><?= $this->lang->line("normal"); ?></h3></div></div></fieldset></form>');
+								$("#aba").html('<form class="paineldecontrole"><fieldset><legend class="sala" id="descricao'+j+'">'+dados.desc[j]+'</legend><?= $this->lang->line("in_operation"); ?>:<br><span id='+j+'>'+dados.horas[j]+'</span><br><a href="<?= base_url("index.php/detalhes/index/'+dados.codUsoSala[j]+'") ?>" target="_blanck" class="btn btn-primary"><?= $this->lang->line("details"); ?></a><br/><div id="alerta'+dados.codUsoSala[j]+'"><div class="normal"><h3 class="alerta"><?= $this->lang->line("normal"); ?></h3></div></div></fieldset></form>');
 								descricao = [];
 								codUsoSala = [];
 								horas = [];	
@@ -102,7 +102,7 @@
 			type: "POST",
 			success: function( dados ) {
 				for(var l=0; l<dados.alerta.length;l++){
-					$( "#alerta"+dados.alerta[l].codUsoSala ).html( "<a href='<? echo base_url('index.php/alertas/index/"+dados.alerta[l].codUsoSala+"') ?>' '><div class='error'><h3 class='alerta'><?= $this->lang->line('alert'); ?></h3></div></a>" );	
+					$( "#alerta"+dados.alerta[l].codUsoSala ).html( "<a href='<?= base_url('index.php/alertas/index/"+dados.alerta[l].codUsoSala+"') ?>' '><div class='error'><h3 class='alerta'><?= $this->lang->line('alert'); ?></h3></div></a>" );	
 				}
 
 			}
@@ -125,7 +125,7 @@
 		foreach ($alerta as $dados) { 
 			?>
 			recebe = "<?= $dados->codUsoSala; ?>";
-			$( "#alerta"+recebe ).html( "<a href='<? echo base_url('index.php/alertas/index/'.$dados->codUsoSala) ?>' '><div class='error'><h3 class='alerta'><?= $this->lang->line('alert'); ?></h3></div></a>" );
+			$( "#alerta"+recebe ).html( "<a href='<?= base_url('index.php/alertas/index/'.$dados->codUsoSala) ?>' '><div class='error'><h3 class='alerta'><?= $this->lang->line('alert'); ?></h3></div></a>" );
 			<?php  }; ?>
 		});
 
@@ -137,7 +137,7 @@
 			<div class="span12" id="centro">
 				<div class="row-fluid menu">
 					<? include ("menu.php"); ?>
-					<a href="<?= base_url('index.php/login/logout') ?>"> <img id="sair" src="<? echo base_url('includes/imagens/deslogar.png') ?>" /></a>
+					<a href="<?= base_url('index.php/login/logout') ?>"> <img id="sair" src="<?= base_url('includes/imagens/deslogar.png') ?>" /></a>
 				</div>
 				<div id="aba">
 							<?php $cont=0;
@@ -148,7 +148,7 @@
 										<legend class="sala" id="descricao<?= $cont;?>"><?= $dados->desc; ?></legend>
 										<?= $this->lang->line('in_operation');?>:<br>
 										<span id="<?= $cont;?>"><?= $horas[$cont]; ?></span><br>
-										<a href="<? echo base_url('index.php/detalhes/index/'.$dados->codUsoSala) ?>" target="_blanck" class="btn btn-primary"><?= $this->lang->line('details'); ?></a><br/>
+										<a href="<?= base_url('index.php/detalhes/index/'.$dados->codUsoSala) ?>" target="_blanck" class="btn btn-primary"><?= $this->lang->line('details'); ?></a><br/>
 										<div id="alerta<?= $dados->codUsoSala ?>">
 											<div class="normal"><h3 class="alerta"><?= $this->lang->line('normal'); ?></h3></div>
 										</div>

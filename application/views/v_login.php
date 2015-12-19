@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <title><?= $this->lang->line('login'); ?></title>
   <script src="includes/bootstrap/js/jquery.min"></script>
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="<? echo base_url('includes/bootstrap/css/bootstrap.css') ?>">
-  <link rel="stylesheet" href="<? echo base_url('includes/bootstrap/css/bootstrap-responsive.css') ?>">
-  <link rel="stylesheet" href="<? echo base_url('includes/css/login.css') ?>"><!--estilo do login -->
+  <link rel="stylesheet" href="<?= base_url('includes/bootstrap/css/bootstrap.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('includes/bootstrap/css/bootstrap-responsive.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('includes/css/login.css') ?>"><!--estilo do login -->
   <!-- Latest compiled and minified JavaScript -->
-  <script src="<? echo base_url('includes/bootstrap/js/bootstrap.min.js') ?>"></script>
+  <script src="<?= base_url('includes/bootstrap/js/bootstrap.min.js') ?>"></script>
 </head>
 <body>
   <div class="login">   

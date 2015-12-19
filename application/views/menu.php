@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="<?= base_url('includes/css/menu.css') ?>"><!--estilo do menu -->
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="<?= base_url('includes/css/menu.css') ?>"><!--estilo do menu -->
     </head>
     <body>
         <ul class="dropdown">
@@ -47,7 +47,6 @@
                 </ul>
             </li>
             <li><a id="usuario" href="<?= base_url('index.php/usuario') ?>"><?= $this->lang->line('user'); ?></a></li>
-            <li><a id="banco" href="<?= base_url('index.php/usuario') ?>"><?= $this->lang->line('user'); ?></a></li>
             <li><a id="ajuda" href="<?= base_url('index.php/ajuda') ?>"><?= $this->lang->line('help'); ?></a></li>
         </ul>
         <font class="fontemenu"><h3>Interface Web Protegemed</h3></font>
