@@ -5,16 +5,16 @@
 	<title><?= $this->lang->line('page_title_cadastre_equipment'); ?></title>
 	<script src="includes/bootstrap/js/jquery.min"></script>
 	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="<? echo base_url('includes/css/jquery-ui_calendar.css') ?>" /><!--estilo do calendário-->
-	<link rel="stylesheet" href="<? echo base_url('includes/bootstrap/css/bootstrap.css') ?>">
-	<link rel="stylesheet" href="<? echo base_url('includes/bootstrap/css/bootstrap-responsive.css') ?>">
-	<link rel="stylesheet" href="<? echo base_url('includes/css/abas.css') ?>">
-	<link rel="stylesheet" href="<? echo base_url('includes/css/estilo.css') ?>">
-	<script src="<? echo base_url('includes/js/jquery-1.8.2_calendar.js') ?>"></script><!-- import jquery pra funcionar o calendário-->
-	<script src="<? echo base_url('includes/js/jquery-ui_calendar.js') ?>"></script><!-- import jquery ui para funcionar o calendário -->
-	<script src="<? echo base_url('includes/js/calendario.js') ?>"></script><!-- função do calendário -->
+	<link rel="stylesheet" href="<?= base_url('includes/css/jquery-ui_calendar.css') ?>" /><!--estilo do calendário-->
+	<link rel="stylesheet" href="<?= base_url('includes/bootstrap/css/bootstrap.css') ?>">
+	<link rel="stylesheet" href="<?= base_url('includes/bootstrap/css/bootstrap-responsive.css') ?>">
+	<link rel="stylesheet" href="<?= base_url('includes/css/abas.css') ?>">
+	<link rel="stylesheet" href="<?= base_url('includes/css/estilo.css') ?>">
+	<script src="<?= base_url('includes/js/jquery-1.8.2_calendar.js') ?>"></script><!-- import jquery pra funcionar o calendário-->
+	<script src="<?= base_url('includes/js/jquery-ui_calendar.js') ?>"></script><!-- import jquery ui para funcionar o calendário -->
+	<script src="<?= base_url('includes/js/calendario.js') ?>"></script><!-- função do calendário -->
 	<!-- Latest compiled and minified JavaScript -->
-	<script src="<? echo base_url('includes/bootstrap/js/bootstrap.min.js') ?>"></script>	
+	<script src="<?= base_url('includes/bootstrap/js/bootstrap.min.js') ?>"></script>	
 </head>
 <body>
 	<div class="container-fluid">
@@ -23,7 +23,7 @@
 			<div class="span10" id="centro">
 				<div class="row-fluid menu">
 					<? include ("menu.php"); ?>
-					<a href="<?= base_url('index.php/login/logout') ?>"><img id="sair" src="<? echo base_url('includes/imagens/deslogar.png') ?>" /></a>
+					<a href="<?= base_url('index.php/login/logout') ?>"><img id="sair" src="<?= base_url('includes/imagens/deslogar.png') ?>" /></a>
 				</div>
 				<ul class="abas">
 					<li id="consulta"><a href="<?= base_url('index.php/equipamento') ?>"><?= $this->lang->line('consult'); ?></a></li>

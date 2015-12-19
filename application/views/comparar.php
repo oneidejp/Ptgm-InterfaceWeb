@@ -5,16 +5,16 @@
 	<title><?= $this->lang->line('compare'); ?></title>
 	<script src="includes/bootstrap/js/jquery.min"></script>
 	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="<? echo base_url('includes/bootstrap/css/bootstrap.css') ?>">
-	<link rel="stylesheet" href="<? echo base_url('includes/bootstrap/css/bootstrap-responsive.css') ?>">
-	<link rel="stylesheet" href="<? echo base_url('includes/css/abas.css') ?>">
-	<link rel="stylesheet" href="<? echo base_url('includes/css/estilo.css') ?>">
+	<link rel="stylesheet" href="<?= base_url('includes/bootstrap/css/bootstrap.css') ?>">
+	<link rel="stylesheet" href="<?= base_url('includes/bootstrap/css/bootstrap-responsive.css') ?>">
+	<link rel="stylesheet" href="<?= base_url('includes/css/abas.css') ?>">
+	<link rel="stylesheet" href="<?= base_url('includes/css/estilo.css') ?>">
 	<!-- Latest compiled and minified JavaScript -->
-	<script src="<? echo base_url('includes/bootstrap/js/bootstrap.min.js') ?>"></script> <!-- import bootstrap js -->
-	<script src="<? echo base_url('includes/js/jquery-2.1.1.js') ?>"></script> <!-- import jQuery -->
-	<script src="<? echo base_url('includes/js/highcharts.js') ?>"></script><!-- import Highcharts -->
-	<script src="<? echo base_url('includes/js/exporting.js') ?>"></script><!-- import Export Highcharts -->
-	<script type="text/javascript" src="<? echo base_url('includes/js/graficosdetalhes.js') ?>"></script><!-- import gráficos linha e barra -->
+	<script src="<?= base_url('includes/bootstrap/js/bootstrap.min.js') ?>"></script> <!-- import bootstrap js -->
+	<script src="<?= base_url('includes/js/jquery-2.1.1.js') ?>"></script> <!-- import jQuery -->
+	<script src="<?= base_url('includes/js/highcharts.js') ?>"></script><!-- import Highcharts -->
+	<script src="<?= base_url('includes/js/exporting.js') ?>"></script><!-- import Export Highcharts -->
+	<script type="text/javascript" src="<?= base_url('includes/js/graficosdetalhes.js') ?>"></script><!-- import gráficos linha e barra -->
 	<script type="text/javascript">
 	$(document).ready(function() {
 		
@@ -265,10 +265,10 @@
 
 			if(id=="fase"){
 				if(nome=="maisfase"){
-					$(this).attr('src','<? echo base_url("includes/imagens/menos.jpg") ?>');
+					$(this).attr('src','<?= base_url("includes/imagens/menos.jpg") ?>');
 					$(this).attr('name','menosfase');
 				}else{
-					$(this).attr('src','<? echo base_url("includes/imagens/mais.jpg") ?>');
+					$(this).attr('src','<?= base_url("includes/imagens/mais.jpg") ?>');
 					$(this).attr('name','maisfase');
 				}
 
@@ -293,10 +293,10 @@
 
 			}else{
 				if(nome=="maisfuga"){
-					$(this).attr('src','<? echo base_url("includes/imagens/menos.jpg") ?>');
+					$(this).attr('src','<?= base_url("includes/imagens/menos.jpg") ?>');
 					$(this).attr('name','menosfuga');
 				}else{
-					$(this).attr('src','<? echo base_url("includes/imagens/mais.jpg") ?>');
+					$(this).attr('src','<?= base_url("includes/imagens/mais.jpg") ?>');
 					$(this).attr('name','maisfuga');
 				}
 
@@ -330,7 +330,7 @@
 			<div class="span12" id="centro">
 				<div class="row-fluid menu">
 					<? include ("menu.php"); ?>
-					<a href="<?= base_url('index.php/login/logout') ?>"> <img id="sair" src="<? echo base_url('includes/imagens/deslogar.png') ?>" /></a>
+					<a href="<?= base_url('index.php/login/logout') ?>"> <img id="sair" src="<?= base_url('includes/imagens/deslogar.png') ?>" /></a>
 				</div>
 				<div id="aba">
 					<div class="row-fluid">
@@ -391,7 +391,7 @@
 									</tr>
 									<script type="text/javascript">
 									$("#fase<?= $dados->codCaptura;?>").hide();
-									$("#<?= $capanterior;?>-2").html("<img id='fase' class='<?= $dados->codTomada;?>' name='maisfase' src='<? echo base_url('includes/imagens/mais.jpg') ?>'> <?= $capanterior; ?>");
+									$("#<?= $capanterior;?>-2").html("<img id='fase' class='<?= $dados->codTomada;?>' name='maisfase' src='<?= base_url('includes/imagens/mais.jpg') ?>'> <?= $capanterior; ?>");
 									</script>
 									<?php }else{ 
 										?>
@@ -493,7 +493,7 @@
 									</tr>
 									<script type="text/javascript">
 									$("#fuga<?= $dados->codCaptura;?>").hide();
-									$("#<?= $capanterior;?>-2").html("<img id='fuga' class='<?= $dados->codTomada;?>' name='maisfuga' src='<? echo base_url('includes/imagens/mais.jpg') ?>'> <?= $capanterior; ?>");
+									$("#<?= $capanterior;?>-2").html("<img id='fuga' class='<?= $dados->codTomada;?>' name='maisfuga' src='<?= base_url('includes/imagens/mais.jpg') ?>'> <?= $capanterior; ?>");
 									</script>
 									<?php }else{ 
 										?>

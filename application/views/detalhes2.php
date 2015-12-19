@@ -28,16 +28,16 @@ function secondsToTime($time){
 	<title><?= $this->lang->line('details'); ?></title>
 	<script src="includes/bootstrap/js/jquery.min"></script>
 	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="<? echo base_url('includes/bootstrap/css/bootstrap.css') ?>">
-	<link rel="stylesheet" href="<? echo base_url('includes/bootstrap/css/bootstrap-responsive.css') ?>">
-	<link rel="stylesheet" href="<? echo base_url('includes/css/abas.css') ?>">
-	<link rel="stylesheet" href="<? echo base_url('includes/css/estilo.css') ?>">
+	<link rel="stylesheet" href="<?= base_url('includes/bootstrap/css/bootstrap.css') ?>">
+	<link rel="stylesheet" href="<?= base_url('includes/bootstrap/css/bootstrap-responsive.css') ?>">
+	<link rel="stylesheet" href="<?= base_url('includes/css/abas.css') ?>">
+	<link rel="stylesheet" href="<?= base_url('includes/css/estilo.css') ?>">
 	<!-- Latest compiled and minified JavaScript -->
-	<script src="<? echo base_url('includes/bootstrap/js/bootstrap.min.js') ?>"></script> <!-- import bootstrap js -->
-	<script src="<? echo base_url('includes/js/jquery-2.1.1.js') ?>"></script> <!-- import jQuery -->
-	<script src="<? echo base_url('includes/js/highcharts.js') ?>"></script><!-- import Highcharts -->
-	<script src="<? echo base_url('includes/js/exporting.js') ?>"></script><!-- import Export Highcharts -->
-	<script type="text/javascript" src="<? echo base_url('includes/js/graficosdetalhes.js') ?>"></script><!-- import gráficos linha e barra -->
+	<script src="<?= base_url('includes/bootstrap/js/bootstrap.min.js') ?>"></script> <!-- import bootstrap js -->
+	<script src="<?= base_url('includes/js/jquery-2.1.1.js') ?>"></script> <!-- import jQuery -->
+	<script src="<?= base_url('includes/js/highcharts.js') ?>"></script><!-- import Highcharts -->
+	<script src="<?= base_url('includes/js/exporting.js') ?>"></script><!-- import Export Highcharts -->
+	<script type="text/javascript" src="<?= base_url('includes/js/graficosdetalhes.js') ?>"></script><!-- import gráficos linha e barra -->
 	<script type="text/javascript">
 	$(document).ready(function() {
 		var cont = 0;
@@ -236,7 +236,7 @@ $(document).ready(function(){
 							}
 						});
 						 $("#"+captura+"-3").html(dados.tomada);
-						 $("#"+captura+"-4").html("<a href='<? echo base_url('index.php/comparar/index/'.$codUsoSala.'/'.$dados->CodEquip) ?>' target='_blank'>"+dados.equipamento+" - "+dados.descricao+"</a>");
+						 $("#"+captura+"-4").html("<a href='<?= base_url('index.php/comparar/index/'.$codUsoSala.'/'.$dados->CodEquip) ?>' target='_blank'>"+dados.equipamento+" - "+dados.descricao+"</a>");
 						 $("#"+captura+"-5").html(dados.eficaz);
 						 $("#"+captura+"-6").html(dados.tempouso);
 						 $("#"+captura+"-7").html(dados.data);
@@ -262,7 +262,7 @@ $(document).ready(function(){
 			<div class="span12" id="centro">
 				<div class="row-fluid menu">
 					<? include ("menu.php"); ?>
-					<a href="<?= base_url('index.php/login/logout') ?>"> <img id="sair" src="<? echo base_url('includes/imagens/deslogar.png') ?>" /></a>
+					<a href="<?= base_url('index.php/login/logout') ?>"> <img id="sair" src="<?= base_url('includes/imagens/deslogar.png') ?>" /></a>
 				</div>
 				<div id="aba">
 					<div class="row-fluid">
@@ -319,7 +319,7 @@ $(document).ready(function(){
 													<td id="<?= $dados->codCaptura;?>-1"><input type="checkbox" checked="cheked" class="equipamentos" name="<?= $dados->codCaptura;?>" id="s<?= $dados->CodEquip;?>" /></td>
 													<td id="<?= $dados->codCaptura;?>-2"><?= $dados->codCaptura; ?></td>
 													<td id="<?= $dados->codCaptura;?>-3"><?= $dados->CodTomada; ?></td>
-													<td id="<?= $dados->codCaptura;?>-4"><a href="<? echo base_url('index.php/comparar/index/'.$codUsoSala.'/'.$dados->CodEquip) ?>" target="_blank"><?= $dados->CodEquip." - ".$dados->desc; ?></a></td>
+													<td id="<?= $dados->codCaptura;?>-4"><a href="<?= base_url('index.php/comparar/index/'.$codUsoSala.'/'.$dados->CodEquip) ?>" target="_blank"><?= $dados->CodEquip." - ".$dados->desc; ?></a></td>
 													<td id="<?= $dados->codCaptura;?>-5"><?= substr($dados->eficaz,0,6); ?></td>
 													<td id="<?= $dados->codCaptura;?>-6"><?php list($days, $hours, $minutes, $seconds) = secondsToTime($dados->TempoUso);echo "{$days}D {$hours}H {$minutes}m {$seconds}s"; ?></td>
 													<td id="<?= $dados->codCaptura;?>-7"><?= date('d/m/Y H:m:s', strtotime($dados->dataAtual)); ?></td>

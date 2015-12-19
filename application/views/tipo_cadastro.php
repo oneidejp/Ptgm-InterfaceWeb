@@ -5,12 +5,12 @@
 	<title><?= $this->lang->line('page_title_cadastre_kind'); ?></title>
 	<script src="includes/bootstrap/js/jquery.min"></script>
 	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="<? echo base_url('includes/bootstrap/css/bootstrap.css') ?>">
-	<link rel="stylesheet" href="<? echo base_url('includes/bootstrap/css/bootstrap-responsive.css') ?>">
-	<link rel="stylesheet" href="<? echo base_url('includes/css/abas.css') ?>">
-	<link rel="stylesheet" href="<? echo base_url('includes/css/estilo.css') ?>">
+	<link rel="stylesheet" href="<?= base_url('includes/bootstrap/css/bootstrap.css') ?>">
+	<link rel="stylesheet" href="<?= base_url('includes/bootstrap/css/bootstrap-responsive.css') ?>">
+	<link rel="stylesheet" href="<?= base_url('includes/css/abas.css') ?>">
+	<link rel="stylesheet" href="<?= base_url('includes/css/estilo.css') ?>">
 	<!-- Latest compiled and minified JavaScript -->
-	<script src="<? echo base_url('includes/bootstrap/js/bootstrap.min.js') ?>"></script>	
+	<script src="<?= base_url('includes/bootstrap/js/bootstrap.min.js') ?>"></script>	
 </head>
 <body>
 	<div class="container-fluid">
@@ -19,7 +19,7 @@
 			<div class="span10" id="centro">
 				<div class="row-fluid menu">
 					<? include ("menu.php"); ?>
-					<a href="<?= base_url('index.php/login/logout') ?>"> <img id="sair" src="<? echo base_url('includes/imagens/deslogar.png') ?>" /></a>
+					<a href="<?= base_url('index.php/login/logout') ?>"> <img id="sair" src="<?= base_url('includes/imagens/deslogar.png') ?>" /></a>
 				</div>
 				<ul class="abas">
 					<li id="consulta"><a href="<?= base_url('index.php/tipo') ?>" ><?= $this->lang->line('consult'); ?></a></li>
