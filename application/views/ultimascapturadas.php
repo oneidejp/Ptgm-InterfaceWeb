@@ -106,26 +106,26 @@
                                     <table id="tabelaUltimasCap" class="table table-striped table-bordered detalhes">
                                         <thead>
                                             <tr>
-                                                <th><?php echo $this->lang->line('capture'); ?></th>
-                                                <th><?php echo $this->lang->line('plug'); ?></th>
-                                                <th><?php echo $this->lang->line('kinds_of_wave'); ?></th>
-                                                <th><?php echo $this->lang->line('equipment'); ?></th>
-                                                <th><?php echo $this->lang->line('events'); ?></th>
-                                                <th><?php echo $this->lang->line('effective'); ?></th>
-                                                <th><?php echo $this->lang->line('date'); ?></th>
-                                                <th><?php echo $this->lang->line('compare'); ?></th>
+                                                <th><?= $this->lang->line('capture'); ?></th>
+                                                <th><?= $this->lang->line('plug'); ?></th>
+                                                <th><?= $this->lang->line('kinds_of_wave'); ?></th>
+                                                <th><?= $this->lang->line('equipment'); ?></th>
+                                                <th><?= $this->lang->line('events'); ?></th>
+                                                <th><?= $this->lang->line('effective'); ?></th>
+                                                <th><?= $this->lang->line('date'); ?></th>
+                                                <th><?= $this->lang->line('compare'); ?></th>
                                             </tr>
                                         </thead>
                                         <tbody>									
                                             <?php if (empty($uc)) { ?>
                                                 <tr>
-                                                    <td><?php echo $this->lang->line('empty'); ?></td>
-                                                    <td><?php echo $this->lang->line('empty'); ?></td>
-                                                    <td><?php echo $this->lang->line('empty'); ?></td>
-                                                    <td><?php echo $this->lang->line('empty'); ?></td>
-                                                    <td><?php echo $this->lang->line('empty'); ?></td>
-                                                    <td><?php echo $this->lang->line('empty'); ?></td>
-                                                    <td><?php echo $this->lang->line('empty'); ?></td>
+                                                    <td><?= $this->lang->line('empty'); ?></td>
+                                                    <td><?= $this->lang->line('empty'); ?></td>
+                                                    <td><?= $this->lang->line('empty'); ?></td>
+                                                    <td><?= $this->lang->line('empty'); ?></td>
+                                                    <td><?= $this->lang->line('empty'); ?></td>
+                                                    <td><?= $this->lang->line('empty'); ?></td>
+                                                    <td><?= $this->lang->line('empty'); ?></td>
                                                     <td><input type="checkbox"/></td>
                                                 </tr>
                                                 <?php

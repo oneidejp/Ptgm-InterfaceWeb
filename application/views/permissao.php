@@ -22,7 +22,7 @@
           <a href="<?= base_url('index.php/login/logout') ?>"> <img id="sair" src="<? echo base_url('includes/imagens/deslogar.png') ?>" /></a>
         </div>
         <div id="aba">
-          <h1 class="text-center"><?php echo $this->lang->line('msg_permission_user'); ?></h1>
+          <h1 class="text-center"><?= $this->lang->line('msg_permission_user'); ?></h1>
         </div>
         <div class="row-fluid"><? include ("footer.php"); ?></div>
       </div>

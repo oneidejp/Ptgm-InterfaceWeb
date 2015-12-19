@@ -26,7 +26,7 @@ function secondsToTime($time){
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title><?php echo $this->lang->line('details'); ?></title>
+	<title><?= $this->lang->line('details'); ?></title>
 	<script src="includes/bootstrap/js/jquery.min"></script>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="<? echo base_url('includes/bootstrap/css/bootstrap.css') ?>">
@@ -95,7 +95,7 @@ function secondsToTime($time){
 			if(cont<5){
 				graficos[cont] = id;
 				$.ajax({
-					url: "<?php echo base_url(); ?>" + "index.php/detalhes/graficos",
+					url: "<?= base_url(); ?>" + "index.php/detalhes/graficos",
 					dataType: 'json',
 					scriptCharset: 'UTF-8',
 					type: "POST",
@@ -188,14 +188,14 @@ function secondsToTime($time){
 										}else{ 
 											foreach($detalhes as $dados){ ?>
 											<tr>
-												<td><input type="checkbox" checked="cheked" class="equipamentos" name="<?php echo $dados->codCaptura;?>" id="<?php echo $dados->CodEquip;?>" /></td>
-												<td><?php echo $dados->codCaptura; ?></td>
-												<td><?php echo $dados->CodTomada; ?></td>
-												<td><?php echo $dados->CodEquip." - ".$dados->desc; ?></td>
-												<td><?php echo $dados->eficaz; ?></td>
+												<td><input type="checkbox" checked="cheked" class="equipamentos" name="<?= $dados->codCaptura;?>" id="<?= $dados->CodEquip;?>" /></td>
+												<td><?= $dados->codCaptura; ?></td>
+												<td><?= $dados->CodTomada; ?></td>
+												<td><?= $dados->CodEquip." - ".$dados->desc; ?></td>
+												<td><?= $dados->eficaz; ?></td>
 												<td><?php list($days, $hours, $minutes, $seconds) = secondsToTime($dados->TempoUso);echo "{$days}d {$hours}h {$minutes}m {$seconds}s"; ?></td>
-												<td><?php echo date('d/m/Y H:m:s', strtotime($dados->dataAtual)); ?></td>
-												<td><input type="checkbox" name="comp" class="<?php echo $dados->CodEquip;?>" id="<?php echo $dados->codCaptura;?>" /></td>
+												<td><?= date('d/m/Y H:m:s', strtotime($dados->dataAtual)); ?></td>
+												<td><input type="checkbox" name="comp" class="<?= $dados->CodEquip;?>" id="<?= $dados->codCaptura;?>" /></td>
 											</tr>
 											<?php	};
 										}?>
