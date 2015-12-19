@@ -12,7 +12,9 @@ class ultimascapturadas_model extends CI_Model{
 	function get_all_ultimascapturadas(){
 		$this->db->select("*");
 		$this->db->from('capturaatual');
-		$this->db->order_by('dataAtual');
+		$this->db->where('codEvento = 1 or codEvento = 4');
+		$this->db->order_by('dataAtual desc');
+		$this->db->limit('100');
 		$query = $this->db->get();
 
 		return $query->result();

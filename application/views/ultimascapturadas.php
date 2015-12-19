@@ -2,20 +2,21 @@
 <html lang="pt-br">
     <head>
         <meta charset="utf-8">
-        <title><?= $this->lang->line('last_captured');?></title>
+        <title><?= $this->lang->line('last_captured'); ?></title>
         <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="<?= base_url()?>includes/bootstrap/css/bootstrap.css">
-        <link rel="stylesheet" href="<?= base_url()?>includes/bootstrap/css/bootstrap-responsive.css">
-        <link rel="stylesheet" href="<?= base_url()?>includes/css/abas.css">
-        <link rel="stylesheet" href="<?= base_url()?>includes/css/estilo.css">
+        <link rel="stylesheet" href="<?= base_url() ?>includes/bootstrap/css/bootstrap.css">
+        <link rel="stylesheet" href="<?= base_url() ?>includes/bootstrap/css/bootstrap-responsive.css">
+        <link rel="stylesheet" href="<?= base_url() ?>includes/css/abas.css">
+        <link rel="stylesheet" href="<?= base_url() ?>includes/css/estilo.css">
         <!-- Latest compiled and minified JavaScript -->
-        <script src="<?= base_url()?>includes/js/jquery-2.1.1.js"></script> <!-- import jQuery -->
-        <script src="<?= base_url()?>includes/bootstrap/js/bootstrap.min.js"></script> <!-- import bootstrap js -->
-        <script src="<?= base_url()?>includes/js/highcharts.js"></script><!-- import Highcharts -->
-        <script src="<?= base_url()?>includes/js/exporting.js"></script><!-- import Export Highcharts -->
-        <script type="text/javascript" src="<?= base_url()?>includes/js/graficosdetalhes.js"></script><!-- import gráficos linha e barra -->
+        <script src="<?= base_url() ?>includes/js/jquery-2.1.1.js"></script> <!-- import jQuery -->
+        <script src="<?= base_url() ?>includes/bootstrap/js/bootstrap.min.js"></script> <!-- import bootstrap js -->
+        <script src="<?= base_url() ?>includes/js/highcharts.js"></script><!-- import Highcharts -->
+        <script src="<?= base_url() ?>includes/js/exporting.js"></script><!-- import Export Highcharts -->
+        <script src="<?= base_url() ?>includes/js/jquery.dataTables.min.js"></script><!-- import jQuery DataTables -->
+        <script type="text/javascript" src="<?= base_url() ?>includes/js/graficosdetalhes.js"></script><!-- import gráficos linha e barra -->
         <script type="text/javascript">
-                $(document).ready(function () {
+            $(document).ready(function () {
                 var cont = 0;
                 var graficos = [];
                 $('input[type="checkbox"]').click(function () {
@@ -30,7 +31,7 @@
                             if (cont < 5) {
                                 graficos[cont] = id;
                                 $.ajax({
-                                    url: "<?= base_url();?>" + "index.php/ultimascapturadas/graficos",
+                                    url: "<?= base_url(); ?>" + "index.php/ultimascapturadas/graficos",
                                     dataType: 'json',
                                     scriptCharset: 'UTF-8',
                                     type: "POST",
@@ -79,20 +80,30 @@
                 });
             });
         </script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#tabelaUltimasCap').dataTable({
+                    //"aaSorting": [[1, 'desc']],
+                    //"bSortCellsTop": false,
+                    //"sDom": '<"top"f>rt<"bottom"ip><"clear">'
+
+                });
+            });
+        </script>
     </head>
     <body>
         <div class="container-fluid">
             <div class="row-fluid">
                 <div class="span12" id="centro">
                     <div class="row-fluid menu">
-                        <?php include ("menu.php");?>
-                        <a href="<?= base_url()?>index.php/login/logout"><img id="sair" src="<?= base_url()?>includes/imagens/deslogar.png"/></a>
+                        <?php include ("menu.php"); ?>
+                        <a href="<?= base_url() ?>index.php/login/logout"><img id="sair" src="<?= base_url() ?>includes/imagens/deslogar.png"/></a>
                     </div>
                     <div id="aba">
                         <div class="row-fluid">
                             <div class="span12">
                                 <div class="span5" style="overflow:auto;">
-                                    <table class="table table-striped table-bordered detalhes">
+                                    <table id="tabelaUltimasCap" class="table table-striped table-bordered detalhes">
                                         <thead>
                                             <tr>
                                                 <th><?php echo $this->lang->line('capture'); ?></th>
@@ -117,19 +128,19 @@
                                                     <td><?php echo $this->lang->line('empty'); ?></td>
                                                     <td><input type="checkbox"/></td>
                                                 </tr>
-                                            <?php
+                                                <?php
                                             } else {
                                                 foreach ($uc as $dados) {
                                                     ?>
                                                     <tr>
-                                                        <td><?= $dados->codCaptura;?></td>
-                                                        <td><?= $dados->codTomada;?></td>
-                                                        <td><?= $dados->codTipoOnda;?></td>
-                                                        <td><?= $dados->codEquip;?></td>
-                                                        <td><?= $dados->codEvento;?></td>
+                                                        <td><?= $dados->codCaptura; ?></td>
+                                                        <td><?= $dados->codTomada; ?></td>
+                                                        <td><?= $dados->codTipoOnda; ?></td>
+                                                        <td><?= $dados->codEquip; ?></td>
+                                                        <td><?= $dados->codEvento; ?></td>
                                                         <td><?= substr($dados->eficaz, 0, 6); ?></td>
-                                                        <td><?= date('d/m/Y H:m:s', strtotime($dados->dataAtual));?></td>
-                                                        <?= '<td><input type="checkbox" id="' . $dados->codCaptura .'" name="comparar"></td>'?>
+                                                        <td><?= date('d/m/Y H:m:s', strtotime($dados->dataAtual)); ?></td>
+                                                        <?= '<td><input type="checkbox" id="' . $dados->codCaptura . '" name="comparar"></td>' ?>
                                                     </tr>
                                                     <?php
                                                 }
@@ -148,7 +159,7 @@
                     <div class="row-fluid">
                         <div class="span12" id="graficoslinha"></div>
                     </div>
-                    <div class="row-fluid"><?php include("footer.php");?></div>
+                    <div class="row-fluid"><?php include("footer.php"); ?></div>
                 </div>
             </div>
         </div>
