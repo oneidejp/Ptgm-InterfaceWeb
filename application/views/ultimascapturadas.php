@@ -5,7 +5,6 @@
         <title><?= $this->lang->line('last_captured'); ?></title>
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="<?= base_url() ?>includes/bootstrap/css/bootstrap.css">
-        <link rel="stylesheet" href="<?= base_url() ?>includes/bootstrap/css/bootstrap-responsive.css">
         <link rel="stylesheet" href="<?= base_url() ?>includes/css/abas.css">
         <link rel="stylesheet" href="<?= base_url() ?>includes/css/estilo.css">
         <!-- Latest compiled and minified JavaScript -->
