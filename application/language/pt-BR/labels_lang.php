@@ -151,6 +151,3 @@ $lang["flight"] = "Fuga";
 //alertas
 $lang["record"] = "Gravar";
 $lang["comment_alert"] = "Comentário Alerta";
-
-
-?>

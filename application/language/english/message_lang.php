@@ -7,4 +7,3 @@ $lang["msg_permission_delete"] = "Você Não Possui Permissão Para Excluir Este
 $lang["msg_update"] = "Registro Alterado com Sucesso!";
 $lang["msg_permission_update"] = "Você Não Possui Permissão Para Alterar Estes Dados!";
 $lang["msg_login"] = "Usuário/Senha incorretos";
-?>

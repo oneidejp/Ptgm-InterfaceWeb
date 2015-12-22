@@ -109,4 +109,3 @@ $lang["cod_heritage"] = "Código Patrimonio";
 $lang["date_last_failure"] = "Data Última Falha";
 $lang["date_last_maintenance"] = "Data Última Manutenção";
 $lang["usage_time"] = "Tempo de Uso";
-?>
