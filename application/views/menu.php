@@ -14,6 +14,7 @@
         <li><a href="<?php echo base_url('index.php/focapturadas') ?>"><?php echo $this->lang->line('fo_captured'); ?></a></li>
         <li><a href="<?php echo base_url('index.php/usodesalas') ?>"><?php echo $this->lang->line('use_room'); ?></a></li>
         <li><a href="<?php echo base_url('index.php/padrao') ?>"><?php echo $this->lang->line('standard'); ?></a></li>
+        <li><a href="<?php echo base_url('index.php/configBanco') ?>"><?php echo $this->lang->line('config_database'); ?></a></li>
       </ul>
     </li>
     <li> <a href="#"><?php echo $this->lang->line('insert_menu'); ?></a>

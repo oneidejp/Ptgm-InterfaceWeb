@@ -1,10 +1,11 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Ultimascapturadas extends MY_Controller {
 
 	/**
 	* 2015
-	* Desenvolvido por: Mateus Perego
+	* Desenvolvido por: Maurício Antonioli Schmitz
 	* Email: mateusperego@yahoo.com.br
 	* Projeto de conclusão de curso
 	* UPF - Ciência da Computação
