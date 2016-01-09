@@ -15,6 +15,7 @@ $lang["last_captured"] = "Últimas Capturadas";
 $lang["fo_captured"] = "FO Capturadas";
 $lang["use_room"] = "Uso de Salas";
 $lang["standard"] = "Padrão";
+$lang["config_database"] = "Configuração Banco de Dados";
 $lang["insert_menu"] = "Cadastros";
 $lang["equipments"] = "Equipamentos";
 $lang["kind"] = "Tipo";
