@@ -23,22 +23,22 @@ function secondsToTime($time){
 
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title><?= $this->lang->line('details'); ?></title>
+	<title><?php echo $this->lang->line('details'); ?></title>
 	<script src="includes/bootstrap/js/jquery.min"></script>
 	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="<?= base_url('includes/bootstrap/css/bootstrap.css') ?>">
-	<link rel="stylesheet" href="<?= base_url('includes/bootstrap/css/bootstrap-responsive.css') ?>">
-	<link rel="stylesheet" href="<?= base_url('includes/css/abas.css') ?>">
-	<link rel="stylesheet" href="<?= base_url('includes/css/estilo.css') ?>">
+	<link rel="stylesheet" href="<? echo base_url('includes/bootstrap/css/bootstrap.css') ?>">
+	<link rel="stylesheet" href="<? echo base_url('includes/bootstrap/css/bootstrap-responsive.css') ?>">
+	<link rel="stylesheet" href="<? echo base_url('includes/css/abas.css') ?>">
+	<link rel="stylesheet" href="<? echo base_url('includes/css/estilo.css') ?>">
 	<!-- Latest compiled and minified JavaScript -->
-	<script src="<?= base_url('includes/bootstrap/js/bootstrap.min.js') ?>"></script> <!-- import bootstrap js -->
-	<script src="<?= base_url('includes/js/jquery-2.1.1.js') ?>"></script> <!-- import jQuery -->
-	<script src="<?= base_url('includes/js/highcharts.js') ?>"></script><!-- import Highcharts -->
-	<script src="<?= base_url('includes/js/exporting.js') ?>"></script><!-- import Export Highcharts -->
-	<script type="text/javascript" src="<?= base_url('includes/js/graficosdetalhes.js') ?>"></script><!-- import gráficos linha e barra -->
+	<script src="<? echo base_url('includes/bootstrap/js/bootstrap.min.js') ?>"></script> <!-- import bootstrap js -->
+	<script src="<? echo base_url('includes/js/jquery-2.1.1.js') ?>"></script> <!-- import jQuery -->
+	<script src="<? echo base_url('includes/js/highcharts.js') ?>"></script><!-- import Highcharts -->
+	<script src="<? echo base_url('includes/js/exporting.js') ?>"></script><!-- import Export Highcharts -->
+	<script type="text/javascript" src="<? echo base_url('includes/js/graficosdetalhes.js') ?>"></script><!-- import gráficos linha e barra -->
 	<script type="text/javascript">
 	$(document).ready(function() {
 		var cont = 0;
@@ -95,7 +95,7 @@ function secondsToTime($time){
 			if(cont<5){
 				graficos[cont] = id;
 				$.ajax({
-					url: "<?= base_url(); ?>" + "index.php/detalhes/graficos",
+					url: "<?php echo base_url(); ?>" + "index.php/detalhes/graficos",
 					dataType: 'json',
 					scriptCharset: 'UTF-8',
 					type: "POST",
@@ -151,7 +151,7 @@ function secondsToTime($time){
 			<div class="span12" id="centro">
 				<div class="row-fluid menu">
 					<? include ("menu.php"); ?>
-					<a href="<?= base_url('index.php/login/logout') ?>"> <img id="sair" src="<?= base_url('includes/imagens/deslogar.png') ?>" /></a>
+					<a href="<?= base_url('index.php/login/logout') ?>"> <img id="sair" src="<? echo base_url('includes/imagens/deslogar.png') ?>" /></a>
 				</div>
 				<div id="aba">
 					<div class="row-fluid">
@@ -188,14 +188,14 @@ function secondsToTime($time){
 										}else{ 
 											foreach($detalhes as $dados){ ?>
 											<tr>
-												<td><input type="checkbox" checked="cheked" class="equipamentos" name="<?= $dados->codCaptura;?>" id="<?= $dados->CodEquip;?>" /></td>
-												<td><?= $dados->codCaptura; ?></td>
-												<td><?= $dados->CodTomada; ?></td>
-												<td><?= $dados->CodEquip." - ".$dados->desc; ?></td>
-												<td><?= $dados->eficaz; ?></td>
+												<td><input type="checkbox" checked="cheked" class="equipamentos" name="<?php echo $dados->codCaptura;?>" id="<?php echo $dados->CodEquip;?>" /></td>
+												<td><?php echo $dados->codCaptura; ?></td>
+												<td><?php echo $dados->CodTomada; ?></td>
+												<td><?php echo $dados->CodEquip." - ".$dados->desc; ?></td>
+												<td><?php echo $dados->eficaz; ?></td>
 												<td><?php list($days, $hours, $minutes, $seconds) = secondsToTime($dados->TempoUso);echo "{$days}d {$hours}h {$minutes}m {$seconds}s"; ?></td>
-												<td><?= date('d/m/Y H:m:s', strtotime($dados->dataAtual)); ?></td>
-												<td><input type="checkbox" name="comp" class="<?= $dados->CodEquip;?>" id="<?= $dados->codCaptura;?>" /></td>
+												<td><?php echo date('d/m/Y H:m:s', strtotime($dados->dataAtual)); ?></td>
+												<td><input type="checkbox" name="comp" class="<?php echo $dados->CodEquip;?>" id="<?php echo $dados->codCaptura;?>" /></td>
 											</tr>
 											<?php	};
 										}?>
