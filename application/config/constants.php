@@ -93,10 +93,10 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 |
 */
 
-define("LIMITE", '10'); //define o limite paga a paginação nas páginas de consulta
+define("LIMITE",     '10'); //define o limite paga a paginação nas páginas de consulta
 define('MAXSALAS', '15'); // numero maximo de salas
-define('MAXTOMADAS', '12');// numero maximo de tomadas por sala
+define('MAXTOMADAS', '12');// numero maximo de tomadas por sala   
 define('HARMONICAS', '12');// numero de harmonicas da FFT (barras para gerar a onda)
-define('PONTOSONDA', '256');// numero de pontos em cada forma de onda (grafico de linhas)
+define('PONTOSONDA', '256');// numero de pontos em cada forma de onda (grafico de linhas)  
 define('FREQBASE', '60');// frequencia base da aquisição
 define('TEMPOATUALIZA', '3000');// tempo de atualização ajax página painel de controle em miliseguns (ms)

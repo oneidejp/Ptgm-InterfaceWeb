@@ -11,3 +11,4 @@ $lang["msg_login"] = "Usuário/Senha Incorretos";
 $lang["msg_permission_user"] = "Você Não Possui Permissão Para Acessar Esta Página!";
 $lang["msg_update_password"] = "Senha Alterada Com Sucesso";
 $lang["msg_password_error"] = "Senha Atual/Nova Senha Não Conferem";
+?>
