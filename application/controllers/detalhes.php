@@ -1,197 +1,233 @@
 <?php
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Detalhes extends MY_Controller {
 
-	/**
-	* 2015
-	* Desenvolvido por: Mateus Perego
-	* Email: mateusperego@yahoo.com.br
-	* Projeto de conclusão de curso
-	* UPF - Ciência da Computação
-	*/	
+    /**
+     * 2015
+     * Desenvolvido por: Mateus Perego
+     * Email: mateusperego@yahoo.com.br
+     * Projeto de conclusão de curso
+     * UPF - Ciência da Computação
+     */
+    public function __construct() {
+        parent::__construct();
+        $this->load->model('detalhes_model');
+        $this->load->library('similaridade');
+    }
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->load->model('detalhes_model');
-	}  
+    public function graficos() {
 
-	public function index($codUsoSala){
-		$sala = $this->uri->segment(3);
-		$data['detalhes']= $this->detalhes_model->get_all_detalhes($sala);
-		//transforma segundos em dias horas minutos segundos
-		foreach ($data['detalhes'] as $dados) {
-			list($days, $hours, $minutes, $seconds) = $this->secondsToTime($dados->tempoUso);
-			$data['tempoUso'][] =  "{$days}d {$hours}h {$minutes}m {$seconds}s";
-		}
+        $id = $_POST['idCheckbox']; //pega o id(captura) para gerar os gráficos
+        $data['barra'] = $this->graficoBarra($id, $onda = 0);
+        $data['linha'] = $this->graficoLinha($id, $onda = 0);
 
-		$data['codUsoSala']=$sala;
+        echo json_encode($data);
+    }
 
-		$this->load->view('detalhes',$data);				
-	}
+    public function linha() {
 
-	public function graficos(){
+        $captura = $_POST['Captura']; //pega codCaptura vindo do ajax
+        $data['linha'] = $this->graficoLinha($captura, $onda = 0);
 
-		$id = $_POST['idCheckbox']; //pega o id(captura) para gerar os gráficos
-		$data['barra'] = $this->graficoBarra($id,$onda=0);
-		$data['linha'] = $this->graficoLinha($id,$onda=0);
+        echo json_encode($data);
+    }
 
-		echo json_encode($data);
-	}
+    public function mostra_equip() {
 
-	public function linha(){
+        $CodEquip = $_POST['CodEquip']; //pega codEquip vindo do ajax
+        $sala = $_POST['Sala']; //pega Sala vindo do ajax
 
-		$captura = $_POST['Captura']; //pega codCaptura vindo do ajax
-		$data['linha'] = $this->graficoLinha($captura,$onda=0);
+        $data['captura'] = $this->detalhes_model->get_equip($sala, $CodEquip);
 
-		echo json_encode($data);
-	}
+        echo json_encode($data);
+    }
 
-	public function mostra_equip(){
+    /**
+     * Converte segunos em horas, minutos e segundos
+     * 
+     * @param integer $seconds Number of seconds to parse
+     * @return array
+     */
+    function secondsToTime($time) {
+        $days = floor($time / (60 * 60 * 24));
+        $time -= $days * (60 * 60 * 24);
 
-		$CodEquip = $_POST['CodEquip']; //pega codEquip vindo do ajax
-		$sala = $_POST['Sala']; //pega Sala vindo do ajax
+        $hours = floor($time / (60 * 60));
+        $time -= $hours * (60 * 60);
 
-		$data['captura']= $this->detalhes_model->get_equip($sala,$CodEquip);
+        $minutes = floor($time / 60);
+        $time -= $minutes * 60;
 
-		echo json_encode($data);
-	}
+        $seconds = floor($time);
+        $time -= $seconds;
 
-	/**
- 	* Converte segunos em horas, minutos e segundos
- 	* 
- 	* @param integer $seconds Number of seconds to parse
- 	* @return array
- 	*/
-	function secondsToTime($time){
-		$days = floor($time / (60 * 60 * 24));
-		$time -= $days * (60 * 60 * 24);
+        return array($days, $hours, $minutes, $seconds);
+    }
 
-		$hours = floor($time / (60 * 60));
-		$time -= $hours * (60 * 60);
+    //função calcula gráfico linha normal e padrão
+    public function graficoLinha($codCaptura, $onda) {
+        $i = 0;
+        if ($onda == 0) {
+            $dados2 = $this->detalhes_model->get_cod_captura($codCaptura);
+            foreach ($dados2 as $dados2):
+                $ganho = $dados2->gain;
+                $valormedio = $dados2->valormedio;
+                $deslocamento = $dados2->offset;
+            endforeach;
+            $dados3 = $this->detalhes_model->get_harmonica($codCaptura);
+            foreach ($dados3 as $dados3):
+                $cos[$i] = $dados3->cos;
+                $sen[$i] = $dados3->sen;
+                $i = $i + 1;
+            endforeach;
+            $tempo[0] = 0;
+            for ($j = 0; $j < PONTOSONDA; $j++) {
+                $ponto[$j] = (float) $valormedio / 2;
+                for ($i = 0; $i < HARMONICAS; $i++)
+                    $ponto[$j] = $ponto[$j] + $sen[$i] * sin(2 * M_PI * ($i + 1) * FREQBASE * $tempo[$j]) + $cos[$i] * cos(-2 * M_PI * ($i + 1) * FREQBASE * $tempo[$j]);
+//usando $i ao inves de $j para calcular os pontos, verificar                                
+                $ponto[$j] = (int) (($ponto[$j] * (2.0)) / 256.0);
+                $ponto[$j] = ($ponto[$j] - $deslocamento ) / $ganho;
+                $tempo[$j + 1] = ($tempo[$j] + (float) (1.0 / (60 * 256)));
+                $pontos[$j][0] = (int) ($tempo[$j] * 100000);
+                $pontos[$j][1] = $ponto[$j];
+            }
+        } else {
+            $dados2 = $this->detalhes_model->get_cod_captura($codCaptura);
+            foreach ($dados2 as $dados2):
+                $ganho = $dados2->gain;
+                $valormedio = $dados2->valormedio;
+                $deslocamento = $dados2->offset;
+            endforeach;
+            $dados3 = $this->detalhess_model->get_harmonica_padrao($codCaptura);
+            foreach ($dados3 as $dados3):
+                $cos[$i] = $dados3->cos;
+                $sen[$i] = $dados3->sen;
+                $i = $i + 1;
+            endforeach;
+            $tempo[0] = 0;
+            for ($j = 0; $j < PONTOSONDA; $j++) {
+                $ponto[$j] = (float) $valormedio / 2;
+                for ($i = 0; $i < HARMONICAS; $i++)
+                    $ponto[$j] = $ponto[$j] + $sen[$i] * cos(2 * M_PI * ($i + 1) * FREQBASE * $tempo[$j]) + $cos[$i] * sin(-2 * M_PI * ($i + 1) * FREQBASE * $tempo[$j]);
+                $ponto[$j] = (int) (($ponto[$j] * (2.0)) / 256.0);
+                $ponto[$j] = ($ponto[$j] - $deslocamento ) / $ganho;
+                $tempo[$j + 1] = ($tempo[$j] + (float) (1.0 / (60 * 256)));
+                $pontos[$j][0] = (int) ($tempo[$j] * 100000);
+                $pontos[$j][1] = $ponto[$j];
+            }
+        }
+        return($pontos);
+    }
 
-		$minutes = floor($time / 60);
-		$time -= $minutes * 60;
+    //função calcula gráfico de barras
+    public function graficoBarra($codCaptura, $onda) {
+        $i = 0;
+        if ($onda == 0) {
+            $dados2 = $this->detalhes_model->get_cod_captura($codCaptura);
+            foreach ($dados2 as $dados2):
+                $ganho = $dados2->gain;
+                $valormedio = $dados2->valormedio;
+                $deslocamento = $dados2->offset;
+            endforeach;
+            $dados3 = $this->detalhes_model->get_harmonica($codCaptura);
+            foreach ($dados3 as $dados3):
+                $cos[$i] = $dados3->cos;
+                $sen[$i] = $dados3->sen;
+                $i = $i + 1;
+            endforeach;
 
-		$seconds = floor($time);
-		$time -= $seconds;
+            /* valor da primeira barra (corrente continua, identificada por "DC" valores da tabela capturaatual */
+            $f = abs(($valormedio / PONTOSONDA - $deslocamento) / $ganho);
+            $barras[0] = $f;
+            $barra[0] = $barras[0];
 
-		return array($days, $hours, $minutes, $seconds);
-	}
+            //valor das 12 proximas barras identificar por (i+1) * FREQBASE
+            for ($i = 0; $i < HARMONICAS; $i++) {
+                $f = (float) sqrt($sen[$i] * $sen[$i] + $cos[$i] * $cos[$i]) / 128;
+                $f = $f / $ganho;
+                $barras[$i + 1] = $f; //valor do F
+                $barra[$i + 1] = $barras[$i + 1];
+            }
+        } else {
+            $dados2 = $this->detalhes_model->get_cod_captura($codCaptura);
+            foreach ($dados2 as $dados2):
+                $ganho = $dados2->gain;
+                $valormedio = $dados2->valormedio;
+                $deslocamento = $dados2->offset;
+            endforeach;
+            $dados3 = $this->detalhes_model->get_harmonica_padrao($codCaptura);
+            foreach ($dados3 as $dados3):
+                $cos[$i] = $dados3->cos;
+                $sen[$i] = $dados3->sen;
+                $i = $i + 1;
+            endforeach;
 
-	//função calcula gráfico linha normal e padrão
-	public function graficoLinha($codCaptura, $onda){
-		$i = 0;	
-		if($onda==0){
-			$dados2 = $this->detalhes_model->get_cod_captura($codCaptura);
-			foreach($dados2 as $dados2):
-				$ganho = $dados2->gain;
-			$valormedio = $dados2->valormedio;
-			$deslocamento = $dados2->offset;
-			endforeach;
-			$dados3 = $this->detalhes_model->get_harmonica($codCaptura);
-			foreach($dados3 as $dados3):
-				$cos[$i] = $dados3->cos;
-				$sen[$i] = $dados3->sen;
-				$i = $i + 1;
-			endforeach;
-			$tempo[0]=0;
-			for ($j=0; $j< PONTOSONDA; $j++){
-				$ponto[$j]= (float)$valormedio/2;
-				for($i=0;$i<HARMONICAS;$i++)
-					$ponto[$j]= $ponto[$j] + $sen[$i] * sin(2 *M_PI*($i+1)*FREQBASE*$tempo[$j]) + $cos[$i] * cos(-2*M_PI*($i+1)*FREQBASE*$tempo[$j]);  	
-				$ponto[$j] = (int) (($ponto[$j] * (2.0)) / 256.0);
-				$ponto[$j] = ($ponto[$j] - $deslocamento ) / $ganho;
-				$tempo[$j+1] = ($tempo[$j] + (float) (1.0 / (60 * 256)));
-				$pontos[$j][0] = (int) ($tempo[$j]*100000);
-				$pontos[$j][1] = $ponto[$j];
-			}		
-		}else{
-			$dados2 = $this->detalhes_model->get_cod_captura($codCaptura);
-			foreach($dados2 as $dados2):
-				$ganho = $dados2->gain;
-			$valormedio = $dados2->valormedio;
-			$deslocamento = $dados2->offset;
-			endforeach;
-			$dados3 = $this->detalhess_model->get_harmonica_padrao($codCaptura);
-			foreach($dados3 as $dados3):
-				$cos[$i] = $dados3->cos;
-			$sen[$i] = $dados3->sen;
-			$i = $i + 1;
-			endforeach;
-			$tempo[0]=0;
-			for ($j=0; $j< PONTOSONDA; $j++){
-				$ponto[$j]= (float)$valormedio/2;
-				for($i=0;$i<HARMONICAS;$i++)
-					$ponto[$j]= $ponto[$j] + $sen[$i] * cos(2 *M_PI*($i+1)*FREQBASE*$tempo[$j]) + $cos[$i] * sin(-2*M_PI*($i+1)*FREQBASE*$tempo[$j]);  	
-				$ponto[$j] = (int) (($ponto[$j] * (2.0)) / 256.0);
-				$ponto[$j] = ($ponto[$j] - $deslocamento ) / $ganho;
-				$tempo[$j+1] = ($tempo[$j] + (float) (1.0 / (60 * 256)));
-				$pontos[$j][0] = (int) ($tempo[$j]*100000);
-				$pontos[$j][1] = $ponto[$j];
-			}
-		}
-		return($pontos);
-	}
+            /* valor da primeira barra (corrente continua, identificada por "DC" valores da tabela capturaatual */
+            $f = abs(($valormedio / PONTOSONDA - $deslocamento) / $ganho);
+            $barras[0] = $f;
+            $barra[0] = $barras[0];
 
-	//função calcula gráfico de barras
-	public function graficoBarra($codCaptura,$onda){
-		$i=0;
-		if($onda==0){
-			$dados2 = $this->detalhes_model->get_cod_captura($codCaptura);
-			foreach($dados2 as $dados2):
-				$ganho = $dados2->gain;
-			$valormedio = $dados2->valormedio;
-			$deslocamento = $dados2->offset;
-			endforeach;
-			$dados3 = $this->detalhes_model->get_harmonica($codCaptura);
-			foreach($dados3 as $dados3):
-				$cos[$i] = $dados3->cos;
-			$sen[$i] = $dados3->sen;
-			$i = $i + 1;
-			endforeach;
+            //valor das 12 proximas barras identificar por (i+1) * FREQBASE
+            for ($i = 0; $i < HARMONICAS; $i++) {
+                $f = (float) sqrt($sen[$i] * $sen[$i] + $cos[$i] * $cos[$i]) / 128;
+                $f = $f / $ganho;
+                $barras[$i + 1] = $f; //valor do F
+                $barra[$i + 1] = $barras[$i + 1];
+            }
+        }
+        return($barra);
+    }
 
-			/* valor da primeira barra (corrente continua, identificada por "DC" valores da tabela capturaatual */
-				$f= abs( ($valormedio / PONTOSONDA - $deslocamento) / $ganho );
-				$barras[0]=$f;
-				$barra[0] = $barras[0];
+    public function tabela() {
+        $checkBoxes = $_POST['Check']; //pega código de captura dos checkboxes clicados, vindo do ajax
+        $cont = count($checkBoxes);
+        if ($cont >= 1) {
+            $html = "<tr><td>{$checkBoxes[0]}</td><td>1</td></tr>";
+        } else {
+            $tabela[0][0] = "Código de Captura";
+            for ($i = 0; $i < $cont; $i++) {
+                $tabela[$i + 1][0] = $checkBoxes[$i];
+                $tabela[0][$i + 1] = $checkBoxes[$i];
+            }
+        }
+        
+        for ($i = 0; $i < $cont; $i++) {
+            for ($j = 0; $j < $cont; $j++) {
+                
+            }
+        }
 
-	    	//valor das 12 proximas barras identificar por (i+1) * FREQBASE
-				for ($i = 0; $i < HARMONICAS; $i++) {
-					$f = (float) sqrt( $sen[$i] * $sen[$i] + $cos[$i] * $cos[$i])  / 128  ;  
-					$f = $f / $ganho;  
-	    		$barras[$i+1]=$f;//valor do F
-	    		$barra[$i+1] = $barras[$i+1];
-	    	}
-	    }else{
-	    	$dados2 = $this->detalhes_model->get_cod_captura($codCaptura);
-	    	foreach($dados2 as $dados2):
-	    		$ganho = $dados2->gain;
-	    	$valormedio = $dados2->valormedio;
-	    	$deslocamento = $dados2->offset;
-	    	endforeach;
-	    	$dados3 = $this->detalhes_model->get_harmonica_padrao($codCaptura);
-	    	foreach($dados3 as $dados3):
-	    		$cos[$i] = $dados3->cos;
-	    	$sen[$i] = $dados3->sen;
-	    	$i = $i + 1;
-	    	endforeach;
 
-	    	/* valor da primeira barra (corrente continua, identificada por "DC" valores da tabela capturaatual */
-	    		$f= abs( ($valormedio / PONTOSONDA - $deslocamento) / $ganho );
-	    		$barras[0]=$f;
-	    		$barra[0] = $barras[0];
 
-	    	//valor das 12 proximas barras identificar por (i+1) * FREQBASE
-	    		for ($i = 0; $i < HARMONICAS; $i++) {
-	    			$f = (float) sqrt( $sen[$i] * $sen[$i] + $cos[$i] * $cos[$i])  / 128  ;  
-	    			$f = $f / $ganho;  
-	    		$barras[$i+1]=$f;//valor do F
-	    		$barra[$i+1] = $barras[$i+1];
-	    	}
-	    }
-	    return($barra);
-	}
+
+
+        $HTML = "";
+        for ($i = 0; $i < count($checkBoxes); $i++) {
+            $HTML .= "<tr><td>{$checkBoxes[$i]}</td></tr>";
+        }
+        $onda1 = $this->similaridade->calcula256Pontos("6222035");
+        $onda2 = $this->similaridade->calcula256Pontos("6222041");
+        $resultado = $this->similaridade->spearman($onda1, $onda2);
+        //$data['cod'] = $HTML;
+        $data['cod'] = $html;
+
+        echo json_encode($data);
+    }
+
+    public function index($codUsoSala) {
+        $sala = $this->uri->segment(3);
+        $data['detalhes'] = $this->detalhes_model->get_all_detalhes($sala);
+//transforma segundos em dias horas minutos segundos
+        foreach ($data['detalhes'] as $dados) {
+            list($days, $hours, $minutes, $seconds) = $this->secondsToTime($dados->tempoUso);
+            $data['tempoUso'][] = "{$days}d {$hours}h {$minutes}m {$seconds}s";
+        }
+        $data['codUsoSala'] = $sala;
+
+        $this->load->view('detalhes', $data);
+    }
 
 }

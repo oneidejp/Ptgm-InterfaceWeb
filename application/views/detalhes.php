@@ -4,27 +4,33 @@
         <meta charset="utf-8">
         <title><?php echo $this->lang->line('details'); ?></title>
         <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="<? echo base_url('includes/bootstrap/css/bootstrap.css') ?>">
-        <link rel="stylesheet" href="<? echo base_url('includes/bootstrap/css/bootstrap-responsive.css') ?>">
-        <link rel="stylesheet" href="<? echo base_url('includes/css/abas.css') ?>">
-        <link rel="stylesheet" href="<? echo base_url('includes/css/estilo.css') ?>">
+        <link rel="stylesheet" href="<?php echo base_url('includes/bootstrap/css/bootstrap.css') ?>">
+        <link rel="stylesheet" href="<?php echo base_url('includes/bootstrap/css/bootstrap-responsive.css') ?>">
+        <link rel="stylesheet" href="<?php echo base_url('includes/css/abas.css') ?>">
+        <link rel="stylesheet" href="<?php echo base_url('includes/css/estilo.css') ?>">
         <!-- Latest compiled and minified JavaScript -->
-        <script src="<?= base_url('includes/js/jquery-2.1.1.js') ?>"></script>	
-        <script src="<? echo base_url('includes/bootstrap/js/bootstrap.min.js') ?>"></script> <!-- import bootstrap js -->
-        <script src="<? echo base_url('includes/js/highcharts.js') ?>"></script><!-- import Highcharts -->
-        <script src="<? echo base_url('includes/js/exporting.js') ?>"></script><!-- import Export Highcharts -->
-        <script type="text/javascript" src="<? echo base_url('includes/js/graficosdetalhes.js') ?>"></script><!-- import gráficos linha e barra -->
+        <script src="<?php echo base_url('includes/js/jquery-2.1.1.js') ?>"></script>	
+        <script src="<?php echo base_url('includes/bootstrap/js/bootstrap.min.js') ?>"></script> <!-- import bootstrap js -->
+        <script src="<?php echo base_url('includes/js/highcharts.js') ?>"></script><!-- import Highcharts -->
+        <script src="<?php echo base_url('includes/js/exporting.js') ?>"></script><!-- import Export Highcharts -->
+        <script type="text/javascript" src="<?php echo base_url('includes/js/graficosdetalhes.js') ?>"></script><!-- import gráficos linha e barra -->
+        <script>
+            function similaridade()
+            {
+                var id = $("input[id='destaque']:checked").val();
+            }
+        </script>
         <script type="text/javascript">
-                    $(document).ready(function () {
+            $(document).ready(function () {
                 var cont = 0;
                 var graficos = [];
                 $('input[type="checkbox"]').click(function () {
-                    var classe = $(this).attr('class'); //pega a classe do checkbox clicado
+                    var classe = $(this).attr('class'); //pega a classe do checkbox clicado, contendo o código de captura
                     var id = $(this).attr('id'); //pega o id do checkbox clicado
                     var nome = $(this).attr('name'); //pega o nome do checkbox clicado
                     var sala = "<?php echo $codUsoSala; ?>"; // pega o cod da sala em uso
 
-                    if(nome === "equipamentos"){ // classe == equipamentos coluna visualizar
+                    if (nome === "equipamentos") { // classe == equipamentos coluna visualizar
                         var codequip = id.substring(1, id.length);
                         $.ajax({
                             url: "<?php echo base_url(); ?>" + "index.php/detalhes/mostra_equip",
@@ -77,8 +83,10 @@
                             $("#equipamento" + id).show();
                         } else { // senão oculta a div do equipamento
                             $("#equipamento" + id).hide();
-                        };
-                    };
+                        }
+                        ;
+                    }
+                    ;
                     // se fone comparar coluna comparar
                     if (nome === "comparar") {
                         var checkado = ($("#" + id).is(':checked')); //verifica se o checkbox foi clicado true == sim, false == não
@@ -120,7 +128,7 @@
 
                             cont = --cont;
                             for (var x = 0; x < graficos.length; x++) {
-                                if (graficos[x] == id) {
+                                if (graficos[x] === id) {
                                     var chart = $('#barra').highcharts();
                                     if (chart.series.length) {
                                         chart.series[x].remove();
@@ -132,6 +140,37 @@
                                     graficos.splice(x, 1);
                                 }
                             }
+                        }
+                        //para construir a tabela de similaridade
+                        if (checkado === true) {
+                            //if (false) {
+                            var HTML = "";
+                            var checkboxSelecionados = [];
+                            $('#aba input[name="comparar"]:checked').each(function () {
+                                checkboxSelecionados.push($(this).attr('id'));
+                            });
+
+                            $.ajax({
+                                async: false,
+                                url: "<?php echo base_url(); ?>" + "index.php/detalhes/tabela",
+                                dataType: 'json',
+                                scriptCharset: 'UTF-8',
+                                type: "POST",
+                                data: {
+                                    Check: checkboxSelecionados
+                                },
+                                success: function (dados) {
+                                    if (dados) {
+
+                                        HTML = dados['cod'];
+
+                                    } else {
+                                        alert("Erro Ajax.");
+                                    }
+                                }
+                            });
+                            //alert(HTML);
+                            document.getElementById("tbodyTabelaSimilaridade").innerHTML = HTML;
                         }
                     }
                 });
@@ -209,7 +248,7 @@ foreach ($detalhes as $dados) {
             });
         </script>
         <script type="text/javascript">
-        //controla as linhas expande ou oculta, mostra imagem de mais ou menos
+            //controla as linhas expande ou oculta, mostra imagem de mais ou menos
             $(document).ready(function () {
                 $("img").click(function () {
 
@@ -218,10 +257,10 @@ foreach ($detalhes as $dados) {
                     var nome = $(this).attr('name');
 
                     if (nome == "mais") {
-                        $(this).attr('src', '<? echo base_url("includes/imagens/menos.jpg") ?>');
+                        $(this).attr('src', '<?php echo base_url("includes/imagens/menos.jpg") ?>');
                         $(this).attr('name', 'menos');
                     } else {
-                        $(this).attr('src', '<? echo base_url("includes/imagens/mais.jpg") ?>');
+                        $(this).attr('src', '<?php echo base_url("includes/imagens/mais.jpg") ?>');
                         $(this).attr('name', 'mais');
                     }
 
@@ -246,15 +285,14 @@ foreach ($detalhes as $dados) {
                 });
             });
         </script>
-
     </head>
     <body>
         <div class="container-fluid">
             <div class="row-fluid">
                 <div class="span12" id="centro">
                     <div class="row-fluid menu">
-                        <? include ("menu.php"); ?>
-                        <a href="<?= base_url('index.php/login/logout') ?>"> <img id="sair" src="<? echo base_url('includes/imagens/deslogar.png') ?>" /></a>
+                        <?php include ("menu.php"); ?>
+                        <a href="<?php echo base_url('index.php/login/logout') ?>"> <img id="sair" src="<?php echo base_url('includes/imagens/deslogar.png') ?>" /></a>
                     </div>
                     <div id="aba">
                         <div class="row-fluid">
@@ -275,8 +313,8 @@ foreach ($detalhes as $dados) {
                                         </thead>
                                         <tbody>									
                                             <tr>
-<?php if (empty($detalhes)) {
-    ?>
+                                                <?php if (empty($detalhes)) {
+                                                    ?>
                                                     <td><input type="checkbox" checked="checked"/></td>
                                                     <td><?php echo $this->lang->line('empty'); ?></td>
                                                     <td><?php echo $this->lang->line('empty'); ?></td>
@@ -297,7 +335,7 @@ foreach ($detalhes as $dados) {
                                                             <td id="<?php echo $dados->codCaptura; ?>-1"><input type="checkbox" id="s<?php echo $dados->CodEquip; ?>" class="<?php echo $dados->codCaptura; ?>" name="equipamentos"  /></td>
                                                             <td id="<?php echo $dados->codCaptura; ?>-2"><?php echo $dados->codCaptura; ?></td>
                                                             <td id="<?php echo $dados->codCaptura; ?>-3"><?php echo $dados->CodTomada; ?></td>
-                                                            <td id="<?php echo $dados->codCaptura; ?>-4"><a href="<? echo base_url('index.php/comparar/index/'.$codUsoSala.'/'.$dados->CodEquip) ?>" target="_blank"><?php echo $dados->CodEquip . " - " . $dados->desc; ?></a></td>
+                                                            <td id="<?php echo $dados->codCaptura; ?>-4"><a href="<?php echo base_url('index.php/comparar/index/' . $codUsoSala . '/' . $dados->CodEquip) ?>" target="_blank"><?php echo $dados->CodEquip . " - " . $dados->desc; ?></a></td>
                                                             <td id="<?php echo $dados->codCaptura; ?>-5"><?php echo substr($dados->eficaz, 0, 6); ?></td>
                                                             <td id="<?php echo $dados->codCaptura; ?>-6"><?php echo $tempoUso[$ind]; ?></td>
                                                             <td id="<?php echo $dados->codCaptura; ?>-7"><?php echo date('d/m/Y H:m:s', strtotime($dados->dataAtual)); ?></td>
@@ -307,14 +345,14 @@ foreach ($detalhes as $dados) {
                                                         $("#linha<?php echo $dados->codCaptura; ?>").hide();
                                                         $("#<?php echo $capanterior; ?>-2").html("<img id='' class='<?php echo $dados->CodEquip; ?>' name='mais' src='<? echo base_url('includes/imagens/mais.jpg') ?>'> <?php echo $capanterior; ?>");
                                                     </script>
-            <?php
-        } else {
-            ?>
+                                                    <?php
+                                                } else {
+                                                    ?>
                                                     <tr id="linha<?php echo $dados->codCaptura; ?>">
                                                         <td id="<?php echo $dados->codCaptura; ?>-1"><input type="checkbox" checked="cheked" id="s<?php echo $dados->CodEquip; ?>" class="<?php echo $dados->codCaptura; ?>" name="equipamentos" /></td>
                                                         <td id="<?php echo $dados->codCaptura; ?>-2"><?php echo $dados->codCaptura; ?></td>
                                                         <td id="<?php echo $dados->codCaptura; ?>-3"><?php echo $dados->CodTomada; ?></td>
-                                                        <td id="<?php echo $dados->codCaptura; ?>-4"><a href="<? echo base_url('index.php/comparar/index/'.$codUsoSala.'/'.$dados->CodEquip) ?>" target="_blank"><?php echo $dados->CodEquip . " - " . $dados->desc; ?></a></td>
+                                                        <td id="<?php echo $dados->codCaptura; ?>-4"><a href="<?php echo base_url('index.php/comparar/index/' . $codUsoSala . '/' . $dados->CodEquip) ?>" target="_blank"><?php echo $dados->CodEquip . " - " . $dados->desc; ?></a></td>
                                                         <td id="<?php echo $dados->codCaptura; ?>-5"><?php echo substr($dados->eficaz, 0, 6); ?></td>
                                                         <td id="<?php echo $dados->codCaptura; ?>-6"><?php echo $tempoUso[$ind]; ?></td>
                                                         <td id="<?php echo $dados->codCaptura; ?>-7"><?php echo date('d/m/Y H:m:s', strtotime($dados->dataAtual)); ?></td>
@@ -337,11 +375,23 @@ foreach ($detalhes as $dados) {
                                 </div>
                             </div>	
                         </div>
-                    </div>	
+                    </div>
+                    <!--<div id="tabelaSimilaridade">oi</div>-->
+                    <div class="col-md-offset-1 col-md-10 col-xs-12" style="margin-bottom: 100px;">
+                        <table class='table table-striped table-bordered' id="tabelaSimilaridade">
+                            <thead>
+                                <tr>
+                                    <th>Captura</th>
+                                    <th colspan="5">Similaridade</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyTabelaSimilaridade"></tbody>
+                        </table>
+                    </div>
                     <div class="row-fluid">
                         <div class="span12" id="graficoslinha"></div>
                     </div>
-                    <div class="row-fluid"><? include ("footer.php"); ?></div>
+                    <div class="row-fluid"><?php include ("footer.php"); ?></div>
                 </div>
             </div>
         </div>
