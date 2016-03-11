@@ -1,15 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Paineldecontrole extends MY_Controller {
-
-	/**
-	* 2015
-	* Desenvolvido por: Mateus Perego
-	* Email: mateusperego@yahoo.com.br
-	* Projeto de conclusão de curso
-	* UPF - Ciência da Computação
-	*/	
+class Paineldecontrole extends MY_Controller {	
 
 	public function __construct()
 	{
@@ -23,7 +15,7 @@ class Paineldecontrole extends MY_Controller {
 			//calcula tempo sala em funcionamento
 			foreach ($data['usosala'] as $dados) {
 				date_default_timezone_set('America/Sao_Paulo');
-				$hora = new DateTime($dados->hora); // recebe a hora e data inicial
+				$hora = new DateTime($dados->horaInicio); // recebe a hora e data inicial
 				$inicio = $hora->format('d/m/Y H:i:s'); //converte hora e data inicial
 				$fim = date('d/m/Y H:i:s'); // recebe hora e data atual
 				$inicio = DateTime::createFromFormat('d/m/Y H:i:s', $inicio);// formata a data de inicio
@@ -33,14 +25,14 @@ class Paineldecontrole extends MY_Controller {
 			}
 
 			$data['alerta'] = $this->paineldecontrole_model->get_all_alertas();
-
-			$this->load->view('paineldecontrole',$data);
+                        //$data['title'] = 'page_title_control_panel';
+			$this->load->view('paineldecontrole', $data);
+                        //$this->load->template('paineldecontrole', $data);
 	}
 
 	//consulta e retorna os codusosala ativos
 	public function ajax(){
 		$data['usosala']= $this->paineldecontrole_model->get_all_codusosala();
-		
 		echo json_encode($data);
 	}
 

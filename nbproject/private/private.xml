@@ -3,10 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Volumes/Dados/Documents/Mestrado/Git/Ptgm-InterfaceWeb/application/models/paineldecontrole_model.php</file>
-            <file>file:/Volumes/Dados/Documents/Mestrado/Git/Ptgm-InterfaceWeb/application/controllers/paineldecontrole.php</file>
-            <file>file:/Volumes/Dados/Documents/Mestrado/Git/Ptgm-InterfaceWeb/application/views/paineldecontrole.php</file>
-            <file>file:/Volumes/Dados/Documents/Mestrado/Git/Ptgm-InterfaceWeb/application/config/database.php</file>
+            <file>file:/Volumes/Dados/Documents/Apache/Ptgm-InterfaceWeb/application/models/escalas_model.php</file>
+            <file>file:/Volumes/Dados/Documents/Apache/Ptgm-InterfaceWeb/application/controllers/detalhes.php</file>
+            <file>file:/Volumes/Dados/Documents/Apache/Ptgm-InterfaceWeb/application/views/detalhes.php</file>
+            <file>file:/Volumes/Dados/Documents/Apache/Ptgm-InterfaceWeb/application/views/escalas.php</file>
+            <file>file:/Volumes/Dados/Documents/Apache/Ptgm-InterfaceWeb/application/controllers/@funcoes.php</file>
+            <file>file:/Volumes/Dados/Documents/Apache/Ptgm-InterfaceWeb/application/controllers/escalas.php</file>
         </group>
     </open-files>
 </project-private>

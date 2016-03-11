@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <title><?php echo $this->lang->line('login'); ?></title>
-  <script src="includes/bootstrap/js/jquery.min"></script>
+  <script src="<?= base_url() ?>includes/js/jquery-2.2.0.min.js"></script> <!-- Importar jQuery -->
   <!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="<? echo base_url('includes/bootstrap/css/bootstrap.css') ?>">
-  <link rel="stylesheet" href="<? echo base_url('includes/bootstrap/css/bootstrap-responsive.css') ?>">
-  <link rel="stylesheet" href="<? echo base_url('includes/css/login.css') ?>"><!--estilo do login -->
+  <link rel="stylesheet" href="<?= base_url('includes/bootstrap/css/bootstrap.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('includes/bootstrap/css/bootstrap-responsive.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('includes/css/login.css') ?>"><!--estilo do login -->
   <!-- Latest compiled and minified JavaScript -->
-  <script src="<? echo base_url('includes/bootstrap/js/bootstrap.min.js') ?>"></script>
+  <script src="<?= base_url('includes/bootstrap/js/bootstrap.min.js') ?>"></script>
 </head>
 <body>
   <div class="login">   
