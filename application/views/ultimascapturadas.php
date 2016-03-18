@@ -59,7 +59,6 @@
                                 $("#" + id).attr("checked", false);
                             }
                         } else { // senão oculta gráfico do equipamento
-
                             cont = --cont;
                             for (var x = 0; x < graficos.length; x++) {
                                 if (graficos[x] === id) {
