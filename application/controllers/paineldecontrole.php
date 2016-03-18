@@ -32,14 +32,13 @@ class Paineldecontrole extends MY_Controller {
 
 	//consulta e retorna os codusosala ativos
 	public function ajax(){
-		$data['usosala']= $this->paineldecontrole_model->get_all_codusosala();
+		$data['usosala']= $this->paineldecontrole_model->get_all_usosala();
 		echo json_encode($data);
 	}
 
 	//consulta e retorna os alertas existentes
 	public function alertas(){
 		$data['alerta'] = $this->paineldecontrole_model->get_all_alertas();
-		
 		echo json_encode($data);
 	}
 
