@@ -184,34 +184,43 @@ class Detalhes extends MY_Controller {
     public function tabela() {
         $checkBoxes = $_POST['Check']; //pega código de captura dos checkboxes clicados, vindo do ajax
         $cont = count($checkBoxes);
-        if ($cont >= 1) {
+        //se foi clicado apenas um checkbox
+        if ($cont <= 1) {
             $html = "<tr><td>{$checkBoxes[0]}</td><td>1</td></tr>";
         } else {
+            //transformar vetor em matriz
+            $tabela = array();
             $tabela[0][0] = "Código de Captura";
             for ($i = 0; $i < $cont; $i++) {
                 $tabela[$i + 1][0] = $checkBoxes[$i];
                 $tabela[0][$i + 1] = $checkBoxes[$i];
             }
-        }
-        
-        for ($i = 0; $i < $cont; $i++) {
-            for ($j = 0; $j < $cont; $j++) {
-                
+
+            //calcula a similaridade e preenche a tabela
+            for ($i = 0; $i < $cont; $i++) {
+                $onda1 = $this->similaridade->calcula256Pontos($tabela[$i + 1][0]);
+                for ($j = 0; $j < $cont; $j++) {
+                    if ($i === $j) {
+                        $tabela[$i + 1][$j + 1] = "1";
+                    } else {
+                        $onda2 = $this->similaridade->calcula256Pontos($tabela[0][$j + 1]);
+                        $recebeSpearman = $this->similaridade->spearman($onda1, $onda2);
+                        $tabela[$i + 1][$j + 1] = $recebeSpearman[0];
+                    }
+                }
+            }
+
+            //cria o html da tabela
+            $html = "";
+            for ($i = 0; $i < $cont + 1; $i++) {
+                $html .= "<tr>";
+                for ($j = 0; $j < $cont + 1; $j++) {
+                    $html .= "<td>{$tabela[$i][$j]}</td>";
+                }
+                $html .= "</tr>";
             }
         }
-
-
-
-
-
-        $HTML = "";
-        for ($i = 0; $i < count($checkBoxes); $i++) {
-            $HTML .= "<tr><td>{$checkBoxes[$i]}</td></tr>";
-        }
-        $onda1 = $this->similaridade->calcula256Pontos("6222035");
-        $onda2 = $this->similaridade->calcula256Pontos("6222041");
-        $resultado = $this->similaridade->spearman($onda1, $onda2);
-        //$data['cod'] = $HTML;
+        //envia para view a tabela completa
         $data['cod'] = $html;
 
         echo json_encode($data);
