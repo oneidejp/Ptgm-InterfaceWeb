@@ -14,20 +14,14 @@
         <script src="<?php echo base_url('includes/js/highcharts.js') ?>"></script><!-- import Highcharts -->
         <script src="<?php echo base_url('includes/js/exporting.js') ?>"></script><!-- import Export Highcharts -->
         <script type="text/javascript" src="<?php echo base_url('includes/js/graficosdetalhes.js') ?>"></script><!-- import gráficos linha e barra -->
-        <script>
-            function similaridade()
-            {
-                var id = $("input[id='destaque']:checked").val();
-            }
-        </script>
         <script type="text/javascript">
             $(document).ready(function () {
                 var cont = 0;
                 var graficos = [];
                 $('input[type="checkbox"]').click(function () {
-                    var classe = $(this).attr('class'); //pega a classe do checkbox clicado, contendo o código de captura
-                    var id = $(this).attr('id'); //pega o id do checkbox clicado
-                    var nome = $(this).attr('name'); //pega o nome do checkbox clicado
+                    var classe = $(this).attr('class'); //pega a classe do checkbox clicado, contendo o código do equipamento
+                    var id = $(this).attr('id'); //pega o id do checkbox clicado, contendo o código de captura
+                    var nome = $(this).attr('name'); //pega o nome do checkbox clicado, informando se é checkbox do equipamento ou do comparar
                     var sala = "<?php echo $codUsoSala; ?>"; // pega o cod da sala em uso
 
                     if (nome === "equipamentos") { // classe == equipamentos coluna visualizar
@@ -78,8 +72,8 @@
                                     alert("Erro Ajax.");
                             }
                         });
-                        var checkado = ($("." + classe).is(':checked')); //verifica se o checkbox foi clicado true == sim, false == não	
-                        if (checkado === true) { // se checkado == true mostra a div do equipamento
+                        checkadoClasse = ($("." + classe).is(':checked')); //verifica se o checkbox foi clicado true == sim, false == não	
+                        if (checkadoClasse === true) { // se checkado == true mostra a div do equipamento
                             $("#equipamento" + id).show();
                         } else { // senão oculta a div do equipamento
                             $("#equipamento" + id).hide();
@@ -89,9 +83,8 @@
                     ;
                     // se fone comparar coluna comparar
                     if (nome === "comparar") {
-                        var checkado = ($("#" + id).is(':checked')); //verifica se o checkbox foi clicado true == sim, false == não
-
-                        if (checkado === true) { // se checkado == true monta gráfico na área de comparação
+                        checkadoID = ($("#" + id).is(':checked')); //verifica se o checkbox foi clicado true == sim, false == não
+                        if (checkadoID === true) { // se checkado == true monta gráfico na área de comparação
                             //ajax envia os dados p/ php e no php processa e retornar valores em dados.linha e dados.barra
                             if (cont < 5) {
                                 graficos[cont] = id;
@@ -125,7 +118,6 @@
                                 $("#" + id).attr("checked", false);
                             }
                         } else { // senão oculta gráfico do equipamento
-
                             cont = --cont;
                             for (var x = 0; x < graficos.length; x++) {
                                 if (graficos[x] === id) {
@@ -142,14 +134,14 @@
                             }
                         }
                         //para construir a tabela de similaridade
-                        if (checkado === true) {
-                            //if (false) {
-                            var HTML = "";
+                        if (checkadoID === true) {
+                            //pega os checkboxes clicados em um array, a ordenação não é por clique e sim por leitura dos clicados, de cima para baixo
                             var checkboxSelecionados = [];
                             $('#aba input[name="comparar"]:checked').each(function () {
                                 checkboxSelecionados.push($(this).attr('id'));
                             });
-
+                            //envia por post um json contendo os códigos de capturas dos checkboxes
+                            //recebendo o retorno da tabela preenchida
                             $.ajax({
                                 async: false,
                                 url: "<?php echo base_url(); ?>" + "index.php/detalhes/tabela",
@@ -161,16 +153,26 @@
                                 },
                                 success: function (dados) {
                                     if (dados) {
-
                                         HTML = dados['cod'];
-
                                     } else {
                                         alert("Erro Ajax.");
                                     }
                                 }
                             });
-                            //alert(HTML);
+                            //insere na tabela os dados calculados
                             document.getElementById("tbodyTabelaSimilaridade").innerHTML = HTML;
+                        } else {
+                            for (var i = 2; i < cont + 2; i++) {
+                                var linha = document.getElementById("tbodyTabelaSimilaridade").rows[i].cells[0].innerHTML;
+                                if (linha === id) {
+                                    var tabela = document.getElementById("tbodyTabelaSimilaridade").rows[i];
+                                    tabela.parentNode.removeChild(tabela);
+                                }
+                            }
+                            if (cont === 0) {
+                                document.getElementById("tabelaSimilaridade").deleteRow(1);
+                                document.getElementById("tabelaSimilaridade").deleteRow(1);
+                            }
                         }
                     }
                 });
@@ -372,22 +374,22 @@ foreach ($detalhes as $dados) {
                                 <div class="span7">
                                     <div id="linha"></div>
                                     <div id="barra"></div>
+                                    <div id="testeTabela" class="col-md-offset-1 col-md-10 col-xs-12">
+                                        <table class='table table-striped table-bordered' id="tabelaSimilaridade">
+                                            <thead>
+                                                <tr>
+                                                    <th>Captura</th>
+                                                    <th colspan="5">Similaridade</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tbodyTabelaSimilaridade"></tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>	
                         </div>
                     </div>
-                    <!--<div id="tabelaSimilaridade">oi</div>-->
-                    <div class="col-md-offset-1 col-md-10 col-xs-12" style="margin-bottom: 100px;">
-                        <table class='table table-striped table-bordered' id="tabelaSimilaridade">
-                            <thead>
-                                <tr>
-                                    <th>Captura</th>
-                                    <th colspan="5">Similaridade</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tbodyTabelaSimilaridade"></tbody>
-                        </table>
-                    </div>
+
                     <div class="row-fluid">
                         <div class="span12" id="graficoslinha"></div>
                     </div>
