@@ -14,19 +14,22 @@
         <script src="<?= base_url('includes/js/jquery-2.1.1.js') ?>"></script>		
         <script src="<?= base_url('includes/js/moment.js') ?>"></script>
 
-        <script type="text/javascript">
-            var atualizacao = "<?= TEMPOATUALIZA; ?>";
+        <script>
+            var atualizacao = "<?php echo TEMPOATUALIZA; ?>";
             var descricao = [];
             var codUsoSala = [];
             var horas = moment();
             var x = 0;
-            <?php $cont = 0;
-            foreach ($usosala as $dados) { ?>
+
+<?php $contador = 0;
+foreach ($usosala as $dados) {
+    ?>
                 descricao[x] = "<?= $dados->desc; ?>";
                 codUsoSala[x] = "<?= $dados->codUsoSala; ?>";
-                horas[x] = moment("2015-01-01 <?= $horas[$cont]; ?>");
-                x = x + 1;
-            <?php $cont = $cont + 1; }; ?>
+                horas[x] = moment("2015-01-01 <?= $horas[$contador]; ?>");
+                x++;
+    <?php $contador++;
+} ?> 
 
             var tamanho = codUsoSala.length;
             var tempo = setInterval(getcodusosala, atualizacao);
@@ -38,14 +41,14 @@
                     scriptCharset: 'UTF-8',
                     type: "POST",
                     success: function (dados) {
-                        if (dados.usosala.length == 0) {
+                        /*if (dados.usosala.length === 0) {
                             $("#aba").html('');
                             descricao = [];
                             codUsoSala = [];
                             horas = [];
                             tamanho = codUsoSala.length;
                         } else {
-                            if (dados.usosala.length != codUsoSala.length) {
+                            if (dados.usosala.length !== codUsoSala.length) {
                                 $("#aba").html('');
                                 descricao = [];
                                 codUsoSala = [];
@@ -62,7 +65,6 @@
                                             codUsoSala[j] = dados.codUsoSala[j];
                                             horas[j] = moment("2015-01-01 " + dados.horas[j]);
                                         }
-                                        ;
                                         tamanho = codUsoSala.length;
                                     }
                                 });
@@ -85,14 +87,13 @@
                                                     codUsoSala[j] = dados.codUsoSala[j];
                                                     horas[j] = moment("2015-01-01 " + dados.horas[j]);
                                                 }
-                                                ;
                                                 tamanho = codUsoSala.length;
                                             }
                                         });
                                     }
                                 }
                             }
-                        }
+                        }*/
                     }
                 });
 
@@ -119,7 +120,7 @@
             }
         </script>
 
-        <script type="text/javascript">
+        <script>
             $(document).ready(function () {
                 var recebe = "";
 <?php
@@ -127,7 +128,7 @@ foreach ($alerta as $dados) {
     ?>
                     recebe = "<?php echo $dados->codUsoSala; ?>";
                     $("#alerta" + recebe).html("<a href='<? echo base_url('index.php/alertas/index/'.$dados->codUsoSala) ?>' '><div class='error'><h3 class='alerta'><?php echo $this->lang->line('alert'); ?></h3></div></a>");
-<?php }; ?>
+<?php } ?>
             });
 
         </script>
@@ -138,15 +139,15 @@ foreach ($alerta as $dados) {
                 <div class="span12" id="centro">
                     <div class="row-fluid menu">
                         <? include ("menu.php"); ?>
-                        <a href="<?= base_url('index.php/login/logout') ?>"> <img id="sair" src="<? echo base_url('includes/imagens/deslogar.png') ?>" /></a>
+                        <a href="<?php echo base_url('index.php/login/logout') ?>"> <img id="sair" src="<? echo base_url('includes/imagens/deslogar.png') ?>" /></a>
                     </div>
                     <div id="aba">
                         <?php
                         $cont = 0;
                         foreach ($usosala as $dados) {
-                            ?>
-                            <form class="paineldecontrole">
-                                <fieldset>
+                            
+                            echo '<form class="paineldecontrole">';
+                                echo '<fieldset>' ?>
                                     <legend class="sala" id="descricao<?php echo $cont; ?>"><?php echo $dados->desc; ?></legend>
     <?php echo $this->lang->line('in_operation'); ?>:<br>
                                     <span id="<?php echo $cont; ?>"><?php echo $horas[$cont]; ?></span><br>
@@ -156,10 +157,11 @@ foreach ($alerta as $dados) {
                                     </div>
                                 </fieldset>
                             </form>
-    <?php $cont = $cont + 1;
-}; ?>
+    <?php $cont++;
+}
+?>
                     </div>
-                    <div class="row-fluid"><? include ("footer.php"); ?></div>
+                    <div class="row-fluid"><?php include ("footer.php"); ?></div>
                 </div>
             </div>
         </div>
