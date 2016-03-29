@@ -181,7 +181,7 @@ class Detalhes extends MY_Controller {
         return($barra);
     }
 
-    public function tabela() {
+    public function tabelaSimilaridade() {
         $checkBoxes = $_POST['Check']; //pega código de captura dos checkboxes clicados, vindo do ajax
         $cont = count($checkBoxes);
         //se foi clicado apenas um checkbox
@@ -190,7 +190,7 @@ class Detalhes extends MY_Controller {
         } else {
             //transformar vetor em matriz
             $tabela = array();
-            $tabela[0][0] = "Código de Captura";
+            $tabela[0][0] = "-";
             for ($i = 0; $i < $cont; $i++) {
                 $tabela[$i + 1][0] = $checkBoxes[$i];
                 $tabela[0][$i + 1] = $checkBoxes[$i];
