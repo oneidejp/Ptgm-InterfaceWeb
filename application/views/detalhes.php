@@ -135,48 +135,61 @@
                         }
                         //para construir a tabela de similaridade
                         if (checkadoID === true) {
-                            //pega os checkboxes clicados em um array, a ordenação não é por clique e sim por leitura dos clicados, de cima para baixo
-                            var checkboxSelecionados = [];
-                            $('#aba input[name="comparar"]:checked').each(function () {
-                                checkboxSelecionados.push($(this).attr('id'));
-                            });
-                            //envia por post um json contendo os códigos de capturas dos checkboxes
-                            //recebendo o retorno da tabela preenchida
-                            $.ajax({
-                                async: false,
-                                url: "<?php echo base_url(); ?>" + "index.php/detalhes/tabela",
-                                dataType: 'json',
-                                scriptCharset: 'UTF-8',
-                                type: "POST",
-                                data: {
-                                    Check: checkboxSelecionados
-                                },
-                                success: function (dados) {
-                                    if (dados) {
-                                        HTML = dados['cod'];
-                                    } else {
-                                        alert("Erro Ajax.");
-                                    }
-                                }
-                            });
-                            //insere na tabela os dados calculados
-                            document.getElementById("tbodyTabelaSimilaridade").innerHTML = HTML;
+                            if (cont > 0) {
+                                mostraTabelaSimilaridade();
+                            }
                         } else {
-                            for (var i = 2; i < cont + 2; i++) {
-                                var linha = document.getElementById("tbodyTabelaSimilaridade").rows[i].cells[0].innerHTML;
-                                if (linha === id) {
-                                    var tabela = document.getElementById("tbodyTabelaSimilaridade").rows[i];
-                                    tabela.parentNode.removeChild(tabela);
-                                }
-                            }
-                            if (cont === 0) {
+                            if (cont <= 1) {
                                 document.getElementById("tabelaSimilaridade").deleteRow(1);
                                 document.getElementById("tabelaSimilaridade").deleteRow(1);
+                            } else {
+                                mostraTabelaSimilaridade();
                             }
+                            /*for (var i = 2; i < cont + 2; i++) {
+                             var linha = document.getElementById("tbodyTabelaSimilaridade").rows[i].cells[0].innerHTML;
+                             if (linha === id) {
+                             var tabela = document.getElementById("tbodyTabelaSimilaridade").rows[i];
+                             tabela.parentNode.removeChild(tabela);
+                             }
+                             }
+                             if (cont === 0) {
+                             document.getElementById("tabelaSimilaridade").deleteRow(1);
+                             document.getElementById("tabelaSimilaridade").deleteRow(1);
+                             } */
                         }
                     }
                 });
             });
+        </script>
+        <script>
+            function mostraTabelaSimilaridade() {
+                //pega os checkboxes clicados em um array, a ordenação não é por clique e sim por leitura dos clicados, de cima para baixo
+                var checkboxSelecionados = [];
+                $('#aba input[name="comparar"]:checked').each(function () {
+                    checkboxSelecionados.push($(this).attr('id'));
+                });
+                //envia por post um json contendo os códigos de capturas dos checkboxes
+                //recebendo o retorno da tabela preenchida
+                $.ajax({
+                    async: false,
+                    url: "<?php echo base_url(); ?>" + "index.php/detalhes/tabelaSimilaridade",
+                    dataType: 'json',
+                    scriptCharset: 'UTF-8',
+                    type: "POST",
+                    data: {
+                        Check: checkboxSelecionados
+                    },
+                    success: function (dados) {
+                        if (dados) {
+                            HTML = dados['cod'];
+                        } else {
+                            alert("Erro Ajax.");
+                        }
+                    }
+                });
+                //insere na tabela os dados calculados
+                document.getElementById("tbodyTabelaSimilaridade").innerHTML = HTML;
+            }
         </script>
         <script type="text/javascript">
             $(document).ready(function () {
@@ -378,7 +391,7 @@ foreach ($detalhes as $dados) {
                                         <table class='table table-striped table-bordered' id="tabelaSimilaridade">
                                             <thead>
                                                 <tr>
-                                                    <th>Captura</th>
+                                                    <th>Código de Captura</th>
                                                     <th colspan="5">Similaridade</th>
                                                 </tr>
                                             </thead>
