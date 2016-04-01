@@ -53,5 +53,6 @@
     <li><a id="ajuda" href="<?php echo base_url('index.php/ajuda') ?>"><?php echo $this->lang->line('help'); ?></a></li>
   </ul>
   <font class="fontemenu"><h3>Interface Web Protegemed</h3></font>
+<a href="<?= base_url() ?>index.php/ConfigBanco"><img id="config" width="32px" height="32px" src="<?= base_url() ?>includes/imagens/settings.png"/></a>
 </body>
 </html>

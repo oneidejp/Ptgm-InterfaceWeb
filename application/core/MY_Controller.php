@@ -33,8 +33,17 @@ class MY_Controller extends CI_Controller {
 
         $logado = $this->session->userdata("logado");
 
-        if ($logado != 1)
-            redirect(base_url('index.php/login'));
+	if (get_class($this) == 'ConfigBanco') { } // do nothing
+	else {
+		if (get_class($this) == 'Login') { } // do nothing
+		else {
+			if ($logado != 1)
+				redirect(base_url('index.php/login'));
+			else
+				$this->load->database();
+		}
+	}
+
     }
 
 }

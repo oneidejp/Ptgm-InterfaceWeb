@@ -22,6 +22,15 @@
       <div class="alert alert-danger" role="alert" style="margin-top: 10px;"><?= $erro; ?></div>
     <? endif; ?>
   </form></div>
+	<? if (isset($this->infoDb)) { ?>
+		<div class="infoBanco">
+			<small>
+			Banco atual: <?=$this->infoDb['default']['hostname'].'/'.$this->infoDb['default']['database']?>
+			<br />
+			<a href="<?= base_url('index.php/ConfigBanco') ?>">Clique aqui para acessar um banco de dados diferente do configurado</a>
+			</small>
+		</div>
+	<? } ?>
 </div>
 </body>
 </html>
