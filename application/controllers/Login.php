@@ -9,7 +9,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	* UPF - Ciência da Computação
 */
 
-class Login extends CI_Controller {
+class Login extends MY_Controller {
+
+	public $infoDb;
 
 	/*
 	 * Este controller deve estender o CI_Controller
@@ -46,11 +48,14 @@ class Login extends CI_Controller {
 	// carrega a index
 	public function index()
 	{
+		include(APPPATH.'config/database.php');
+		$this->infoDb = $db;
 		$this->load->view('v_login');
 	}
 	
 	// cria a sessão e armazena os dados do usuário caso email e senha estejam corretos
 	public function logar(){
+		$this->load->database();
 		//Pega usuário e senha vindo do form
 		$usuario = $this->input->post("usuario");
 		$senha = $this->input->post("senha");

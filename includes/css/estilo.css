@@ -19,6 +19,11 @@ img#sair{
 	float: right;
 	margin-top: -70px;
 }
+img#config{
+        float: right;
+        margin-top: -30px;
+}
+
 
 h2.center{
 	text-align: center;;
