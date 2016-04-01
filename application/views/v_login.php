@@ -17,6 +17,10 @@
       <h2 class="form-signin-heading"><?php echo $this->lang->line('login').':'; ?></h2>
       <input type="email" class="form-control" placeholder="<?php echo $this->lang->line('email_address'); ?>" required autofocus name="usuario"><br/>
       <input type="password" class="form-control" placeholder="<?php echo $this->lang->line('password'); ?>" required name="senha"><br/>
+      <select name="lang" class="form-control">
+		<option value="pt-BR">Portugu&ecirc;s Brasileiro</option>
+		<option value="en-US">English</option>
+      </select>
       <button class="btn btn-lg btn-primary" type="submit"><?php echo $this->lang->line('start_login'); ?></button>
       <? if (isset($erro)): ?>
       <div class="alert alert-danger" role="alert" style="margin-top: 10px;"><?= $erro; ?></div>

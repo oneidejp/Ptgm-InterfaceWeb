@@ -10,7 +10,8 @@ class MY_Controller extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $idioma = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"], 0, 5);
+	$idioma = $this->session->userdata("lang");
+	if (!(isset($idioma))) $idioma = "en-US";
 
 
         switch ($idioma) {
@@ -18,11 +19,6 @@ class MY_Controller extends CI_Controller {
                 $this->lang->load("error", "pt-BR");
                 $this->lang->load("labels", "pt-BR");
                 $this->lang->load("message", "pt-BR");
-                break;
-            case 'en-US': //Caso seja espanhol
-                $this->lang->load("error", "en-US");
-                $this->lang->load("labels", "en-US");
-                $this->lang->load("message", "en-US");
                 break;
             default:
                 $this->lang->load("error", "en-US");
