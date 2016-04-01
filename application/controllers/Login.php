@@ -71,10 +71,11 @@ class Login extends MY_Controller {
                    'nome'=>$dados->nome,
                    'email'=>$dados->email,
                    'nivel'=>$dados->nivel,
+			'lang'=>$this->input->post('lang'),
                    'logado'=>'1'
-            );
+	            );
           	$this->session->set_userdata($newusuario);
-				redirect(base_url());
+			redirect(base_url());
 			} else {
 				//caso a senha/usuário estejam incorretos, então mando o usuário novamente para a tela de login com uma mensagem de erro.
 				$error['erro'] = $this->lang->line('msg_login');
@@ -84,7 +85,8 @@ class Login extends MY_Controller {
 		
 	}
 	/*
-	 * Aqui eu destruo a sessão e redireciono para a url base. 
+	 * Aqui eu destruo
+ a sessão e redireciono para a url base. 
 	 * Assim o usuário será direcionado novamente para a tela de login.
 	 */
 	public function logout(){
