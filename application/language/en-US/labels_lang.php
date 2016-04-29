@@ -143,6 +143,10 @@ $lang["use"] = "Use";
 $lang["date"] = "Date";
 $lang["compare"] = "Compare";
 $lang["empty"] = "Empty";
+$lang["dangerousness"] = "Dangerousness";
+$lang["similarity"] = "Similarity";
+$lang["capture_code"] = "Capture Code";
+
 //comparar
 $lang["valor_medio"] = "Mean Value";
 $lang["cod_onda_padrao"] = "Standard Waveform ID";

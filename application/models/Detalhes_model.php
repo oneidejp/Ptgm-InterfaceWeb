@@ -71,7 +71,30 @@ class detalhes_model extends CI_Model{
 
 		return $query->result();
 	}
+        
+        //função para pegar os códigos de captura para calcular a periculosidade por similaridade
+        //realizar uma consulta da dataAtual com os registros da mesma tabela, procurando uma registro no mesmo segundo
+        //função ainda não implementada
+        function get_periculosidade_similaridade($sala, $ultimo = null){
+            $this->db->select("cap.codCaptura");
+            $query = $this->db->get();
 
-} 
-
-?>
+            return $query->result();
+        }
+        
+        //busca o código de captura do último alerta
+        function get_ultimo_alerta (){
+            $this->db->select("codCaptura");
+            $this->db->from("alerta");
+            $this->db->order_by("codCaptura", "desc");
+            $this->db->limit(1);
+            $query = $this->db->get();
+            
+            if ($query->num_rows() > 0){
+                return $query->row();
+            }else{
+                return null;
+            }
+            //para pegar o valor: $variavel->codCaptura
+        }
+}

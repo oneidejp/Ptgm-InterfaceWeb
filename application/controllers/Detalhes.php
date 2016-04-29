@@ -229,11 +229,48 @@ class Detalhes extends MY_Controller {
     public function index($codUsoSala) {
         $sala = $this->uri->segment(3);
         $data['detalhes'] = $this->detalhes_model->get_all_detalhes($sala);
-//transforma segundos em dias horas minutos segundos
+        $ultimoAlerta = $this->detalhes_model->get_ultimo_alerta();
+
+        //$similaridade = $this->detalhes_model->get_periculosidade($sala);
+        
+        $i = 0;
+        //$anterior = 0;
         foreach ($data['detalhes'] as $dados) {
+            //transforma segundos em dias horas minutos segundos
             list($days, $hours, $minutes, $seconds) = $this->secondsToTime($dados->tempoUso);
             $data['tempoUso'][] = "{$days}d {$hours}h {$minutes}m {$seconds}s";
-        }
+            
+            //periculosidade recebe 0, informando que não existe perigo por padrão
+            //se receber 1 ou 2 nos testes abaixo vai retornar aquele valor, informando perigo
+            $periculosidade = 0;
+            
+            //periculosidade corrente
+            if ($dados->eficaz >= 0.1 && $dados->eficaz < 0.5){
+                //atenção
+                $periculosidade = 1;
+            }elseif ($dados->eficaz >= 0.5){
+                //perigo
+                $periculosidade = 2;
+            }
+            
+            //informa os segundos entre dois campos da tabela
+            //$inicio = strtotime($dados->dataAtual);
+            //$diff = $inicio - $anterior;
+            //$anterior = strtotime($dados->dataAtual);
+            
+            
+            if($periculosidade == 0){
+                $data["periculosidade"][$i] = 0;
+            }elseif($periculosidade == 1){
+                $data["periculosidade"][$i] = 1;
+            }elseif($periculosidade == 2){
+                $data["periculosidade"][$i] = 2;
+            }           
+            $i++;
+        }       
+        
+        //enviar dados de teste
+        //$data['teste'] = $ultimoAlerta->codCaptura;
         $data['codUsoSala'] = $sala;
 
         $this->load->view('detalhes', $data);
