@@ -144,6 +144,10 @@ $lang["use"] = "Uso";
 $lang["date"] = "Data";
 $lang["compare"] = "Comparar";
 $lang["empty"] = "Vazio";
+$lang["dangerousness"] = "Periculosidade";
+$lang["similarity"] = "Similaridade";
+$lang["capture_code"] = "Código de Captura";
+
 //comparar
 $lang["valor_medio"] = "Valor Médio";
 $lang["cod_onda_padrao"] = "Cod Onda Padrão";

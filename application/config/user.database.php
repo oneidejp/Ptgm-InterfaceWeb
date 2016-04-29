@@ -1,7 +1,7 @@
 <?php 	$userDb = array(
 	'hostname' => 'localhost',
 	'username' => 'root',
-	'password' => 'a1b2c3',
+	'password' => 'senha.123',
 	'database' => 'protegemed',
 	);
  

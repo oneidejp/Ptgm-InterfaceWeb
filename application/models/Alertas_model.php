@@ -55,6 +55,4 @@ class alertas_model extends CI_Model{
 
 	}
 	
-} 
-
-?>
+}

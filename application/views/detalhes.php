@@ -323,6 +323,7 @@ foreach ($detalhes as $dados) {
                                                 <th><?php echo $this->lang->line('effective'); ?></th>
                                                 <th><?php echo $this->lang->line('use'); ?></th>
                                                 <th><?php echo $this->lang->line('date'); ?></th>
+                                                <th><?php echo $this->lang->line('dangerousness'); ?></th>
                                                 <th><?php echo $this->lang->line('compare'); ?></th>
                                             </tr>
                                         </thead>
@@ -331,6 +332,7 @@ foreach ($detalhes as $dados) {
                                                 <?php if (empty($detalhes)) {
                                                     ?>
                                                     <td><input type="checkbox" checked="checked"/></td>
+                                                    <td><?php echo $this->lang->line('empty'); ?></td>
                                                     <td><?php echo $this->lang->line('empty'); ?></td>
                                                     <td><?php echo $this->lang->line('empty'); ?></td>
                                                     <td><?php echo $this->lang->line('empty'); ?></td>
@@ -354,6 +356,7 @@ foreach ($detalhes as $dados) {
                                                             <td id="<?php echo $dados->codCaptura; ?>-5"><?php echo substr($dados->eficaz, 0, 6); ?></td>
                                                             <td id="<?php echo $dados->codCaptura; ?>-6"><?php echo $tempoUso[$ind]; ?></td>
                                                             <td id="<?php echo $dados->codCaptura; ?>-7"><?php echo date('d/m/Y H:m:s', strtotime($dados->dataAtual)); ?></td>
+                                                            <td id="<?php echo $dados->codCaptura; ?>-9"><div class="<?php if ($periculosidade[$ind] === 0){ echo "green-circle"; }elseif ($periculosidade[$ind] === 1) { echo "yellow-circle"; }elseif ($periculosidade[$ind] === 2) { echo "red-circle"; }else { echo ""; } ?>"></div></td>
                                                             <td id="<?php echo $dados->codCaptura; ?>-8"><input type="checkbox"  id="<?php echo $dados->codCaptura; ?>" class="<?php echo $dados->CodEquip; ?>"  name="comparar" /></td>
                                                         </tr>
                                                     <script type="text/javascript">
@@ -371,6 +374,7 @@ foreach ($detalhes as $dados) {
                                                         <td id="<?php echo $dados->codCaptura; ?>-5"><?php echo substr($dados->eficaz, 0, 6); ?></td>
                                                         <td id="<?php echo $dados->codCaptura; ?>-6"><?php echo $tempoUso[$ind]; ?></td>
                                                         <td id="<?php echo $dados->codCaptura; ?>-7"><?php echo date('d/m/Y H:m:s', strtotime($dados->dataAtual)); ?></td>
+                                                        <td id="<?php echo $dados->codCaptura; ?>-9"><div class="<?php if ($periculosidade[$ind] === 0){ echo "green-circle"; }elseif ($periculosidade[$ind] === 1) { echo "yellow-circle"; }elseif ($periculosidade[$ind] === 2) { echo "red-circle"; }else { echo ""; } ?>"></div></td>
                                                         <td id="<?php echo $dados->codCaptura; ?>-8"><input type="checkbox" id="<?php echo $dados->codCaptura; ?>" class="<?php echo $dados->CodEquip; ?>" name="comparar"  /></td>
                                                     </tr>
                                                     <?php
@@ -378,7 +382,7 @@ foreach ($detalhes as $dados) {
                                                     $capanterior = $dados->codCaptura;
                                                 }
                                                 $ind = $ind + 1;
-                                            };
+                                            }
                                         }
                                         ?>
                                         </tbody>
@@ -391,8 +395,8 @@ foreach ($detalhes as $dados) {
                                         <table class='table table-striped table-bordered' id="tabelaSimilaridade">
                                             <thead>
                                                 <tr>
-                                                    <th>Código de Captura</th>
-                                                    <th colspan="5">Similaridade</th>
+                                                    <th><?php echo $this->lang->line('capture_code'); ?></th>
+                                                    <th colspan="5"><?php echo $this->lang->line('similarity'); ?></th>
                                                 </tr>
                                             </thead>
                                             <tbody id="tbodyTabelaSimilaridade"></tbody>
@@ -402,10 +406,13 @@ foreach ($detalhes as $dados) {
                             </div>	
                         </div>
                     </div>
-
+                    
+                    <!-- div para testes -->
+                    <div id="teste" style="margin-top: 100px; margin-bottom: 100px; text-align: center; font-size: 40px;"><?php if(isset($teste)){ echo $teste;}; ?></div>
                     <div class="row-fluid">
                         <div class="span12" id="graficoslinha"></div>
                     </div>
+                    
                     <div class="row-fluid"><?php include ("footer.php"); ?></div>
                 </div>
             </div>

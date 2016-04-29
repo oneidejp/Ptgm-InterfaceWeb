@@ -27,11 +27,7 @@ class Similaridade {
                 $resultado[$i] += ($cos[$j] * cos(2 * M_PI * (($j + 1) * FREQBASE) * $tempo));
             }
             $tempo += (1 / (FREQBASE * PONTOSONDA));
-
             $resultado[$i] = (($resultado[$i] * 2) / 256);
-
-            //verificar variável tempo e o porque de ser inteiro na linha de cima, o inteiro representa estar perdendo precisão
-
             $resultado[$i] /= $ganho;
         }
         return $resultado;
