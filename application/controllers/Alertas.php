@@ -50,7 +50,7 @@ class Alertas extends MY_Controller {
 			$this->alertas_model->add_alerta($data);
 		}
 
-		redirect('index.php/paineldecontrole/index/');
+		redirect(base_url().'index.php/paineldecontrole');
 	}
 
 	// atualiza alertas
