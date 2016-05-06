@@ -5,10 +5,10 @@
 	<title><?php echo $this->lang->line('compare'); ?></title>
 	<script src="includes/bootstrap/js/jquery.min"></script>
 	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="<? echo base_url('includes/bootstrap/css/bootstrap.css') ?>">
-	<link rel="stylesheet" href="<? echo base_url('includes/bootstrap/css/bootstrap-responsive.css') ?>">
-	<link rel="stylesheet" href="<? echo base_url('includes/css/abas.css') ?>">
-	<link rel="stylesheet" href="<? echo base_url('includes/css/estilo.css') ?>">
+	<link rel="stylesheet" href="<?php echo base_url('includes/bootstrap/css/bootstrap.css') ?>">
+	<link rel="stylesheet" href="<?php echo base_url('includes/bootstrap/css/bootstrap-responsive.css') ?>">
+	<link rel="stylesheet" href="<?php echo base_url('includes/css/abas.css') ?>">
+	<link rel="stylesheet" href="<?php echo base_url('includes/css/estilo.css') ?>">
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="<? echo base_url('includes/bootstrap/js/bootstrap.min.js') ?>"></script> <!-- import bootstrap js -->
 	<script src="<? echo base_url('includes/js/jquery-2.1.1.js') ?>"></script> <!-- import jQuery -->
@@ -26,7 +26,7 @@
 		var old = 1;
 		
 		<?php //cria gráifcos fase/fuga fasepadrão/fugapadrão
-		foreach ($fase as $dados) { ?>			
+        foreach ($fase as $dados) { ?>			
 			captura = "<?php echo $dados->codCaptura; ?>";
 			if(old==1){
 				$.ajax({
@@ -545,7 +545,7 @@
 									<td><?php echo $dados->datapadrao; ?></td>
 									<td><input type="checkbox" checked="cheked" id="<?php echo $dados->codTomada;?>" class="<?php echo $dados->codondapadrao;?>" name="fuga"  /></td>
 								</tr>
-								<?php }							
+								<?php }
 							}?>
 						</tbody>
 					</table>
@@ -555,7 +555,6 @@
 					<div class="span12"> 
 						<div id="fugabarra"></div>
 					</div>
-
 				</div>
 			</div>
 			<div class="row-fluid"><? include ("footer.php"); ?></div>
