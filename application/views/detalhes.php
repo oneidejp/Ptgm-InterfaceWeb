@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
         <meta charset="utf-8">
         <title><?php echo $this->lang->line('details'); ?></title>
@@ -16,6 +16,7 @@
         <script type="text/javascript" src="<?php echo base_url('includes/js/graficosdetalhes.js') ?>"></script><!-- import gráficos linha e barra -->
         <script type="text/javascript">
             $(document).ready(function () {
+                //insereTabela();
                 var cont = 0;
                 var graficos = [];
                 $('input[type="checkbox"]').click(function () {
@@ -190,6 +191,26 @@
                 //insere na tabela os dados calculados
                 document.getElementById("tbodyTabelaSimilaridade").innerHTML = HTML;
             }
+
+            function insereTabela() {
+                //função para inserir novas capturas na tabela
+                var tabela = document.getElementById("tbodyTabelaDados");
+                var indice = 0;
+                for (var i = 1; i < tabela.rows.length; i++) {
+                    if(tabela.rows[i].cells[3].innerText === "2 - Equipamento na tomada 2"){
+                        indice = i + 1;
+                        break;
+                    }
+                }
+                //insere <tr>
+                var row = tabela.insertRow(indice);
+                //insere <td>
+                var celula = row.insertCell(0);
+                //comteúdo do <td>
+                celula.innerHTML = "Inserido";
+                //document.getElementById("divTeste").innerHTML = indice;
+
+            }
         </script>
         <script type="text/javascript">
             $(document).ready(function () {
@@ -199,13 +220,13 @@ $old = -1;
 foreach ($detalhes as $dados) {
     if ($old != $dados->CodEquip) {
         ?>
-                        $("#graficoslinha").append("<div id='equipamentos<?php echo $dados->CodEquip; ?>' style='width:32.5%; height:280px;float:left; margin:5px auto auto 5px;'></div>")
+                        $("#graficoslinha").append("<div id='equipamentos<?php echo $dados->CodEquip; ?>' style='width:32.5%; height:280px;float:left; margin:5px auto auto 5px;'></div>");
                         $(function () {
                             $('#equipamentos' +<?php echo $dados->CodEquip; ?>).highcharts({
                                 chart: {
                                     type: 'spline',
                                     spacingBottom: -5,
-                                    spacingLeft: -5,
+                                    spacingLeft: -5
                                 },
                                 title: {
                                     text: ''
@@ -258,7 +279,7 @@ foreach ($detalhes as $dados) {
         $cont = $cont + 1;
         $old = $dados->CodEquip;
     }
-};
+}
 ?>
             });
         </script>
@@ -271,7 +292,7 @@ foreach ($detalhes as $dados) {
                     var sala = "<?php echo $codUsoSala; ?>";
                     var nome = $(this).attr('name');
 
-                    if (nome == "mais") {
+                    if (nome === "mais") {
                         $(this).attr('src', '<?php echo base_url("includes/imagens/menos.jpg") ?>');
                         $(this).attr('name', 'menos');
                     } else {
@@ -313,7 +334,7 @@ foreach ($detalhes as $dados) {
                         <div class="row-fluid">
                             <div class="span12">
                                 <div class="span5" style="overflow:auto;">
-                                    <table class="table table-striped table-bordered detalhes">
+                                    <table class="table table-striped table-bordered detalhes" id="tabelaDados">
                                         <thead>
                                             <tr>
                                                 <th><?php echo $this->lang->line('show'); ?></th>
@@ -327,7 +348,7 @@ foreach ($detalhes as $dados) {
                                                 <th><?php echo $this->lang->line('compare'); ?></th>
                                             </tr>
                                         </thead>
-                                        <tbody>									
+                                        <tbody id="tbodyTabelaDados">									
                                             <tr>
                                                 <?php if (empty($detalhes)) {
                                                     ?>
@@ -356,16 +377,24 @@ foreach ($detalhes as $dados) {
                                                             <td id="<?php echo $dados->codCaptura; ?>-5"><?php echo substr($dados->eficaz, 0, 6); ?></td>
                                                             <td id="<?php echo $dados->codCaptura; ?>-6"><?php echo $tempoUso[$ind]; ?></td>
                                                             <td id="<?php echo $dados->codCaptura; ?>-7"><?php echo date('d/m/Y H:m:s', strtotime($dados->dataAtual)); ?></td>
-                                                            <td id="<?php echo $dados->codCaptura; ?>-9"><div class="<?php if ($periculosidade[$ind] === 0){ echo "green-circle"; }elseif ($periculosidade[$ind] === 1) { echo "yellow-circle"; }elseif ($periculosidade[$ind] === 2) { echo "red-circle"; }else { echo ""; } ?>"></div></td>
+                                                            <td id="<?php echo $dados->codCaptura; ?>-9"><div class="<?php if ($periculosidade[$ind] === 0) {
+                                                echo "green-circle";
+                                            } elseif ($periculosidade[$ind] === 1) {
+                                                echo "yellow-circle";
+                                            } elseif ($periculosidade[$ind] === 2) {
+                                                echo "red-circle";
+                                            } else {
+                                                echo "";
+                                            } ?>"></div></td>
                                                             <td id="<?php echo $dados->codCaptura; ?>-8"><input type="checkbox"  id="<?php echo $dados->codCaptura; ?>" class="<?php echo $dados->CodEquip; ?>"  name="comparar" /></td>
                                                         </tr>
-                                                    <script type="text/javascript">
+                                                    <script>
                                                         $("#linha<?php echo $dados->codCaptura; ?>").hide();
-                                                        $("#<?php echo $capanterior; ?>-2").html("<img id='' class='<?php echo $dados->CodEquip; ?>' name='mais' src='<? echo base_url('includes/imagens/mais.jpg') ?>'> <?php echo $capanterior; ?>");
+                                                        $("#<?php echo $capanterior; ?>-2").html("<img id='' class='<?php echo $dados->CodEquip; ?>' name='mais' src='<?php echo base_url('includes/imagens/mais.jpg') ?>'> <?php echo $capanterior; ?>");
                                                     </script>
-                                                    <?php
-                                                } else {
-                                                    ?>
+            <?php
+        } else {
+            ?>
                                                     <tr id="linha<?php echo $dados->codCaptura; ?>">
                                                         <td id="<?php echo $dados->codCaptura; ?>-1"><input type="checkbox" checked="cheked" id="s<?php echo $dados->CodEquip; ?>" class="<?php echo $dados->codCaptura; ?>" name="equipamentos" /></td>
                                                         <td id="<?php echo $dados->codCaptura; ?>-2"><?php echo $dados->codCaptura; ?></td>
@@ -374,17 +403,25 @@ foreach ($detalhes as $dados) {
                                                         <td id="<?php echo $dados->codCaptura; ?>-5"><?php echo substr($dados->eficaz, 0, 6); ?></td>
                                                         <td id="<?php echo $dados->codCaptura; ?>-6"><?php echo $tempoUso[$ind]; ?></td>
                                                         <td id="<?php echo $dados->codCaptura; ?>-7"><?php echo date('d/m/Y H:m:s', strtotime($dados->dataAtual)); ?></td>
-                                                        <td id="<?php echo $dados->codCaptura; ?>-9"><div class="<?php if ($periculosidade[$ind] === 0){ echo "green-circle"; }elseif ($periculosidade[$ind] === 1) { echo "yellow-circle"; }elseif ($periculosidade[$ind] === 2) { echo "red-circle"; }else { echo ""; } ?>"></div></td>
+                                                        <td id="<?php echo $dados->codCaptura; ?>-9"><div class="<?php if ($periculosidade[$ind] === 0) {
+                                            echo "green-circle";
+                                        } elseif ($periculosidade[$ind] === 1) {
+                                            echo "yellow-circle";
+                                        } elseif ($periculosidade[$ind] === 2) {
+                                            echo "red-circle";
+                                        } else {
+                                            echo "";
+                                        } ?>"></div></td>
                                                         <td id="<?php echo $dados->codCaptura; ?>-8"><input type="checkbox" id="<?php echo $dados->codCaptura; ?>" class="<?php echo $dados->CodEquip; ?>" name="comparar"  /></td>
                                                     </tr>
-                                                    <?php
-                                                    $anterior = $dados->CodEquip;
-                                                    $capanterior = $dados->codCaptura;
-                                                }
-                                                $ind = $ind + 1;
-                                            }
-                                        }
-                                        ?>
+            <?php
+            $anterior = $dados->CodEquip;
+            $capanterior = $dados->codCaptura;
+        }
+        $ind = $ind + 1;
+    }
+}
+?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -406,13 +443,15 @@ foreach ($detalhes as $dados) {
                             </div>	
                         </div>
                     </div>
-                    
-                    <!-- div para testes -->
-                    <div id="teste" style="margin-top: 100px; margin-bottom: 100px; text-align: center; font-size: 40px;"><?php if(isset($teste)){ echo $teste;}; ?></div>
+
+                    <!-- div para testes 
+                    <div id="divTeste" style="margin-top: 100px; margin-bottom: 100px; text-align: center; font-size: 40px;"><?php if (isset($teste)) {
+    echo $teste;
+} ?></div>-->
                     <div class="row-fluid">
                         <div class="span12" id="graficoslinha"></div>
                     </div>
-                    
+
                     <div class="row-fluid"><?php include ("footer.php"); ?></div>
                 </div>
             </div>
