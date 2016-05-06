@@ -60,7 +60,7 @@
 							<textarea class="form-control comentario" rows="8" name="comentario" maxlength="400" required></textarea>
 							<br/>
 							<button class="btn btn-lg btn-primary" type="submit"><?php echo $this->lang->line('record'); ?></button>									
-							<button type="button" value="fechar" class="btn btn-primary" onclick="window.close()"><?php echo $this->lang->line('cancel'); ?></button>								
+							<button type="button" value="fechar" class="btn btn-primary" onclick="window.history.back();"><?php echo $this->lang->line('cancel'); ?></button>								
 						</form>	
 					</div>
 				</div>
