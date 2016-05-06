@@ -51,18 +51,6 @@ class paineldecontrole_model extends CI_Model {
 
     //get all alertas
     function get_all_alertas() {
-        $this->db->select('usoCap.codUsoSala');
-        $this->db->from('capturaatual cap, usosalacaptura usoCap, usosala');
-        $this->db->where('usoCap.codCaptura = cap.codCaptura');
-        $this->db->where('usosala.codUsoSala = usoCap.codUsoSala');
-        $this->db->where('usosala.ativa = 1');
-        $query = $this->db->get();
-        
-        return $query->result();
-    }
-    
-    
-    /**function get_all_alertas() {
         $this->db->select("uso.codUsoSala");
         $this->db->from('capturaatual cap, usosalacaptura uso, usosala');
         $this->db->where('cap.codCaptura NOT IN (SELECT a.codCaptura FROM alerta a)');
@@ -74,6 +62,6 @@ class paineldecontrole_model extends CI_Model {
         $query = $this->db->get();
 
         return $query->result();
-    }*/
+    }
 
 }
