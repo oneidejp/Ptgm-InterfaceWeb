@@ -9,7 +9,6 @@ class Ultimascapturadas extends MY_Controller {
 	* Email: mateusperego@yahoo.com.br
 	* Projeto de conclusão de curso
 	* UPF - Ciência da Computação
-	* Realizado para apresentar como projeto de mestrado
 	*/	
 
 	public function __construct()
