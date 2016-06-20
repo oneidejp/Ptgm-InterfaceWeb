@@ -5,7 +5,7 @@ ul.dropdown { position: relative; margin:0; padding:0; }
 ul.dropdown li { float:left; padding:10px 0; list-style:none; position:relative; }
 ul.dropdown li a { text-decoration:none; color:#FFF; background:url(../imagens/bg_li.png) 0 0 no-repeat; padding:0 20px 0 23px; }
 ul.dropdown li a#ajuda { text-decoration:none; color:#FFF; background:url(../imagens/bg_lia.png) 0 0 no-repeat; padding:0 20px 0 23px; }
-ul.dropdown a:hover	{ color:#300; background:url(bg_li.png) 0 -21px no-repeat; z-index:1 }
+ul.dropdown a:hover	{ color:#300; background:url(../imagens/bg_li.png) 0 -21px no-repeat; z-index:1 }
 /* 
 	NÍVEL DOIS
 */
