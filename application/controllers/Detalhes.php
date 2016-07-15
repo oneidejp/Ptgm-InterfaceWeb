@@ -39,7 +39,7 @@ class Detalhes extends MY_Controller {
 
     /**
      * Converte segunos em horas, minutos e segundos
-     * 
+     *
      * @param integer $seconds Number of seconds to parse
      * @return array
      */
@@ -80,7 +80,7 @@ class Detalhes extends MY_Controller {
                 $ponto[$j] = (float) $valormedio / 2;
                 for ($i = 0; $i < HARMONICAS; $i++)
                     $ponto[$j] = $ponto[$j] + $sen[$i] * sin(2 * M_PI * ($i + 1) * FREQBASE * $tempo[$j]) + $cos[$i] * cos(-2 * M_PI * ($i + 1) * FREQBASE * $tempo[$j]);
-//usando $i ao inves de $j para calcular os pontos, verificar                                
+//usando $i ao inves de $j para calcular os pontos, verificar
                 $ponto[$j] = (int) (($ponto[$j] * (2.0)) / 256.0);
                 $ponto[$j] = ($ponto[$j] - $deslocamento ) / $ganho;
                 $tempo[$j + 1] = ($tempo[$j] + (float) (1.0 / (60 * 256)));
@@ -177,6 +177,7 @@ class Detalhes extends MY_Controller {
     public function tabelaSimilaridade() {
         $checkBoxes = $_POST['Check']; //pega código de captura dos checkboxes clicados, vindo do ajax
         $cont = count($checkBoxes);
+
         //se foi clicado apenas um checkbox
         if ($cont <= 1) {
             $html = "<tr><td>{$checkBoxes[0]}</td><td>1</td></tr>";
@@ -214,9 +215,7 @@ class Detalhes extends MY_Controller {
             }
         }
         //envia para view a tabela completa
-        $data['cod'] = $html;
-
-        echo json_encode($data);
+        echo json_encode($html);
     }
 
     public function index($codUsoSala) {
@@ -225,18 +224,18 @@ class Detalhes extends MY_Controller {
         $ultimoAlerta = $this->detalhes_model->get_ultimo_alerta();
 
         //$similaridade = $this->detalhes_model->get_periculosidade($sala);
-        
+
         $i = 0;
         //$anterior = 0;
         foreach ($data['detalhes'] as $dados) {
             //transforma segundos em dias horas minutos segundos
             list($days, $hours, $minutes, $seconds) = $this->secondsToTime($dados->tempoUso);
             $data['tempoUso'][] = "{$days}d {$hours}h {$minutes}m {$seconds}s";
-            
+
             //periculosidade recebe 0, informando que não existe perigo por padrão
             //se receber 1 ou 2 nos testes abaixo vai retornar aquele valor, informando perigo
             $periculosidade = 0;
-            
+
             //periculosidade corrente
             if ($dados->eficaz >= 0.1 && $dados->eficaz < 0.5){
                 //atenção
@@ -245,28 +244,35 @@ class Detalhes extends MY_Controller {
                 //perigo
                 $periculosidade = 2;
             }
-            
+
             //informa os segundos entre dois campos da tabela
             //$inicio = strtotime($dados->dataAtual);
             //$diff = $inicio - $anterior;
             //$anterior = strtotime($dados->dataAtual);
-            
-            
+
+
             if($periculosidade == 0){
                 $data["periculosidade"][$i] = 0;
             }elseif($periculosidade == 1){
                 $data["periculosidade"][$i] = 1;
             }elseif($periculosidade == 2){
                 $data["periculosidade"][$i] = 2;
-            }           
+            }
             $i++;
-        }       
-        
+        }
+
         //enviar dados de teste
         //$data['teste'] = $ultimoAlerta->codCaptura;
         $data['codUsoSala'] = $sala;
-
-        $this->load->view('detalhes', $data);
+        $data['title'] = $this->lang->line('details');
+        $data['footerHide'] = 'true';
+        $data['headerOption'] =
+            "<link rel='stylesheet' href=".base_url()."includes/css/estilo.css>" .
+            "<link rel='stylesheet' href=".base_url()."includes/css/abas.css>" .
+            "<script src=".base_url()."includes/js/highcharts.js></script>" .
+            "<script src=".base_url()."includes/js/graficosdetalhes.js></script>" .
+            "<script src=".base_url()."includes/js/exporting.js></script>";
+    	$this->load->template('Detalhes_view', $data);
     }
 
 }

@@ -30,6 +30,9 @@ $lang["kinds of standards"] = "Standard Types";
 $lang["events"] = "Events";
 $lang["user"] = "User";
 $lang["help"] = "Help";
+$lang["web_interface"] = "Protegemed Web Interface";
+$lang["exit"] = "Exit";
+$lang["options"] = "Options";
 //página de login
 $lang["login"] = "Login";
 $lang["email_address"] = "address";
