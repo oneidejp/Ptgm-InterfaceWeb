@@ -9,14 +9,14 @@ class Comparar extends MY_Controller {
 	* Email: mateusperego@yahoo.com.br
 	* Projeto de conclusão de curso
 	* UPF - Ciência da Computação
-	*/	
+	*/
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->model('comparar_model');
 		$this->load->model('detalhes_model');
-	}  
+	}
 
 	public function index($codUsoSala){
 		$codUsoSala = $this->uri->segment(3);
@@ -30,19 +30,25 @@ class Comparar extends MY_Controller {
 		}
 
 		$data['codUsoSala']=$codUsoSala;
-		
+
 		$data['fase']= $this->comparar_model->get_all_fase($equipamento, $codUsoSala);
 		$data['fuga']= $this->comparar_model->get_all_fuga($equipamento, $codUsoSala);
 
 		$data['fasepadrao']= $this->comparar_model->get_all_fase_padrao($equipamento);
 		$data['fugapadrao']= $this->comparar_model->get_all_fuga_padrao($equipamento);
-
-		$this->load->view('comparar',$data);				
+		$data['title'] = $this->lang->line('compare');
+    $data['headerOption'] =
+	    "<link rel='stylesheet' href=".base_url()."includes/css/estilo.css>" .
+	    "<link rel='stylesheet' href=".base_url()."includes/css/abas.css>" .
+	    "<script src=".base_url()."includes/js/highcharts.js></script>" .
+	    "<script src=".base_url()."includes/js/graficosdetalhes.js></script>" .
+	    "<script src=".base_url()."includes/js/exporting.js></script>";
+		$this->load->template('Comparar_view', $data);
 	}
 
 	public function atualiza_fase(){
-		$CodEquip = $_POST['CodEquip']; //id station selecionado, agora $id tem valor do java script no exemplo	
-		$sala = $_POST['Sala']; //id station selecionado, agora $id tem valor do java script no exemplo	
+		$CodEquip = $_POST['CodEquip']; //id station selecionado, agora $id tem valor do java script no exemplo
+		$sala = $_POST['Sala']; //id station selecionado, agora $id tem valor do java script no exemplo
 
 		$data['captura']= $this->comparar_model->get_capturas_fase($sala,$CodEquip);
 
@@ -50,8 +56,8 @@ class Comparar extends MY_Controller {
 	}
 
 	public function atualiza_fuga(){
-		$CodEquip = $_POST['CodEquip']; //id station selecionado, agora $id tem valor do java script no exemplo	
-		$sala = $_POST['Sala']; //id station selecionado, agora $id tem valor do java script no exemplo	
+		$CodEquip = $_POST['CodEquip']; //id station selecionado, agora $id tem valor do java script no exemplo
+		$sala = $_POST['Sala']; //id station selecionado, agora $id tem valor do java script no exemplo
 
 		$data['captura']= $this->comparar_model->get_capturas_fuga($sala,$CodEquip);
 
@@ -60,7 +66,7 @@ class Comparar extends MY_Controller {
 
 	public function graficos(){
 
-		$captura = $_POST['Captura']; //id station selecionado, agora $id tem valor do java script no exemplo	
+		$captura = $_POST['Captura']; //id station selecionado, agora $id tem valor do java script no exemplo
 
 		$data['barra'] = $this->graficoBarra($captura,$onda=0);
 		$data['linha'] = $this->graficoLinha($captura,$onda=0);
@@ -70,7 +76,7 @@ class Comparar extends MY_Controller {
 
 	/**
  	* Converte segunos em horas, minutos e segundos
- 	* 
+ 	*
  	* @param integer $seconds Number of seconds to parse
  	* @return array
  	*/
@@ -92,7 +98,7 @@ class Comparar extends MY_Controller {
 
 	//função calcula gráfico linha normal e padrão
 	public function graficoLinha($codCaptura, $onda){
-		$i = 0;	
+		$i = 0;
 		if($onda==0){
 			$dados2 = $this->detalhes_model->get_cod_captura($codCaptura);
 			foreach($dados2 as $dados2):
@@ -110,13 +116,13 @@ class Comparar extends MY_Controller {
 			for ($j=0; $j< PONTOSONDA; $j++){
 				$ponto[$j]= (float)$valormedio/2;
 				for($i=0;$i<HARMONICAS;$i++)
-					$ponto[$j]= $ponto[$j] + $sen[$i] * sin(2 *M_PI*($i+1)*FREQBASE*$tempo[$j]) + $cos[$i] * cos(-2*M_PI*($i+1)*FREQBASE*$tempo[$j]);  	
+					$ponto[$j]= $ponto[$j] + $sen[$i] * sin(2 *M_PI*($i+1)*FREQBASE*$tempo[$j]) + $cos[$i] * cos(-2*M_PI*($i+1)*FREQBASE*$tempo[$j]);
 				$ponto[$j] = (int) (($ponto[$j] * (2.0)) / 256.0);
 				$ponto[$j] = ($ponto[$j] - $deslocamento ) / $ganho;
 				$tempo[$j+1] = ($tempo[$j] + (float) (1.0 / (60 * 256)));
 				$pontos[$j][0] = (int) ($tempo[$j]*100000);
 				$pontos[$j][1] = $ponto[$j];
-			}		
+			}
 		}else{
 			$dados2 = $this->detalhes_model->get_cod_captura($codCaptura);
 			foreach($dados2 as $dados2):
@@ -134,7 +140,7 @@ class Comparar extends MY_Controller {
 			for ($j=0; $j< PONTOSONDA; $j++){
 				$ponto[$j]= (float)$valormedio/2;
 				for($i=0;$i<HARMONICAS;$i++)
-					$ponto[$j]= $ponto[$j] + $sen[$i] * cos(2 *M_PI*($i+1)*FREQBASE*$tempo[$j]) + $cos[$i] * sin(-2*M_PI*($i+1)*FREQBASE*$tempo[$j]);  	
+					$ponto[$j]= $ponto[$j] + $sen[$i] * cos(2 *M_PI*($i+1)*FREQBASE*$tempo[$j]) + $cos[$i] * sin(-2*M_PI*($i+1)*FREQBASE*$tempo[$j]);
 				$ponto[$j] = (int) (($ponto[$j] * (2.0)) / 256.0);
 				$ponto[$j] = ($ponto[$j] - $deslocamento ) / $ganho;
 				$tempo[$j+1] = ($tempo[$j] + (float) (1.0 / (60 * 256)));
@@ -168,8 +174,8 @@ class Comparar extends MY_Controller {
 
 	    	//valor das 12 proximas barras identificar por (i+1) * FREQBASE
 				for ($i = 0; $i < HARMONICAS; $i++) {
-					$f = (float) sqrt( $sen[$i] * $sen[$i] + $cos[$i] * $cos[$i])  / 128  ;  
-					$f = $f / $ganho;  
+					$f = (float) sqrt( $sen[$i] * $sen[$i] + $cos[$i] * $cos[$i])  / 128  ;
+					$f = $f / $ganho;
 	    		$barras[$i+1]=$f;//valor do F
 	    		$barra[$i+1] = $barras[$i+1];
 	    	}
@@ -194,8 +200,8 @@ class Comparar extends MY_Controller {
 
 	    	//valor das 12 proximas barras identificar por (i+1) * FREQBASE
 	    		for ($i = 0; $i < HARMONICAS; $i++) {
-	    			$f = (float) sqrt( $sen[$i] * $sen[$i] + $cos[$i] * $cos[$i])  / 128  ;  
-	    			$f = $f / $ganho;  
+	    			$f = (float) sqrt( $sen[$i] * $sen[$i] + $cos[$i] * $cos[$i])  / 128  ;
+	    			$f = $f / $ganho;
 	    		$barras[$i+1]=$f;//valor do F
 	    		$barra[$i+1] = $barras[$i+1];
 	    	}

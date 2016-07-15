@@ -33,7 +33,7 @@ class escalas extends MY_Controller {
 
         //$data['pontos'] = $this->calcula12Pontos('6222035');
         $data['title'] = 'Escalas';
-        $this->load->template('escalas', $data);
+        $this->load->template('Escalas_view', $data);
     }
 
 }
