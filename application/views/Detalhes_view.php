@@ -1,4 +1,3 @@
-<div><p style="margin-top: 20px; margin-bottom: 20px;"id="teste"></p></div>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12 col-xs-12" id="centro">
@@ -21,9 +20,9 @@
                                     </tr>
                                 </thead>
                                 <tbody id="tbodyTabelaDados">
-                                    <tr>
-                                        <?php if (empty($detalhes)) {
-                                            ?>
+                                    <?php if (empty($detalhes)) {
+                                        ?>
+                                        <tr>
                                             <td><input type="checkbox" checked="checked"/></td>
                                             <td><?php echo $this->lang->line('empty'); ?></td>
                                             <td><?php echo $this->lang->line('empty'); ?></td>
@@ -70,7 +69,7 @@
                                         } else {
                                             ?>
                                             <tr id="linha<?php echo $dados->codCaptura; ?>">
-                                                <td id="<?php echo $dados->codCaptura; ?>-1"><input type="checkbox" checked="cheked" id="s<?php echo $dados->CodEquip; ?>" class="<?php echo $dados->codCaptura; ?>" name="equipamentos" /></td>
+                                                <td id="<?php echo $dados->codCaptura; ?>-1"><input type="checkbox" checked="checked" id="s<?php echo $dados->CodEquip; ?>" class="<?php echo $dados->codCaptura; ?>" name="equipamentos" /></td>
                                                 <td id="<?php echo $dados->codCaptura; ?>-2"><?php echo $dados->codCaptura; ?></td>
                                                 <td id="<?php echo $dados->codCaptura; ?>-3"><?php echo $dados->CodTomada; ?></td>
                                                 <td id="<?php echo $dados->codCaptura; ?>-4"><a href="<?php echo base_url('index.php/comparar/index/' . $codUsoSala . '/' . $dados->CodEquip) ?>" target="_blank"><?php echo $dados->CodEquip . " - " . $dados->desc; ?></a></td>
@@ -104,7 +103,7 @@
                         <div class="col-md-7 col-xs-7">
                             <div id="linha"></div>
                             <div id="barra"></div>
-                            <div id="testeTabela" class="col-md-offset-1 col-md-10 col-xs-12">
+                            <div class="col-md-offset-1 col-md-10 col-xs-12">
                                 <table class='table table-striped table-bordered' id="tabelaSimilaridade">
                                     <thead>
                                         <tr>
@@ -122,10 +121,10 @@
 
             <!-- div para testes
             <div id="divTeste" style="margin-top: 100px; margin-bottom: 100px; text-align: center; font-size: 40px;"><?php
-                                if (isset($teste)) {
-                                    echo $teste;
-                                }
-                                ?></div>-->
+            if (isset($teste)) {
+                echo $teste;
+            }
+            ?></div>-->
             <div class="row-fluid">
                 <div class="col-md-12 col-xs-12" id="graficoslinha"></div>
             </div>
@@ -135,7 +134,8 @@
 <script type="text/javascript">
     $(document).ready(function () {
         //insereTabela();
-        var cont = 0;
+        var cont = 0, checkClicados = 0;
+        ;
         var graficos = [];
         $('input[type="checkbox"]').click(function () {
             var classe = $(this).attr('class'); //pega a classe do checkbox clicado, contendo o código do equipamento
@@ -204,6 +204,7 @@
             if (nome === "comparar") {
                 checkadoID = ($("#" + id).is(':checked')); //verifica se o checkbox foi clicado true == sim, false == não
                 if (checkadoID === true) { // se checkado == true monta gráfico na área de comparação
+                    ++checkClicados;
                     //ajax envia os dados p/ php e no php processa e retornar valores em dados.linha e dados.barra
                     if (cont < 5) {
                         graficos[cont] = id;
@@ -237,7 +238,9 @@
                         $("#" + id).attr("checked", false);
                     }
                 } else { // senão oculta gráfico do equipamento
+                    --checkClicados;
                     cont = --cont;
+                    ;
                     for (var x = 0; x < graficos.length; x++) {
                         if (graficos[x] === id) {
                             var chart = $('#barra').highcharts();
@@ -254,27 +257,14 @@
                 }
                 //para construir a tabela de similaridade
                 if (checkadoID === true) {
-                    if (cont > 0) {
-                        mostraTabelaSimilaridade();
-                    }
+                    mostraTabelaSimilaridade();
                 } else {
-                    if (cont <= 1) {
+                    if (checkClicados === 0) {
                         document.getElementById("tabelaSimilaridade").deleteRow(1);
-                        document.getElementById("tabelaSimilaridade").deleteRow(1);
+                        //document.getElementById("tabelaSimilaridade").deleteRow(1);
                     } else {
                         mostraTabelaSimilaridade();
                     }
-                    /*for (var i = 2; i < cont + 2; i++) {
-                     var linha = document.getElementById("tbodyTabelaSimilaridade").rows[i].cells[0].innerHTML;
-                     if (linha === id) {
-                     var tabela = document.getElementById("tbodyTabelaSimilaridade").rows[i];
-                     tabela.parentNode.removeChild(tabela);
-                     }
-                     }
-                     if (cont === 0) {
-                     document.getElementById("tabelaSimilaridade").deleteRow(1);
-                     document.getElementById("tabelaSimilaridade").deleteRow(1);
-                     } */
                 }
             }
         });
@@ -300,13 +290,13 @@
             success: function (dados) {
                 if (dados) {
                     HTML = dados;
+                    //insere na tabela os dados calculados
+                    document.getElementById("tbodyTabelaSimilaridade").innerHTML = HTML;
                 } else {
                     alert("Erro Ajax.");
                 }
             }
         });
-        //insere na tabela os dados calculados
-        document.getElementById("tbodyTabelaSimilaridade").innerHTML = HTML;
     }
 
     function insereTabela() {

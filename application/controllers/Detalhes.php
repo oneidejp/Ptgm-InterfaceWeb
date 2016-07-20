@@ -12,7 +12,7 @@ class Detalhes extends MY_Controller {
 
     public function graficos() {
 
-        $id = $_POST['idCheckbox']; //pega o id(captura) para gerar os gráficos
+        $id = filter_input_array(INPUT_POST)['idCheckbox']; //pega o id(captura) para gerar os gráficos
         $data['barra'] = $this->graficoBarra($id, $onda = 0);
         $data['linha'] = $this->graficoLinha($id, $onda = 0);
 
@@ -21,7 +21,7 @@ class Detalhes extends MY_Controller {
 
     public function linha() {
 
-        $captura = $_POST['Captura']; //pega codCaptura vindo do ajax
+        $captura = filter_input_array(INPUT_POST)['Captura']; //pega codCaptura vindo do ajax
         $data['linha'] = $this->graficoLinha($captura, $onda = 0);
 
         echo json_encode($data);
@@ -29,8 +29,8 @@ class Detalhes extends MY_Controller {
 
     public function mostra_equip() {
 
-        $CodEquip = $_POST['CodEquip']; //pega codEquip vindo do ajax
-        $sala = $_POST['Sala']; //pega Sala vindo do ajax
+        $CodEquip = filter_input_array(INPUT_POST)['CodEquip']; //pega codEquip vindo do ajax
+        $sala = filter_input_array(INPUT_POST)['Sala']; //pega Sala vindo do ajax
 
         $data['captura'] = $this->detalhes_model->get_equip($sala, $CodEquip);
 
@@ -38,9 +38,9 @@ class Detalhes extends MY_Controller {
     }
 
     /**
-     * Converte segunos em horas, minutos e segundos
+     * Converte segundos em horas, minutos e segundos
      *
-     * @param integer $seconds Number of seconds to parse
+     * @param integer $time Number of seconds to parse
      * @return array
      */
     function secondsToTime($time) {
@@ -175,7 +175,7 @@ class Detalhes extends MY_Controller {
     }
 
     public function tabelaSimilaridade() {
-        $checkBoxes = $_POST['Check']; //pega código de captura dos checkboxes clicados, vindo do ajax
+        $checkBoxes = filter_input_array(INPUT_POST)['Check'];  //pega código de captura dos checkboxes clicados, vindo do ajax
         $cont = count($checkBoxes);
 
         //se foi clicado apenas um checkbox
