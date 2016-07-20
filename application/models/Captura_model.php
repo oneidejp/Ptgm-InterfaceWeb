@@ -6,7 +6,7 @@
  * Projeto de Mestrado em Computação Aplicada - PPGCA/UPF
  */
 
-class Capture_model extends CI_Model {
+class Captura_model extends CI_Model {
 
     //get all outlets
     function get_tomadas() {

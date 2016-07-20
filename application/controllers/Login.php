@@ -49,7 +49,12 @@ class Login extends MY_Controller {
     public function index() {
         include(APPPATH . 'config/database.php');
         $this->infoDb = $db;
-        $this->load->view('V_login_view');
+        $data['title'] = $this->lang->line('login');
+        $data['menuHide'] = 'true';
+        $data['footerHide'] = 'true';
+        $data['headerOption'] = 
+                "<link rel='stylesheet' href=".base_url()."includes/css/login.css>";
+        $this->load->template('V_login_view', $data);
     }
 
     // cria a sessão e armazena os dados do usuário caso email e senha estejam corretos

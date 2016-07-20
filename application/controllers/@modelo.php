@@ -21,11 +21,12 @@ class nome_arquivo_php_sem_extensao extends MY_Controller {
             $data['title'] = 'título';
             //if want to hide footer, send footerHide = true
             $data['footerHide'] = 'true';
+            //if want to hide menu, send menuHide = true
+            $data['menuHide'] = 'true';
             //if want to insert another file in the header
             $data['headerOption'] = 
                 "<link rel='stylesheet' href=".base_url()."includes/path/file.css>" .
-                "<script src=".base_url()."includes/path/file.js></script>";
-            //$this->load->view('nome_do_arquivo_pasta_view_sem_extensao');
+                "\t\t<script src=".base_url()."includes/path/file.js></script>";
             $this->load->template('nome_do_arquivo_pasta_view_sem_extensao', $data);
 	}
 }

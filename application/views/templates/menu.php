@@ -1,3 +1,8 @@
+<?php
+if (isset($menuHide) && $menuHide == true) {
+    
+} else {
+?>
 <nav class="navbar navbar-default" role="navigation" style="border-top: 4px solid #000090;">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -23,7 +28,7 @@
                         <li><a href="<?php echo base_url('index.php/configBanco') ?>"><?php echo $this->lang->line('config_database'); ?></a></li>
                         <li><a href="<?php echo base_url('index.php/escalas') ?>"><?php echo "Escalas"; ?></a></li>
                         <li><a href="<?php echo base_url('index.php/Comunicacao') ?>"><?php echo "Comunicação" ?></a></li>
-                        <li><a href="<?php echo base_url('index.php/Capture') ?>"><?php echo $this->lang->line('capture'); ?></a></li>
+                        <li><a href="<?php echo base_url('index.php/Captura') ?>"><?php echo $this->lang->line('capture'); ?></a></li>
                     </ul>
                 </li>
             </ul>
@@ -75,3 +80,6 @@
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
+<?php 
+}
+?>

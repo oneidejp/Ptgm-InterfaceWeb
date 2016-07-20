@@ -3,7 +3,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 require_once(APPPATH . 'libraries/Telnet.php');
 
-class Capture extends MY_Controller {
+class Captura extends MY_Controller {
 
     /**
      * 2016
@@ -12,7 +12,7 @@ class Capture extends MY_Controller {
      */
     public function __construct() {
         parent::__construct();
-        $this->load->model('Capture_model');
+        $this->load->model('Captura_model');
     }
 
     public function antes($palavra, $string) {
@@ -24,11 +24,11 @@ class Capture extends MY_Controller {
             return substr($string, strpos($string, $palavra) + strlen($palavra));
         }
     }
-    
+
     //ajax function
     public function getAllCaptures() {
-
-        $id = $_POST['idCheckbox']; //pega o id(captura) para gerar os gráficos
+        
+        $id = filter_input_array(INPUT_POST)['idCheckbox']; //pega o id(captura) para gerar os gráficos
         $data['barra'] = $this->graficoBarra($id, $onda = 0);
         $data['linha'] = $this->graficoLinha($id, $onda = 0);
 
@@ -49,20 +49,21 @@ class Capture extends MY_Controller {
                 $t->disconnect();
             }
 
-            //return $this->antes("root@protegemed:~$", $resultado);
-            return true;
+            return $this->antes("root@protegemed:~$", $resultado);
+            //return true;
         } catch (Exception $e) {
             return "Caught Exception ('{$e->getMessage()}')\n{$e}\n";
         }
     }
 
     public function index() {
-        $data['tomadasExistentes'] = $this->Capture_model->get_tomadas();
+        $data['tomadasExistentes'] = $this->Captura_model->get_tomadas();
         if (isset(filter_input_array(INPUT_POST)['captureTelnet'])) {
             if ($this->input->post('tomadasForm')) {
                 $tomadasForm = $this->input->post('tomadasForm');
                 $data['tomadaSelecionada'] = $tomadasForm[0];
-                $data['comando'] = "capture {$data['tomadaSelecionada']}";
+                //$data['comando'] = "capture {$data['tomadaSelecionada']}";
+                $data['comando'] = "help";
             }
             $data['host'] = "192.168.103.102";
             //$data['host'] = $this->input->post('host');
@@ -71,7 +72,7 @@ class Capture extends MY_Controller {
             $data['telnet'] = $this->comandoTelnet($data['host'], $data['comando']);
         }
 
-        $data['capturas'] = $this->Capture_model->get_all_captures();
+        $data['capturas'] = $this->Captura_model->get_all_captures();
         $i = 0;
         //$anterior = 0;
         foreach ($data['capturas'] as $dados) {
@@ -107,14 +108,14 @@ class Capture extends MY_Controller {
 
         $data['title'] = $this->lang->line('capture');
         $data['footerHide'] = 'true';
-        $data['headerOption'] = 
-                "<link rel=\"stylesheet\" href=" . base_url() . "includes/bootstrapTable/bootstrap-table.min.css>\n" .
-                "\t\t<script src=" . base_url() . "includes/js/webSocket.js></script>\n" .
-                "\t\t<script src=" . base_url() . "includes/bootstrapTable/bootstrap-table.min.js></script>\n" .
-                "\t\t<script src=" . base_url() . "includes/bootstrapTable/bootstrap-table-pt-BR.js></script>\n" .
-                "\t\t<script src=" . base_url() . "includes/bootstrapTable/bootstrap-table-en-US.js></script>\n";
-        //$this->load->view('Capture_view', $data);
-        $this->load->template('Capture_view', $data);
+        $data['headerOption'] =
+            "<link rel='stylesheet' href=".base_url()."includes/css/estilo.css>" .
+            "\t\t<link rel='stylesheet' href=".base_url()."includes/css/abas.css>" .
+            "\t\t<script src=".base_url()."includes/js/highcharts.js></script>" .
+            "\t\t<script src=".base_url()."includes/js/graficosdetalhes.js></script>" .
+            "\t\t<script src=".base_url()."includes/js/exporting.js></script>" .
+            "\t\t<script src=" . base_url() . "includes/js/webSocket.js></script>\n";
+        $this->load->template('Captura_view', $data);
     }
 
 }
