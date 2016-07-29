@@ -24,6 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 $config['base_url'] = 'http://localhost/Ptgm-InterfaceWeb/';
+//$config['base_url'] = 'http://site.192.168.11.11.xip.io/Ptgm-InterfaceWeb/';
 
 /*
 |--------------------------------------------------------------------------

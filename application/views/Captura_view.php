@@ -5,26 +5,29 @@
     <div class="row-fluid">
         <form name="captureForm" method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <div class="col-md-2 col-xs-2 form-group">
+                <div class="col-md-3 col-xs-3 form-group">
                     <select class="form-control" id="tomadasForm" name="tomadasForm">
                         <?php
-                        foreach ($tomadasExistentes as $dados) {
+                        /*foreach ($tomadasExistentes as $dados) {
                             echo "\t\t\t\t\t\t<option value={$dados->codTomada}>";
                             echo $dados->desc;
                             echo "</option>\n";
-                        }
+                        }*/
                         ?>
+                        <option value="1">Tomada 1</option>
+                        <option value="2">Tomada 2</option>
+                        <option value="3">Tomada 3</option>
                     </select>
                 </div>
-                <div class="col-md-1 col-xs-1 form-group">
+                <div class="col-md-2 col-xs-2 form-group">
                     <select class="form-control" id="canalForm" name="canalForm">
                         <option value="p">Fase</option>
                         <option value="d">Fuga</option>
                     </select>
                 </div>
-                <div class="col-md-2 col-xs-2">
+                <!--<div class="col-md-2 col-xs-2">
                     <button type="submit" name="captureTelnet" class="btn btn-success">Cap Telnet</button>
-                </div>
+                </div>-->
             </div>
         </form>
         <div class="col-md-2 col-xs-2">

@@ -20,7 +20,7 @@ class Ultimascapturadas extends MY_Controller {
         $data['uc'] = $this->ultimascapturadas_model->get_all_ultimascapturadas();
 
         $data['title'] = $this->lang->line('last_captured');
-        $data['headerOption'] = 
+        $data['headerOption'] =
             "<link rel='stylesheet' href=".base_url()."includes/css/estilo.css>" .
             "<link rel='stylesheet' href=".base_url()."includes/css/abas.css>" .
                 "<link rel='stylesheet' href=".base_url()."includes/dataTables/jquery.dataTables.min.css>" .
@@ -28,6 +28,7 @@ class Ultimascapturadas extends MY_Controller {
             "<script src=".base_url()."includes/js/graficosdetalhes.js></script>" .
                 "<script src=".base_url()."includes/dataTables/jquery.dataTables.min.js></script>" .
             "<script src=".base_url()."includes/js/exporting.js></script>";
+        $data['footerHide'] = 'true';
         $this->load->template('Ultimas_capturadas_view', $data);
     }
 
@@ -50,7 +51,7 @@ class Ultimascapturadas extends MY_Controller {
 
     /**
      * Converte segunos em horas, minutos e segundos
-     * 
+     *
      * @param integer $seconds Number of seconds to parse
      * @return array
      */
@@ -88,15 +89,17 @@ class Ultimascapturadas extends MY_Controller {
             endforeach;
             $tempo[0] = 0;
             for ($j = 0; $j < PONTOSONDA; $j++) {
-                $ponto[$j] = (float) $valormedio / 2;
+                $ponto[$j] = $valormedio;
                 for ($i = 0; $i < HARMONICAS; $i++)
-                    $ponto[$j] = $ponto[$j] + $sen[$i] * sin(2 * M_PI * ($i + 1) * FREQBASE * $tempo[$j]) + $cos[$i] * cos(-2 * M_PI * ($i + 1) * FREQBASE * $tempo[$j]);
-                $ponto[$j] = (int) (($ponto[$j] * (2.0)) / 256.0);
-                $ponto[$j] = ($ponto[$j] - $deslocamento ) / $ganho;
-                $tempo[$j + 1] = ($tempo[$j] + (float) (1.0 / (60 * 256)));
-                $pontos[$j][0] = (int) ($tempo[$j] * 100000);
+                    $ponto[$j] = $ponto[$j] + $sen[$i] * sin(2 * M_PI * ($i + 1) * FREQBASE * $tempo[$j]) + $cos[$i] * cos(2 * M_PI * ($i + 1) * FREQBASE * $tempo[$j]);
+                //$ponto[$j] =  (($ponto[$j] * (2.0)) / 256.0);
+                //$ponto[$j] = ($ponto[$j] - $deslocamento ) / $ganho;
+                $ponto[$j] = $ponto[$j] / $ganho;
+                $tempo[$j + 1] = ($tempo[$j] + (1.0 / (60 * 256)));
+                $pontos[$j][0] = ($tempo[$j] * 100000);
                 $pontos[$j][1] = $ponto[$j];
             }
+
         } else {
             $dados2 = $this->ultimascapturadas_model->get_cod_captura($codCaptura);
             foreach ($dados2 as $dados2):
@@ -143,13 +146,13 @@ class Ultimascapturadas extends MY_Controller {
             endforeach;
 
             /* valor da primeira barra (corrente continua, identificada por "DC" valores da tabela capturaatual */
-            $f = abs(($valormedio / PONTOSONDA - $deslocamento) / $ganho);
+            $f = abs($valormedio / $ganho);
             $barras[0] = $f;
             $barra[0] = $barras[0];
 
             //valor das 12 proximas barras identificar por (i+1) * FREQBASE
             for ($i = 0; $i < HARMONICAS; $i++) {
-                $f = (float) sqrt($sen[$i] * $sen[$i] + $cos[$i] * $cos[$i]) / 128;
+                $f = (float) sqrt($sen[$i] * $sen[$i] + $cos[$i] * $cos[$i]);
                 $f = $f / $ganho;
                 $barras[$i + 1] = $f; //valor do F
                 $barra[$i + 1] = $barras[$i + 1];
