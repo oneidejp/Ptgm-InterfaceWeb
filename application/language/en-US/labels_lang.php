@@ -154,10 +154,15 @@ $lang["capture_code"] = "Capture Code";
 $lang["valor_medio"] = "Mean Value";
 $lang["cod_onda_padrao"] = "Standard Waveform ID";
 $lang["phase"] = "Phase";
-$lang["flight"] = "Leakage";
+$lang["leakage"] = "Leakage";
 //alertas
 $lang["record"] = "Save";
 $lang["comment_alert"] = "Alert Comment";
+
+//capture
+$lang["select_module"] = "Select Module";
+$lang["select_outlet"] = "Select Outlet";
+$lang["select_channel"] = "Select Channel";
 
 
 ?>

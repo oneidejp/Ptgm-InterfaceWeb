@@ -155,10 +155,15 @@ $lang["capture_code"] = "Código de Captura";
 $lang["valor_medio"] = "Valor Médio";
 $lang["cod_onda_padrao"] = "Cod Onda Padrão";
 $lang["phase"] = "Fase";
-$lang["flight"] = "Fuga";
+$lang["leakage"] = "Fuga";
 //alertas
 $lang["record"] = "Gravar";
 $lang["comment_alert"] = "Comentário Alerta";
+
+//capture
+$lang["select_module"] = "Selecione o Módulo";
+$lang["select_outlet"] = "Selecione a Tomada";
+$lang["select_channel"] = "Selecione o Canal";
 
 
 ?>

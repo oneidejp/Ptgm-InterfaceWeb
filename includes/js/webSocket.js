@@ -1,7 +1,9 @@
 var conexao;
 var desconexao;
 var encaminhar;
+var help;
 var tomada;
+var canal;
 var conexaoAtiva;
 var reiniciar;
 
@@ -9,20 +11,24 @@ function pageLoad()
 {
     conexao = document.getElementById("conectarWS");
     conexao.onclick = conectarWebSocket;
-    
+
     desconexao = document.getElementById("desconectarWS");
     desconexao.onclick = desconectarWebSocket;
-    
+
     tomada = document.getElementById("tomadasForm");
-    
+    canal = document.getElementById("canalForm");
+
     encaminhar = document.getElementById("mensagemWS");
     encaminhar.onclick = enviarCapture;
-    
+
+    help = document.getElementById("mensagemWSHelp");
+    help.onclick = enviarHelp;
+
     reiniciar = document.getElementById("reiniciarMBED");
     reiniciar.onclick = enviarReset;
-    
+
     consoleLogVar = document.getElementById("consoleLog");
-    
+
 }
 
 function conectarWebSocket()
@@ -54,7 +60,7 @@ function onClose(e)
 {
     conexaoAtiva = false;
     consoleLog("Desconectado!!!");
-    
+
 }
 
 function onMessage(e)
@@ -75,7 +81,20 @@ function enviarCapture() {
     }
     else
     {
-      websocket.send("#*capture*#" + tomada.value);  
+      websocket.send("#*capture*#" + tomada.value + ":" + canal.value);
+    }
+    //consoleLog("Enviado: " + enviarMensagem.value);
+}
+
+function enviarHelp() {
+    if(!conexaoAtiva){
+        conectarWebSocket();
+        alert("Conexão não estava ativa, favor enviar novamente a mensagem!!!");
+        //informar que está desconectado e precisa reenviar a mensagem
+    }
+    else
+    {
+      websocket.send("#*help*#");
     }
     //consoleLog("Enviado: " + enviarMensagem.value);
 }
@@ -88,7 +107,7 @@ function enviarReset() {
     }
     else
     {
-      websocket.send("#*reiniciar*#");  
+      websocket.send("#*reiniciar*#");
     }
     //consoleLog("Enviado: " + enviarMensagem.value);
 }

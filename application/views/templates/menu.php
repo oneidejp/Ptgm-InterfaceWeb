@@ -82,4 +82,3 @@ if (isset($menuHide) && $menuHide == true) {
 </nav>
 <?php 
 }
-?>

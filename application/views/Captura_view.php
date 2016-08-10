@@ -1,28 +1,44 @@
-<div id="teste"><?php if (isset($telnet)) {
-    echo "<b>Resultado do Comando Telnet: </b>" . $telnet;
-} ?></div>
+<div id="teste"><?php
+    if (isset($telnet)) {
+        //echo "<b>Resultado do Comando Telnet: </b>" . $telnet;
+    }
+    if (isset($teste)) {
+        /* foreach ($teste as $dados) {
+          echo "Tomada: ";
+          echo $dados->codTomada;
+          echo "\nDescrição: ";
+          echo $dados->desc;
+          }
+         * */
+        //echo $teste;
+    }
+    ?></div>
 <div class="container-fluid">
     <div class="row-fluid">
         <form name="captureForm" method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <div class="col-md-3 col-xs-3 form-group">
-                    <select class="form-control" id="tomadasForm" name="tomadasForm">
+                <div class="col-md-2 col-xs-2 form-group">
+                    <select class="form-control" id="modulesForm" name="modulesForm">
+                        <option value="choose"><?php echo $this->lang->line('select_module'); ?></option>
                         <?php
-                        /*foreach ($tomadasExistentes as $dados) {
-                            echo "\t\t\t\t\t\t<option value={$dados->codTomada}>";
+                        foreach ($modules as $dados) {
+                            echo "\t\t\t\t\t\t<option value={$dados->idmodulo}>";
                             echo $dados->desc;
                             echo "</option>\n";
-                        }*/
+                        }
                         ?>
-                        <option value="1">Tomada 1</option>
-                        <option value="2">Tomada 2</option>
-                        <option value="3">Tomada 3</option>
                     </select>
                 </div>
                 <div class="col-md-2 col-xs-2 form-group">
-                    <select class="form-control" id="canalForm" name="canalForm">
-                        <option value="p">Fase</option>
-                        <option value="d">Fuga</option>
+                    <select class="form-control" id="outletsForm" name="outletsForm" style="display:none;">
+                        <option value="choose"><?php echo $this->lang->line('select_outlet'); ?></option>
+                    </select>
+                </div>
+                <div class="col-md-2 col-xs-2 form-group">
+                    <select class="form-control" id="channelForm" name="channelForm" style="display:none;">
+                        <option value="choose"><?php echo $this->lang->line('select_channel'); ?></option>
+                        <option value="p"><?php echo $this->lang->line('phase'); ?></option>
+                        <option value="d"><?php echo $this->lang->line('leakage'); ?></option>
                     </select>
                 </div>
                 <!--<div class="col-md-2 col-xs-2">
@@ -30,11 +46,10 @@
                 </div>-->
             </div>
         </form>
-        <div class="col-md-2 col-xs-2">
-            <button class="btn btn-info" id="mensagemWS">Capturar WS</button>
-            <button class="btn btn-success" id="mensagemWSHelp">Help </button>
-        </div>
-        <div class="col-md-5 col-xs-5">
+        <div class="col-md-6 col-xs-6" id="buttons" style="display:none;">
+            <button class="btn btn-info" id="mensagemWS">Capturar</button>
+            <button class="btn btn-success" id="mensagemWSHelp">Help</button>
+            
             <button class="btn btn-primary" id="conectarWS">ConectarWS</button>
             <button class="btn btn-warning" id="desconectarWS">DesconectarWS</button>
             <button class="btn btn-danger" id="reiniciarMBED">Reiniciar MBED</button>
@@ -60,8 +75,9 @@
                             </tr>
                         </thead>
                         <tbody id="tbodyTabelaCapturas">
-<?php if (empty($capturas)) {
-    ?>
+                            <?php
+                            if (empty($capturas)) {
+                                ?>
                                 <tr>
                                     <td><?php echo $this->lang->line('empty'); ?></td>
                                     <td><?php echo $this->lang->line('empty'); ?></td>
@@ -123,7 +139,20 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript">
+    <script>
+        $(document).ready(function () {
+            $("#modulesForm").change(function () {
+                getOutlets($("#modulesForm").val());
+            });
+            $("#outletsForm").change(function () {
+                showChannel($("#outletsForm").val());
+            });
+            $("#channelForm").change(function () {
+                showCaptureOptions($("#channelForm").val());
+            });
+        });
+    </script>
+    <script>
         $(document).ready(function () {
             var cont = 0, checkClicados = 0;
             var graficos = [];
@@ -200,6 +229,58 @@
         });
     </script>
     <script>
+        function showCaptureOptions(channel) {
+            if(channel === "choose"){
+                document.getElementById("buttons").style.display = "none";
+            }else{
+                document.getElementById("buttons").style.display = "block";
+            }
+        }
+        function showChannel(outlet) {
+            if (outlet === "choose") {
+                document.getElementById("channelForm").style.display = "none";
+                document.getElementById("buttons").style.display = "none";
+            }else{
+                document.getElementById("channelForm").style.display = "block";
+            }
+        }
+        function getOutlets(module) {
+            var selectTomadasForm = document.getElementById("outletsForm");
+            for (var i = selectTomadasForm.options.length - 1; i > 0; i--)
+            {
+                selectTomadasForm.remove(i);
+            }
+            if (module === "choose") {
+                document.getElementById("outletsForm").style.display = "none";
+                document.getElementById("channelForm").style.display = "none";
+                document.getElementById("buttons").style.display = "none";
+            } else {
+                document.getElementById("outletsForm").style.display = "block";
+                //ajax para preencher o select
+                $.ajax({
+                    url: "<?php echo base_url(); ?>" + "index.php/Captura/getOutlets",
+                    dataType: 'json',
+                    scriptCharset: 'UTF-8',
+                    type: "POST",
+                    data: {
+                        Modulo: module
+                    },
+                    success: function (dados) {
+                        if (dados) {
+                            var select = document.getElementById("outletsForm");
+                            for (var i = 0; i < dados.length; i++) {
+                                var selectTomadasForm = document.createElement("option");
+                                selectTomadasForm.textContent = dados[i].desc;
+                                selectTomadasForm.value = dados[i].codTomada;
+                                select.appendChild(selectTomadasForm);
+                            }
+                        } else {
+                            alert("Erro Ajax.");
+                        }
+                    }
+                });
+            }
+        }
         function mostraTabelaSimilaridade() {
             //pega os checkboxes clicados em um array, a ordenação não é por clique e sim por leitura dos clicados, de cima para baixo
             var checkboxSelecionados = [];
