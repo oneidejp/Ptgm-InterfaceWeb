@@ -134,7 +134,7 @@
                     </div>
                 </div>
                 <div class="col-md-6 col-xs-6">
-                    <h3 class="center"><?php echo $this->lang->line('flight'); ?></h3>
+                    <h3 class="center"><?php echo $this->lang->line('leakage'); ?></h3>
                     <table class="table table-striped table-bordered">
                         <thead>
                             <tr>

@@ -34,6 +34,14 @@ class Captura extends MY_Controller {
 
         echo json_encode($data);
     }
+    
+    public function getOutlets() {
+
+        $id = filter_input_array(INPUT_POST)['Modulo']; //pega o id do modulo
+        $outlets = $this->Captura_model->get_outlets($id);
+
+        echo json_encode($outlets);
+    }
 
     public function comandoTelnet($host, $comando) {
         try {
@@ -57,7 +65,8 @@ class Captura extends MY_Controller {
     }
 
     public function index() {
-        $data['tomadasExistentes'] = $this->Captura_model->get_tomadas();
+        //$data['tomadasExistentes'] = $this->Captura_model->get_tomadas();
+        $data['modules'] = $this->Captura_model->get_all_modules();
         if (isset(filter_input_array(INPUT_POST)['captureTelnet'])) {
             if ($this->input->post('tomadasForm')) {
                 $tomadasForm = $this->input->post('tomadasForm');
@@ -104,7 +113,6 @@ class Captura extends MY_Controller {
             }
             $i++;
         }
-
 
         $data['title'] = $this->lang->line('capture');
         $data['footerHide'] = 'true';
