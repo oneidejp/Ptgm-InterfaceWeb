@@ -7,12 +7,14 @@ class Detalhes extends MY_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('detalhes_model');
+        $this->load->model('ultimascapturadas_model');
         $this->load->library('similaridade');
     }
 
     public function graficos() {
 
         $id = filter_input_array(INPUT_POST)['idCheckbox']; //pega o id(captura) para gerar os gráficos
+
         $data['barra'] = $this->graficoBarra($id, $onda = 0);
         $data['linha'] = $this->graficoLinha($id, $onda = 0);
 
@@ -261,7 +263,7 @@ class Detalhes extends MY_Controller {
             }
             $i++;
         }
-
+        //$data['teste'] = $this->graficos();
         //enviar dados de teste
         //$data['teste'] = $ultimoAlerta->codCaptura;
         $data['codUsoSala'] = $sala;
