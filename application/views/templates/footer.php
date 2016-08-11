@@ -1,6 +1,6 @@
 <?php
-if (isset($footerHide) && $footerHide == true) {
-    
+if (isset($footerHide) && $footerHide == "true") {
+
 } else {
 ?>
     <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation" style="border-bottom: 4px solid #000090;">
