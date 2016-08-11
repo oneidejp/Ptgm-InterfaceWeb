@@ -51,7 +51,6 @@
             <div class="col-md-6 col-xs-6" id="buttons" style="display:none;">
                 <button class="btn btn-info" id="mensagemWS">Capturar</button>
                 <button class="btn btn-success" id="mensagemWSHelp">Help</button>
-
                 <button class="btn btn-primary" id="conectarWS">ConectarWS</button>
                 <button class="btn btn-warning" id="desconectarWS">DesconectarWS</button>
                 <button class="btn btn-danger" id="reiniciarMBED">Reiniciar MBED</button>
@@ -175,7 +174,6 @@
                             scriptCharset: 'UTF-8',
                             type: "POST",
                             data: {
-                                action: 'checkDados',
                                 idCheckbox: id
                             },
                             success: function (dados) {
@@ -291,7 +289,7 @@
     function mostraTabelaSimilaridade() {
         //pega os checkboxes clicados em um array, a ordenação não é por clique e sim por leitura dos clicados, de cima para baixo
         var checkboxSelecionados = [];
-        $('#aba input[name="comparar"]:checked').each(function () {
+        $('#borda input[name="comparar"]:checked').each(function () {
             checkboxSelecionados.push($(this).attr('id'));
         });
         //envia por post um json contendo os códigos de capturas dos checkboxes

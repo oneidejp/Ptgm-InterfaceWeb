@@ -1,3 +1,6 @@
+<div id="borda">
+  <?php //echo $teste; ?>
+</div>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12 col-xs-12" id="centro">
