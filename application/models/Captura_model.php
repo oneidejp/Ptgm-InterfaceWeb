@@ -22,7 +22,7 @@ class Captura_model extends CI_Model {
     function get_all_captures() {
         $this->db->select("*");
         $this->db->from("capturaatual");
-        //$this->db->where("codEvento = 9");
+        $this->db->where("codEvento = 9");
         $this->db->order_by("codCaptura","desc");
         $query = $this->db->get();
 

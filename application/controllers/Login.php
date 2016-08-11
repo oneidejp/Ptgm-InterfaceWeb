@@ -16,7 +16,7 @@ class Login extends MY_Controller {
     /*
      * Este controller deve estender o CI_Controller
      * Verifica a linguagem do navegador e sugere ao usuário a linguagem, caso não encontre definide a linguagem definida no default
-     * Abaixo verifica se o conteúdo da variável logado na sessão é igual a 1, caso seja, não faz nada, 
+     * Abaixo verifica se o conteúdo da variável logado na sessão é igual a 1, caso seja, não faz nada,
      * caso não seja então redireciona novamente para o controller de login.
      */
 
@@ -52,7 +52,7 @@ class Login extends MY_Controller {
         $data['title'] = $this->lang->line('login');
         $data['menuHide'] = 'true';
         $data['footerHide'] = 'true';
-        $data['headerOption'] = 
+        $data['headerOption'] =
                 "<link rel='stylesheet' href=".base_url()."includes/css/login.css>";
         $this->load->template('V_login_view', $data);
     }
@@ -63,7 +63,7 @@ class Login extends MY_Controller {
         //Pega usuário e senha vindo do form
         $usuario = $this->input->post("usuario");
         $senha = $this->input->post("senha");
-        //pega usuario e senha no banco para testar		
+        //pega usuario e senha no banco para testar
         $login = $this->login_model->get_all_login();
 
         //Se o usuário e senha combinarem, então redireciona para a url base, pois agora o usuário irá passa

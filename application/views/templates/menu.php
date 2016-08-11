@@ -1,5 +1,5 @@
 <?php
-if (isset($menuHide) && $menuHide == true) {
+if (isset($menuHide) && $menuHide == "true") {
 
 } else {
 ?>
