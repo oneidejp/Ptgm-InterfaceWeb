@@ -1,13 +1,13 @@
 <?php
 if (isset($menuHide) && $menuHide == true) {
-    
+
 } else {
 ?>
-<nav class="navbar navbar-default" role="navigation" style="border-top: 4px solid #000090;">
+<nav class="navbar navbar-default" style="border-top: 4px solid #000090;">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menuNavbarCollapse" aria-expanded="false">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -19,7 +19,7 @@ if (isset($menuHide) && $menuHide == true) {
             <ul class="nav navbar-nav navbar-left">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $this->lang->line('control'); ?> <span class="caret"></span></a>
-                    <ul class="dropdown-menu">          
+                    <ul class="dropdown-menu">
                         <li><a href="<?php echo base_url('index.php/paineldecontrole') ?>"><?php echo $this->lang->line('control_panel'); ?></a></li>
                         <li><a href="<?php echo base_url('index.php/ultimascapturadas') ?>"><?php echo $this->lang->line('last_captured'); ?></a></li>
                         <li><a href="<?php echo base_url('index.php/focapturadas') ?>"><?php echo $this->lang->line('fo_captured'); ?></a></li>
@@ -80,5 +80,5 @@ if (isset($menuHide) && $menuHide == true) {
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
-<?php 
+<?php
 }

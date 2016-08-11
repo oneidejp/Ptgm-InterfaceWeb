@@ -1,9 +1,4 @@
-var conexao;
-var desconexao;
-var encaminhar;
-var help;
-var tomada;
-var canal;
+var conexao, desconexao, encaminhar, help, tomada, canal, modulo;
 var conexaoAtiva;
 var reiniciar;
 
@@ -15,8 +10,9 @@ function pageLoad()
     desconexao = document.getElementById("desconectarWS");
     desconexao.onclick = desconectarWebSocket;
 
-    tomada = document.getElementById("tomadasForm");
-    canal = document.getElementById("canalForm");
+    tomada = document.getElementById("outletsForm");
+    canal = document.getElementById("channelForm");
+    modulo = document.getElementById("modulesForm");
 
     encaminhar = document.getElementById("mensagemWS");
     encaminhar.onclick = enviarCapture;
@@ -28,6 +24,7 @@ function pageLoad()
     reiniciar.onclick = enviarReset;
 
     consoleLogVar = document.getElementById("consoleLog");
+
 
 }
 
@@ -74,14 +71,15 @@ function onError(e)
 }
 
 function enviarCapture() {
+
+    moduloIP = modulo.options[modulo.selectedIndex].getAttribute("ip");
     if(!conexaoAtiva){
         conectarWebSocket();
         alert("Conexão não estava ativa, favor enviar novamente a mensagem!!!");
         //informar que está desconectado e precisa reenviar a mensagem
     }
-    else
-    {
-      websocket.send("#*capture*#" + tomada.value + ":" + canal.value);
+     else {
+      websocket.send("#*capture*#" + moduloIP + ":" + tomada.value + ":" + canal.value);
     }
     //consoleLog("Enviado: " + enviarMensagem.value);
 }
