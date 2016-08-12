@@ -8,6 +8,8 @@ $lang["insert"] = "Inserir";
 $lang["clean_up"] = "Limpar";
 $lang["cancel"] = "Cancelar";
 $lang["alter"] = "Alterar";
+$lang["model_page"] = "Página de modelo!";
+
 //menu
 $lang["control"] = "Controle";
 $lang["control_panel"] = "Painel de Controle";
