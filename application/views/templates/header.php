@@ -13,5 +13,5 @@
         <link rel="stylesheet" href="<?php echo base_url() ?>includes/css/estilosMauricio.css">
         <?php if(isset($headerOption)){ echo $headerOption; }?>
     </head>
-    <body>
+    <body style="padding-bottom: 100px; padding-top: 70px;">
         <?php include_once('menu.php'); ?>
