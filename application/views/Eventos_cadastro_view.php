@@ -8,8 +8,8 @@
             </ul>
             <div id="borda">
                 <div class="row-fluid">
-                    <div class="col-md-4 col-xs-4" id="formesquerda"></div>
-                    <div class="col-md-4 col-xs-4" id="formcentro">
+                    
+                    <div class="col-md-4 col-xs-4 col-md-offset-4" id="formcentro">
                         <?php if ($eventos == 'cadastro') { ?>
                             <form class="form-signin" role="form" method="post" action="<?php echo base_url('index.php/eventos/create_eventos') ?>">
                                 <fieldset>
