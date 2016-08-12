@@ -1,4 +1,10 @@
-var conexao, desconexao, encaminhar, help, tomada, canal, modulo;
+var conexao;
+var desconexao;
+var encaminhar;
+var help;
+var tomada;
+var canal;
+var modulo;
 var conexaoAtiva;
 var reiniciar;
 
@@ -24,8 +30,6 @@ function pageLoad()
     reiniciar.onclick = enviarReset;
 
     consoleLogVar = document.getElementById("consoleLog");
-
-
 }
 
 function conectarWebSocket()
@@ -57,7 +61,6 @@ function onClose(e)
 {
     conexaoAtiva = false;
     consoleLog("Desconectado!!!");
-
 }
 
 function onMessage(e)
