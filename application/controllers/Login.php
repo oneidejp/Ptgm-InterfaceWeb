@@ -52,8 +52,6 @@ class Login extends MY_Controller {
         $data['title'] = $this->lang->line('login');
         $data['menuHide'] = 'true';
         $data['footerHide'] = 'true';
-        $data['headerOption'] =
-                "<link rel='stylesheet' href=".base_url()."includes/css/login.css>";
         $this->load->template('V_login_view', $data);
     }
 
@@ -85,9 +83,15 @@ class Login extends MY_Controller {
             }
         }
         if ($logado === 0) {
+            include(APPPATH . 'config/database.php');
+            $this->infoDb = $db;
+            $data['error'] = $this->lang->line('msg_login');
             //caso a senha/usuário estejam incorretos, então mando o usuário novamente para a tela de login com uma mensagem de erro.
-            $error['erro'] = $this->lang->line('msg_login');
-            $this->load->view("V_login_view", $error);
+            $data['error'] = $this->lang->line('msg_login');
+            $data['title'] = $this->lang->line('login');
+            $data['menuHide'] = 'true';
+            $data['footerHide'] = 'true';
+            $this->load->template("V_login_view", $data);
         }
     }
 
