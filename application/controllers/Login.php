@@ -65,7 +65,7 @@ class Login extends MY_Controller {
         $senha = $this->input->post("senha");
         //pega usuario e senha no banco para testar
         $login = $this->login_model->get_all_login();
-
+        $logado = 0;
         //Se o usuário e senha combinarem, então redireciona para a url base, pois agora o usuário irá passa
         //pela verificação que checa se ele está logado.
         foreach ($login as $dados) {
@@ -79,12 +79,15 @@ class Login extends MY_Controller {
                     'logado' => '1'
                 );
                 $this->session->set_userdata($newusuario);
+                $logado = 1;
                 redirect(base_url());
-            } else {
-                //caso a senha/usuário estejam incorretos, então mando o usuário novamente para a tela de login com uma mensagem de erro.
-                $error['erro'] = $this->lang->line('msg_login');
-                $this->load->view("V_login_view", $error);
+                break;
             }
+        }
+        if ($logado === 0) {
+            //caso a senha/usuário estejam incorretos, então mando o usuário novamente para a tela de login com uma mensagem de erro.
+            $error['erro'] = $this->lang->line('msg_login');
+            $this->load->view("V_login_view", $error);
         }
     }
 
