@@ -21,7 +21,7 @@
                             <h4 class="form-signin-heading"><?php echo $this->lang->line('description') . ":"; ?></h4>
                             <input type="text" class="form-control" placeholder="<?php echo $this->lang->line('description'); ?>" required autofocus name="desc">
                             <h4 class="form-signin-heading"><?php echo $this->lang->line('trademark') . ":"; ?></h4>
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-xs-4">
                             <select class="form-control" name="codMarca">
                                 <?php foreach ($marca as $dados) { ?>	
                                     <option value="<?php echo $dados->codMarca; ?>"><?php echo $dados->desc; ?></option>

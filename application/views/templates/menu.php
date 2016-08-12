@@ -3,7 +3,7 @@ if (isset($menuHide) && $menuHide == "true") {
 
 } else {
 ?>
-<nav class="navbar navbar-default" style="border-top: 4px solid #000090;">
+<nav class="navbar navbar-default navbar-fixed-top" style="border-top: 4px solid #000090;">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
