@@ -34,6 +34,7 @@ function pageLoad()
 
 function conectarWebSocket()
 {
+    //websocket = new WebSocket('ws://192.168.103.100:8080');
     websocket = new WebSocket('ws://localhost:8080');
     websocket.onopen = function (e) {
         onOpen(e);
@@ -101,6 +102,7 @@ function enviarHelp() {
 }
 
 function enviarReset() {
+    moduloIP = modulo.options[modulo.selectedIndex].getAttribute("ip");
     if(!conexaoAtiva){
         conectarWebSocket();
         alert("Conexão não estava ativa, favor enviar novamente a mensagem!!!");
@@ -108,7 +110,7 @@ function enviarReset() {
     }
     else
     {
-      websocket.send("#*reiniciar*#");
+      websocket.send("#*reset*#" + moduloIP);
     }
     //consoleLog("Enviado: " + enviarMensagem.value);
 }

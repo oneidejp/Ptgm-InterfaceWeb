@@ -24,7 +24,7 @@
                             <option value="choose"><?php echo $this->lang->line('select_module'); ?></option>
                             <?php
                             foreach ($modules as $dados) {
-                                echo "\t\t\t\t\t\t<option value={$dados->idmodulo} ip={$dados->ip}>";
+                                echo "\t\t\t\t\t\t<option value={$dados->idModulo} ip={$dados->ip}>";
                                 echo $dados->desc;
                                 echo "</option>\n";
                             }
@@ -48,12 +48,15 @@
                     </div>-->
                 </div>
             </form>
-            <div class="col-md-6 col-xs-6" id="buttons" style="display:none;">
+            <div class="col-md-1 col-xs-1" id="buttons" style="display:none;">
                 <button class="btn btn-info" id="mensagemWS">Capturar</button>
-                <button class="btn btn-success" id="mensagemWSHelp">Help</button>
-                <button class="btn btn-primary" id="conectarWS">ConectarWS</button>
-                <button class="btn btn-warning" id="desconectarWS">DesconectarWS</button>
-                <button class="btn btn-danger" id="reiniciarMBED">Reiniciar MBED</button>
+
+            </div>
+            <div class="col-md-5 col-xs-5 pull-right" id="buttons2" style="display:none;">
+              <button class="btn btn-success" id="mensagemWSHelp">Help</button>
+              <button class="btn btn-primary" id="conectarWS">ConectarWS</button>
+              <button class="btn btn-warning" id="desconectarWS">DesconectarWS</button>
+              <button class="btn btn-danger" id="reiniciarMBED">Reiniciar</button>
             </div>
         </div>
     </div>
@@ -257,8 +260,10 @@
         document.getElementById("buttons").style.display = "none";
         if (module === "choose") {
             document.getElementById("outletsForm").style.display = "none";
+            document.getElementById("buttons2").style.display = "none";
         } else {
             document.getElementById("outletsForm").style.display = "block";
+            document.getElementById("buttons2").style.display = "block";
             //ajax para preencher o select
             $.ajax({
                 url: "<?php echo base_url(); ?>" + "index.php/Captura/getOutlets",

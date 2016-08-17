@@ -12,7 +12,7 @@ class Captura_model extends CI_Model {
     function get_outlets($id) {
         $this->db->select("codTomada, desc");
         $this->db->from("tomada");
-        $this->db->where("modulo = ", $id);
+        $this->db->where("codModulo = ", $id);
         $query = $this->db->get();
 
         return $query->result();
@@ -33,7 +33,7 @@ class Captura_model extends CI_Model {
     function get_all_modules() {
         $this->db->select("*");
         $this->db->from("modulo");
-        $this->db->order_by("idmodulo","asc");
+        $this->db->order_by("idModulo","asc");
         $query = $this->db->get();
 
         return $query->result();
