@@ -163,9 +163,16 @@ $lang["record"] = "Gravar";
 $lang["comment_alert"] = "Comentário Alerta";
 
 //capture
+$lang["select_command"] = "Selecione o Comando";
+$lang["select_command_capture"] = "Capturar";
+$lang["select_command_send_limit"] = "Enviar Limite";
 $lang["select_module"] = "Selecione o Módulo";
 $lang["select_outlet"] = "Selecione a Tomada";
-$lang["select_channel"] = "Selecione o Canal";
+$lang["select_channel"] = "Canal";
+$lang["select_limit"] = "Limite";
+$lang["reset"] = "Reiniciar";
+$lang["connect"] = "Conectar";
+$lang["test"] = "Testar";
 
 
 ?>

@@ -23,6 +23,7 @@ class Captura_model extends CI_Model {
         $this->db->select("*");
         $this->db->from("capturaatual");
         //$this->db->where("codEvento = 9");
+        $this->db->limit(10);
         $this->db->order_by("codCaptura","desc");
         $query = $this->db->get();
 
