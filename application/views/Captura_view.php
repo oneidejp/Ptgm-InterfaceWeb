@@ -1,6 +1,7 @@
-<div id="teste"><?php
+<div id="teste">
+    <?php
     if (isset($telnet)) {
-        //echo "<b>Resultado do Comando Telnet: </b>" . $telnet;
+        echo "<b>Resultado do Comando Telnet: </b>" . $telnet;
     }
     if (isset($teste)) {
         /* foreach ($teste as $dados) {
@@ -32,31 +33,50 @@
                         </select>
                     </div>
                     <div class="col-md-2 col-xs-2 form-group">
+                        <select class="form-control" id="commandsForm" name="commandsForm" style="display:none;">
+                            <option value="choose"><?php echo $this->lang->line('select_command'); ?></option>
+                            <option value="capture"><?php echo $this->lang->line('select_command_capture'); ?></option>
+                            <option value="limit"><?php echo $this->lang->line('select_command_send_limit'); ?></option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 col-xs-2 form-group">
                         <select class="form-control" id="outletsForm" name="outletsForm" style="display:none;">
                             <option value="choose"><?php echo $this->lang->line('select_outlet'); ?></option>
                         </select>
                     </div>
-                    <div class="col-md-2 col-xs-2 form-group">
+                    <div class="col-md-1 col-xs-1 form-group">
                         <select class="form-control" id="channelForm" name="channelForm" style="display:none;">
                             <option value="choose"><?php echo $this->lang->line('select_channel'); ?></option>
                             <option value="p"><?php echo $this->lang->line('phase'); ?></option>
                             <option value="d"><?php echo $this->lang->line('leakage'); ?></option>
                         </select>
                     </div>
-                    <!--<div class="col-md-2 col-xs-2">
-                        <button type="submit" name="captureTelnet" class="btn btn-success">Cap Telnet</button>
-                    </div>-->
+                    <div class="col-md-1 col-xs-1 form-group">
+                        <select class="form-control" id="limitForm" name="limitForm" style="display:none;">
+                            <option value="choose"><?php echo $this->lang->line('select_limit'); ?></option>
+                            <?php
+                            for ($i = 1; $i <= 500; $i++) {
+                                echo "<option>" .
+                                number_format($i / 100, 2, '.', '')
+                                . "</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
                 </div>
             </form>
-            <div class="col-md-1 col-xs-1" id="buttons" style="display:none;">
-                <button class="btn btn-info" id="mensagemWS">Capturar</button>
-
+            <div class="col-md-1 col-xs-1" id="capButton" style="display:none;">
+                <button class="btn btn-info" id="captureWS"><?php echo $this->lang->line('select_command_capture'); ?></button>
             </div>
-            <div class="col-md-5 col-xs-5 pull-right" id="buttons2" style="display:none;">
-              <button class="btn btn-success" id="mensagemWSHelp">Help</button>
-              <button class="btn btn-primary" id="conectarWS">ConectarWS</button>
-              <button class="btn btn-warning" id="desconectarWS">DesconectarWS</button>
-              <button class="btn btn-danger" id="reiniciarMBED">Reiniciar</button>
+            <div class="col-md-2 col-xs-2" id="limitButton" style="display:none;">
+                <button class="btn btn-info" id="limitWS"><?php echo $this->lang->line('select_command_send_limit'); ?></button>
+            </div>
+            <div class="col-md-2 col-xs-2 pull-right" id="optionsButton" style="display:none;">
+                
+                <button class="btn btn-success" id="testWS"><?php echo $this->lang->line('test'); ?></button>
+                
+                <button class="btn btn-primary" id="connectWS"><?php echo $this->lang->line('connect'); ?></button>
+                <button class="btn btn-danger" id="resetWS"><?php echo $this->lang->line('reset'); ?></button>
             </div>
         </div>
     </div>
@@ -145,14 +165,33 @@
 </div>
 <script>
     $(document).ready(function () {
+        //função para simular clique no botão capturar
+        //var ws = setInterval(testClickWS,5000);
+        //função para simular clique no botão capturar
+        //var telnet = setInterval(testClickTelnet,3000);
+
+        //armazena o valor anterior do campo módulo, para conectar automaticamente
+        //ao servidor de websocket caso seja a primeira seleção do módulo
+        var lastModule = $("#modulesForm").val();
         $("#modulesForm").change(function () {
-            getOutlets($("#modulesForm").val());
+            showCommands($("#modulesForm").val());
+            if (lastModule === "choose") {
+                //$("#connectWS").click();
+                //testar isso
+            }
+            anterior = $("#modulesForm").val();
+        });
+        $("#commandsForm").change(function () {
+            getOutlets($("#commandsForm").val(), lastModule, $("#modulesForm").val());
         });
         $("#outletsForm").change(function () {
             showChannel($("#outletsForm").val());
         });
         $("#channelForm").change(function () {
-            showCaptureOptions($("#channelForm").val());
+            showOptions($("#channelForm").val(), $("#commandsForm").val());
+        });
+        $("#limitForm").change(function () {
+            showLimitButton($("#limitForm").val());
         });
     });
 </script>
@@ -232,65 +271,131 @@
     });
 </script>
 <script>
-    function showCaptureOptions(channel) {
-        if (channel === "choose") {
-            document.getElementById("buttons").style.display = "none";
-        } else {
-            document.getElementById("buttons").style.display = "block";
-        }
+    function testClickWS() {
+        $("#mensagemWS").click();
     }
-    function showChannel(outlet) {
-        document.getElementById("channelForm")[0].selected = true;
-        document.getElementById("buttons").style.display = "none";
-        if (outlet === "choose") {
-            document.getElementById("channelForm").style.display = "none";
-            document.getElementById("buttons").style.display = "none";
-        } else {
-            document.getElementById("channelForm").style.display = "block";
-        }
+    function testClickTelnet() {
+        var moduloRandTelnet = ["192.168.1.101", "192.168.1.102"];
+        var channelRandTelnet = ["p", "d"];
+        var moduloTelnet = moduloRandTelnet[Math.floor((Math.random() * 2) + 1) - 1];
+        var channelTelnet = channelRandTelnet[Math.floor((Math.random() * 2) + 1) - 1];
+        var outlet = Math.floor((Math.random() * 3) + 4);
+        $.ajax({
+            url: "<?php echo base_url(); ?>" + "index.php/captura/testTelnet",
+            dataType: 'json',
+            scriptCharset: 'UTF-8',
+            type: "POST",
+            data: {
+                Host: moduloTelnet,
+                Channel: channelTelnet,
+                Outlet: outlet
+            },
+            success: function (dados) {
+                if (dados) {
+                    //alert(dados);
+                } else {
+                    alert("Erro Ajax.");
+                }
+            }
+        });
     }
-    function getOutlets(module) {
-        var selectTomadasForm = document.getElementById("outletsForm");
-        for (var i = selectTomadasForm.options.length - 1; i > 0; i--)
-        {
-            selectTomadasForm.remove(i);
-        }
-        document.getElementById("channelForm")[0].selected = true;
+    function showCommands(command) {
+        document.getElementById("commandsForm")[0].selected = true;
+        document.getElementById("outletsForm").style.display = "none";
+        document.getElementById("outletsForm")[0].selected = true;
         document.getElementById("channelForm").style.display = "none";
-        document.getElementById("buttons").style.display = "none";
-        if (module === "choose") {
-            document.getElementById("outletsForm").style.display = "none";
-            document.getElementById("buttons2").style.display = "none";
+        document.getElementById("channelForm")[0].selected = true;
+        document.getElementById("limitForm").style.display = "none";
+        document.getElementById("limitForm")[0].selected = true;
+        document.getElementById("capButton").style.display = "none";
+        document.getElementById("limitButton").style.display = "none";
+        var selectOutletForm = document.getElementById("outletsForm");
+        for (var i = selectOutletForm.options.length - 1; i > 0; i--)
+        {
+            selectOutletForm.remove(i);
+        }
+        if (command === "choose") {
+            document.getElementById("commandsForm").style.display = "none";
+            document.getElementById("optionsButton").style.display = "none";
         } else {
-            document.getElementById("outletsForm").style.display = "block";
-            document.getElementById("buttons2").style.display = "block";
-            //ajax para preencher o select
+            document.getElementById("commandsForm").style.display = "block";
+            document.getElementById("optionsButton").style.display = "block";
+            //ajax para preencher o select das tomadas
             $.ajax({
                 url: "<?php echo base_url(); ?>" + "index.php/Captura/getOutlets",
                 dataType: 'json',
                 scriptCharset: 'UTF-8',
                 type: "POST",
                 data: {
-                    Modulo: module
+                    Modulo: command
                 },
                 success: function (dados) {
                     if (dados) {
                         var select = document.getElementById("outletsForm");
-                        var selectTomadasForm;
+                        var selectOutletForm;
                         for (var i = 0; i < dados.length; i++) {
-                            selectTomadasForm = document.createElement("option");
-                            selectTomadasForm.value = dados[i].codTomada;
-                            //selectTomadasForm.textContent = dados[i].desc;
-                            selectTomadasForm.innerHTML = dados[i].desc;
-                            select.appendChild(selectTomadasForm);
+                            selectOutletForm = document.createElement("option");
+                            selectOutletForm.value = dados[i].codTomada;
+                            selectOutletForm.innerHTML = dados[i].desc;
+                            select.appendChild(selectOutletForm);
                         }
                     } else {
-                        alert("Erro Ajax.");
+                        alert("Erro Ajax ao criar o selec das tomadas.");
                     }
                 }
             });
         }
     }
+    function getOutlets(command) {
+        document.getElementById("channelForm").style.display = "none";
+        document.getElementById("channelForm")[0].selected = true;
+        document.getElementById("capButton").style.display = "none";
+        document.getElementById("limitButton").style.display = "none";
+        document.getElementById("outletsForm").style.display = "none";
+        document.getElementById("outletsForm")[0].selected = true;
+        document.getElementById("limitForm").style.display = "none";
+        document.getElementById("limitForm")[0].selected = true;
+        if (command === "choose") {
+            document.getElementById("outletsForm").style.display = "none";
+        } else {
+            document.getElementById("outletsForm").style.display = "block";
+        }
+    }
+    function showChannel(outlet) {
+        document.getElementById("channelForm")[0].selected = true;
+        document.getElementById("limitForm").style.display = "none";
+        document.getElementById("limitForm")[0].selected = true;
+        document.getElementById("capButton").style.display = "none";
+        document.getElementById("limitButton").style.display = "none";
+        if (outlet === "choose") {
+            document.getElementById("channelForm").style.display = "none";
+        } else {
+            document.getElementById("channelForm").style.display = "block";
+        }
+    }
+    function showOptions(channel, command) {
+        if (channel === "choose") {
+            document.getElementById("capButton").style.display = "none";
+            document.getElementById("limitForm").style.display = "none";
+            document.getElementById("limitForm")[0].selected = true;
+            document.getElementById("limitButton").style.display = "none";
+        } else {
+            if (command === "limit") {
+                document.getElementById("limitForm").style.display = "block";
+            }
+            if (command === "capture") {
+                document.getElementById("capButton").style.display = "block";
+            }
+        }
+    }
+    function showLimitButton(value) {
+        if (value === "choose") {
+            document.getElementById("limitButton").style.display = "none";
+        } else {
+            document.getElementById("limitButton").style.display = "block";
+        }
+    }
+
     function mostraTabelaSimilaridade() {
         //pega os checkboxes clicados em um array, a ordenação não é por clique e sim por leitura dos clicados, de cima para baixo
         var checkboxSelecionados = [];
