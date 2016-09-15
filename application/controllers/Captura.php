@@ -37,10 +37,17 @@ class Captura extends MY_Controller {
 
     public function getOutlets() {
 
-        $id = filter_input_array(INPUT_POST)['Modulo']; //pega o id do modulo
+        $id = filter_input_array(INPUT_POST)['Module']; //pega o id do modulo
         $outlets = $this->Captura_model->get_outlets($id);
 
         echo json_encode($outlets);
+    }
+    
+    public function getEquipments() {
+
+        $equipments = $this->Captura_model->get_equipments();
+
+        echo json_encode($equipments);
     }
 
     public function comandoTelnet($host, $comando) {

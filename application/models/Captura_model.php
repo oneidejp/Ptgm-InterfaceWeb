@@ -17,6 +17,15 @@ class Captura_model extends CI_Model {
 
         return $query->result();
     }
+    
+    //get all equipments
+    function get_equipments() {
+        $this->db->select("codEquip, desc");
+        $this->db->from("equipamento");
+        $query = $this->db->get();
+
+        return $query->result();
+    }
 
     //get external captures (evento code = 9)
     function get_all_captures() {
