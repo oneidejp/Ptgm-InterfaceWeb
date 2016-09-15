@@ -163,11 +163,12 @@ $lang["comment_alert"] = "Alert Comment";
 //capture
 $lang["select_command"] = "Select Command";
 $lang["select_command_capture"] = "Capture";
-$lang["select_command_send_limit"] = "Send Limit";
 $lang["select_module"] = "Select Module";
+$lang["select_equipment"] = "Select Equipment";
 $lang["select_outlet"] = "Select Outlet";
-$lang["select_channel"] = "Channel";
+$lang["select_channel"] = "Select Channel";
 $lang["select_limit"] = "Limit";
+$lang["button_send"] = "Send";
 $lang["reset"] = "Reset";
 $lang["connect"] = "Connect";
 $lang["test"] = "Test";

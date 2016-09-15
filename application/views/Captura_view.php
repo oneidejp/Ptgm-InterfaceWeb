@@ -20,8 +20,8 @@
         <div class="row" id="borda">
             <form name="captureForm" method="post" enctype="multipart/form-data">
                 <div class="form-group">
-                    <div class="col-md-2 col-xs-2 form-group">
-                        <select class="form-control" id="modulesForm" name="modulesForm">
+                    <div class="col-md-2 col-xs-2 form-group" id="divModules">
+                        <select class="form-control" id="modulesForm">
                             <option value="choose"><?php echo $this->lang->line('select_module'); ?></option>
                             <?php
                             foreach ($modules as $dados) {
@@ -32,49 +32,42 @@
                             ?>
                         </select>
                     </div>
-                    <div class="col-md-2 col-xs-2 form-group">
-                        <select class="form-control" id="commandsForm" name="commandsForm" style="display:none;">
+                    <div class="col-md-2 col-xs-2 form-group" id="divCommands">
+                        <select class="form-control" id="commandsForm">
                             <option value="choose"><?php echo $this->lang->line('select_command'); ?></option>
                             <option value="capture"><?php echo $this->lang->line('select_command_capture'); ?></option>
-                            <option value="limit"><?php echo $this->lang->line('select_command_send_limit'); ?></option>
+                            <option value="limit"><?php echo $this->lang->line('select_limit'); ?></option>
                         </select>
                     </div>
-                    <div class="col-md-2 col-xs-2 form-group">
-                        <select class="form-control" id="outletsForm" name="outletsForm" style="display:none;">
+                    <div class="col-md-2 col-xs-2 form-group" id="divEquipment">
+                        <select class="form-control" id="equipmentsForm">
+                            <option value="choose"><?php echo $this->lang->line('select_equipment'); ?></option>
+                        </select>
+                    </div>
+                    <div class="col-md-2 col-xs-2 form-group" id="divOutlets">
+                        <select class="form-control" id="outletsForm">
                             <option value="choose"><?php echo $this->lang->line('select_outlet'); ?></option>
                         </select>
                     </div>
-                    <div class="col-md-1 col-xs-1 form-group">
-                        <select class="form-control" id="channelForm" name="channelForm" style="display:none;">
+                    <div class="col-md-2 col-xs-2 form-group" id="divChannel">
+                        <select class="form-control" id="channelForm">
                             <option value="choose"><?php echo $this->lang->line('select_channel'); ?></option>
                             <option value="p"><?php echo $this->lang->line('phase'); ?></option>
                             <option value="d"><?php echo $this->lang->line('leakage'); ?></option>
                         </select>
                     </div>
-                    <div class="col-md-1 col-xs-1 form-group">
-                        <select class="form-control" id="limitForm" name="limitForm" style="display:none;">
-                            <option value="choose"><?php echo $this->lang->line('select_limit'); ?></option>
-                            <?php
-                            for ($i = 1; $i <= 500; $i++) {
-                                echo "<option>" .
-                                number_format($i / 100, 2, '.', '')
-                                . "</option>";
-                            }
-                            ?>
-                        </select>
-                    </div>
                 </div>
             </form>
-            <div class="col-md-1 col-xs-1" id="capButton" style="display:none;">
+            <div class="col-md-2 col-xs-2" id="divCaptureButton">
                 <button class="btn btn-info" id="captureWS"><?php echo $this->lang->line('select_command_capture'); ?></button>
             </div>
-            <div class="col-md-2 col-xs-2" id="limitButton" style="display:none;">
-                <button class="btn btn-info" id="limitWS"><?php echo $this->lang->line('select_command_send_limit'); ?></button>
+            <div class="col-md-2 col-xs-2" id="divLimitButton">
+                <button class="btn btn-info" id="limitWS"><?php echo $this->lang->line('button_send'); ?></button>
             </div>
-            <div class="col-md-2 col-xs-2 pull-right" id="optionsButton" style="display:none;">
-                
+            <div class="col-md-2 col-xs-2 pull-right" id="divOptionsButtons">
+                <!--
                 <button class="btn btn-success" id="testWS"><?php echo $this->lang->line('test'); ?></button>
-                
+                -->
                 <button class="btn btn-primary" id="connectWS"><?php echo $this->lang->line('connect'); ?></button>
                 <button class="btn btn-danger" id="resetWS"><?php echo $this->lang->line('reset'); ?></button>
             </div>
@@ -170,28 +163,30 @@
         //função para simular clique no botão capturar
         //var telnet = setInterval(testClickTelnet,3000);
 
-        //armazena o valor anterior do campo módulo, para conectar automaticamente
-        //ao servidor de websocket caso seja a primeira seleção do módulo
-        var lastModule = $("#modulesForm").val();
+        //oculta as divs
+        $('#divCommands').hide();
+        $('#divEquipment').hide();
+        $('#divOutlets').hide();
+        $('#divChannel').hide();
+        $('#divCaptureButton').hide();
+        $('#divLimitButton').hide();
+        $('#divOptionsButtons').hide();
+
+        //analisa a mudança nos selects
         $("#modulesForm").change(function () {
             showCommands($("#modulesForm").val());
-            if (lastModule === "choose") {
-                //$("#connectWS").click();
-                //testar isso
-            }
-            anterior = $("#modulesForm").val();
         });
         $("#commandsForm").change(function () {
-            getOutlets($("#commandsForm").val(), lastModule, $("#modulesForm").val());
+            showCommandOption($("#commandsForm").val());
+        });
+        $("#equipmentsForm").change(function () {
+            getOutlets($("#equipmentsForm").val(), $("#modulesForm").val());
         });
         $("#outletsForm").change(function () {
-            showChannel($("#outletsForm").val());
+            showButton($("#outletsForm").val(), $("#commandsForm").val());
         });
         $("#channelForm").change(function () {
-            showOptions($("#channelForm").val(), $("#commandsForm").val());
-        });
-        $("#limitForm").change(function () {
-            showLimitButton($("#limitForm").val());
+            showCaptureButton($("#channelForm").val());
         });
     });
 </script>
@@ -300,26 +295,79 @@
         });
     }
     function showCommands(command) {
-        document.getElementById("commandsForm")[0].selected = true;
-        document.getElementById("outletsForm").style.display = "none";
-        document.getElementById("outletsForm")[0].selected = true;
-        document.getElementById("channelForm").style.display = "none";
-        document.getElementById("channelForm")[0].selected = true;
-        document.getElementById("limitForm").style.display = "none";
-        document.getElementById("limitForm")[0].selected = true;
-        document.getElementById("capButton").style.display = "none";
-        document.getElementById("limitButton").style.display = "none";
-        var selectOutletForm = document.getElementById("outletsForm");
-        for (var i = selectOutletForm.options.length - 1; i > 0; i--)
-        {
-            selectOutletForm.remove(i);
+        $('#commandsForm').val("choose");
+        $('#divCommands').hide();
+        $('#equipmentsForm').val("choose");
+        $('#divEquipment').hide();
+        $('#outletsForm').val("choose");
+        $('#divOutlets').hide();
+        $('#channelForm').val("choose");
+        $('#divChannel').hide();
+        $('#divCaptureButton').hide();
+        $('#divLimitButton').hide();
+        $('#divOptionsButtons').hide();
+
+        if (command !== "choose") {
+            $('#divCommands').show();
+            $('#divOptionsButtons').show();
         }
-        if (command === "choose") {
-            document.getElementById("commandsForm").style.display = "none";
-            document.getElementById("optionsButton").style.display = "none";
-        } else {
-            document.getElementById("commandsForm").style.display = "block";
-            document.getElementById("optionsButton").style.display = "block";
+    }
+    function showCommandOption(command) {
+        $('#equipmentsForm').val("choose");
+        $('#divEquipment').hide();
+        $('#outletsForm').val("choose");
+        $('#divOutlets').hide();
+        $('#channelForm').val("choose");
+        $('#divChannel').hide();
+        $('#divCaptureButton').hide();
+        $('#divLimitButton').hide();
+        if (command === "capture") {
+            getOutlets(command, $("#modulesForm").val());
+        }
+        if (command === "limit") {
+            $('#divEquipment').show();
+            var selectEquipmentForm = document.getElementById("equipmentsForm");
+            for (var i = selectEquipmentForm.options.length - 1; i > 0; i--)
+            {
+                selectEquipmentForm.remove(i);
+            }
+            //ajax para preencher o select dos equipamentos
+            $.ajax({
+                url: "<?php echo base_url(); ?>" + "index.php/Captura/getEquipments",
+                dataType: 'json',
+                scriptCharset: 'UTF-8',
+                type: "POST",
+                success: function (dados) {
+                    if (dados) {
+                        var select = document.getElementById("equipmentsForm");
+                        var selectEquipmentForm;
+                        for (var i = 0; i < dados.length; i++) {
+                            selectEquipmentForm = document.createElement("option");
+                            selectEquipmentForm.value = dados[i].codEquip;
+                            selectEquipmentForm.innerHTML = dados[i].desc;
+                            select.appendChild(selectEquipmentForm);
+                        }
+                    } else {
+                        alert("Erro Ajax ao criar o selecr dos equipamentos.");
+                    }
+                }
+            });
+        }
+    }
+    function getOutlets(command, module) {
+        $('#outletsForm').val("choose");
+        $('#divOutlets').hide();
+        $('#channelForm').val("choose");
+        $('#divChannel').hide();
+        $('#divCaptureButton').hide();
+        $('#divLimitButton').hide();
+        if (command !== "choose") {
+            $('#divOutlets').show();
+            var selectOutletForm = document.getElementById("outletsForm");
+            for (var i = selectOutletForm.options.length - 1; i > 0; i--)
+            {
+                selectOutletForm.remove(i);
+            }
             //ajax para preencher o select das tomadas
             $.ajax({
                 url: "<?php echo base_url(); ?>" + "index.php/Captura/getOutlets",
@@ -327,7 +375,7 @@
                 scriptCharset: 'UTF-8',
                 type: "POST",
                 data: {
-                    Modulo: command
+                    Module: module
                 },
                 success: function (dados) {
                     if (dados) {
@@ -346,56 +394,26 @@
             });
         }
     }
-    function getOutlets(command) {
-        document.getElementById("channelForm").style.display = "none";
-        document.getElementById("channelForm")[0].selected = true;
-        document.getElementById("capButton").style.display = "none";
-        document.getElementById("limitButton").style.display = "none";
-        document.getElementById("outletsForm").style.display = "none";
-        document.getElementById("outletsForm")[0].selected = true;
-        document.getElementById("limitForm").style.display = "none";
-        document.getElementById("limitForm")[0].selected = true;
-        if (command === "choose") {
-            document.getElementById("outletsForm").style.display = "none";
-        } else {
-            document.getElementById("outletsForm").style.display = "block";
-        }
-    }
-    function showChannel(outlet) {
-        document.getElementById("channelForm")[0].selected = true;
-        document.getElementById("limitForm").style.display = "none";
-        document.getElementById("limitForm")[0].selected = true;
-        document.getElementById("capButton").style.display = "none";
-        document.getElementById("limitButton").style.display = "none";
-        if (outlet === "choose") {
-            document.getElementById("channelForm").style.display = "none";
-        } else {
-            document.getElementById("channelForm").style.display = "block";
-        }
-    }
-    function showOptions(channel, command) {
-        if (channel === "choose") {
-            document.getElementById("capButton").style.display = "none";
-            document.getElementById("limitForm").style.display = "none";
-            document.getElementById("limitForm")[0].selected = true;
-            document.getElementById("limitButton").style.display = "none";
-        } else {
-            if (command === "limit") {
-                document.getElementById("limitForm").style.display = "block";
-            }
+    function showButton(outlet, command) {
+        $('#channelForm').val("choose");
+        $('#divChannel').hide();
+        $('#divCaptureButton').hide();
+        $('#divLimitButton').hide();
+        if (outlet !== "choose") {
             if (command === "capture") {
-                document.getElementById("capButton").style.display = "block";
+                $('#divChannel').show();
+            }
+            if (command === "limit") {
+                $('#divLimitButton').show();
             }
         }
     }
-    function showLimitButton(value) {
-        if (value === "choose") {
-            document.getElementById("limitButton").style.display = "none";
-        } else {
-            document.getElementById("limitButton").style.display = "block";
+    function showCaptureButton(command) {
+        $('#divCaptureButton').hide();
+        if (command !== "choose") {
+            $('#divCaptureButton').show();
         }
     }
-
     function mostraTabelaSimilaridade() {
         //pega os checkboxes clicados em um array, a ordenação não é por clique e sim por leitura dos clicados, de cima para baixo
         var checkboxSelecionados = [];

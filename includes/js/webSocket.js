@@ -7,6 +7,7 @@ var capture;
 var limit;
 var test;
 var outlet;
+var equipment;
 var channel;
 var module;
 var conexaoAtiva;
@@ -25,15 +26,15 @@ function pageLoad()
     outlet = document.getElementById("outletsForm");
     channel = document.getElementById("channelForm");
     module = document.getElementById("modulesForm");
-
+    
     capture = document.getElementById("captureWS");
     capture.onclick = enviarCapture;
 
     limit = document.getElementById("limitWS");
     limit.onclick = sendLimit;
 
-    test = document.getElementById("testWS");
-    test.onclick = sendTestMessage;
+    //test = document.getElementById("testWS");
+    //test.onclick = sendTestMessage;
 
     reset = document.getElementById("resetWS");
     reset.onclick = enviarReset;
@@ -67,7 +68,7 @@ function onClose(e)
 {
     conexaoAtiva = false;
     consoleLog("WS Desconectado!!!");
-    alert("Desconectou!!");
+    //alert("Desconectou!!");
 }
 
 function onMessage(e)
@@ -97,13 +98,13 @@ function enviarCapture() {
 
 function sendLimit() {
     moduleIP = module.options[module.selectedIndex].getAttribute("ip");
-    limitSelect = document.getElementById("limitForm");
+    equipment = document.getElementById("equipmentsForm");
     if (!conexaoAtiva) {
         conectarWebSocket();
         alert("Conexão não estava ativa, favor enviar novamente a mensagem!!!");
         //informar que está desconectado e precisa reenviar a mensagem
     } else {
-        websocket.send("#*setLimit*#" + moduleIP + ":" + outlet.value + ":" + channel.value + ":" + limitSelect.value);
+        websocket.send("#*setLimit*#" + moduleIP + ":" + equipment.value + ":" + outlet.value);
     }
     //consoleLog("Enviado: " + enviarMensagem.value);
 }
