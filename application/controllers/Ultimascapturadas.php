@@ -1,58 +1,66 @@
 <?php
+//* 2016 Controller
+//* Desenvolvido por: Leonardo Francisco Rauber
+//* Email: leorauber@hotmail.com - 132789@upf.br
+//* Projeto de conclusão de curso
+//* UPF - Ciência da Computação
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Ultimascapturadas extends MY_Controller {
 
-    /**
-     * 2015
-     * Desenvolvido por: Maurício Antonioli Schmitz
-     * Email: mateusperego@yahoo.com.br
-     * Projeto de conclusão de curso
-     * UPF - Ciência da Computação
-     */
     public function __construct() {
         parent::__construct();
         $this->load->model('ultimascapturadas_model');
+        $this->load->library('similaridade');
     }
-
+    
     public function index() {
-        $data['uc'] = $this->ultimascapturadas_model->get_all_ultimascapturadas();
-
+        $sala = $this->uri->segment(3);
         $data['title'] = $this->lang->line('last_captured');
-        $data['headerOption'] =
-            "<link rel='stylesheet' href=".base_url()."includes/css/estilo.css>" .
-            "<link rel='stylesheet' href=".base_url()."includes/css/abas.css>" .
-                "<link rel='stylesheet' href=".base_url()."includes/dataTables/jquery.dataTables.min.css>" .
-            "<script src=".base_url()."includes/js/highcharts.js></script>" .
-            "<script src=".base_url()."includes/js/graficosdetalhes.js></script>" .
-                "<script src=".base_url()."includes/dataTables/jquery.dataTables.min.js></script>" .
-            "<script src=".base_url()."includes/js/exporting.js></script>";
         $data['footerHide'] = 'true';
-        $this->load->template('Ultimas_capturadas_view', $data);
+        $data['headerOption'] = "<link rel='stylesheet' href=" . base_url() . "includes/css/estilo.css>" .
+                "<link rel='stylesheet' href=" . base_url() . "includes/css/abas.css>" .
+                "<link rel='stylesheet' href=" . base_url() . "includes/bootstrapTable/bootstrap-table.min.css>" . 
+                "<link rel='stylesheet' href=" . base_url() . "includes/css/estilosLeo.css>" . 
+                "<script src=" . base_url() . "includes/bootstrapTable/bootstrap-table.min.js></script>" .
+                "<script src=" . base_url() . "includes/dataTables/jquery.dataTables.min.js></script>" .
+                "<script src=" . base_url() . "includes/js/highcharts.js></script>" .
+                "<script src=" . base_url() . "includes/js/graficosdetalhes.js></script>" .
+                "<script src=" . base_url() . "includes/js/exporting.js></script>";
+        $this->load->template('Ultimascapturadas_view', $data);
     }
+
 
     public function graficos() {
 
-        $id = $_POST['idCheckbox']; //pega o id(captura) para gerar os gráficos
+        $id = filter_input_array(INPUT_POST)['idCheckbox']; //pega o id(captura) para gerar os gráficos
+
         $data['barra'] = $this->graficoBarra($id, $onda = 0);
         $data['linha'] = $this->graficoLinha($id, $onda = 0);
 
         echo json_encode($data);
     }
-
+    
     public function linha() {
 
-        $captura = $_POST['Captura']; //pega codCaptura vindo do ajax
+        $captura = filter_input_array(INPUT_POST)['Captura']; //pega codCaptura vindo do ajax
         $data['linha'] = $this->graficoLinha($captura, $onda = 0);
 
         echo json_encode($data);
     }
+    
+    public function barra() {
 
+        $captura = filter_input_array(INPUT_POST)['Captura']; //pega codCaptura vindo do ajax
+        $data['barra'] = $this->graficoBarra($captura, $onda = 0);
+
+        echo json_encode($data);
+    }
     /**
-     * Converte segunos em horas, minutos e segundos
+     * Converte segundos em horas, minutos e segundos
      *
-     * @param integer $seconds Number of seconds to parse
+     * @param integer $time Number of seconds to parse
      * @return array
      */
     function secondsToTime($time) {
@@ -92,14 +100,13 @@ class Ultimascapturadas extends MY_Controller {
                 $ponto[$j] = $valormedio;
                 for ($i = 0; $i < HARMONICAS; $i++)
                     $ponto[$j] = $ponto[$j] + $sen[$i] * sin(2 * M_PI * ($i + 1) * FREQBASE * $tempo[$j]) + $cos[$i] * cos(2 * M_PI * ($i + 1) * FREQBASE * $tempo[$j]);
-                //$ponto[$j] =  (($ponto[$j] * (2.0)) / 256.0);
-                //$ponto[$j] = ($ponto[$j] - $deslocamento ) / $ganho;
+//$ponto[$j] =  (($ponto[$j] * (2.0)) / 256.0);
+//$ponto[$j] = ($ponto[$j] - $deslocamento ) / $ganho;
                 $ponto[$j] = $ponto[$j] / $ganho;
                 $tempo[$j + 1] = ($tempo[$j] + (1.0 / (60 * 256)));
                 $pontos[$j][0] = ($tempo[$j] * 100000);
                 $pontos[$j][1] = $ponto[$j];
             }
-
         } else {
             $dados2 = $this->ultimascapturadas_model->get_cod_captura($codCaptura);
             foreach ($dados2 as $dados2):
@@ -150,7 +157,7 @@ class Ultimascapturadas extends MY_Controller {
             $barras[0] = $f;
             $barra[0] = $barras[0];
 
-            //valor das 12 proximas barras identificar por (i+1) * FREQBASE
+//valor das 12 proximas barras identificar por (i+1) * FREQBASE
             for ($i = 0; $i < HARMONICAS; $i++) {
                 $f = (float) sqrt($sen[$i] * $sen[$i] + $cos[$i] * $cos[$i]);
                 $f = $f / $ganho;
@@ -176,7 +183,7 @@ class Ultimascapturadas extends MY_Controller {
             $barras[0] = $f;
             $barra[0] = $barras[0];
 
-            //valor das 12 proximas barras identificar por (i+1) * FREQBASE
+//valor das 12 proximas barras identificar por (i+1) * FREQBASE
             for ($i = 0; $i < HARMONICAS; $i++) {
                 $f = (float) sqrt($sen[$i] * $sen[$i] + $cos[$i] * $cos[$i]) / 128;
                 $f = $f / $ganho;
@@ -187,4 +194,61 @@ class Ultimascapturadas extends MY_Controller {
         return($barra);
     }
 
+    public function tabelaSimilaridade() {
+        $checkBoxes = filter_input_array(INPUT_POST)['Check'];  //pega código de captura dos checkboxes clicados, vindo do ajax
+        $cont = count($checkBoxes);
+
+//se foi clicado apenas um checkbox
+        if ($cont <= 1) {
+            $html = "<tr><td>{$checkBoxes[0]}</td><td>1</td></tr>";
+        } else {
+//transformar vetor em matriz
+            $tabela = array();
+            $tabela[0][0] = "-";
+            for ($i = 0; $i < $cont; $i++) {
+                $tabela[$i + 1][0] = $checkBoxes[$i];
+                $tabela[0][$i + 1] = $checkBoxes[$i];
+            }
+
+//calcula a similaridade e preenche a tabela
+            for ($i = 0; $i < $cont; $i++) {
+                $onda1 = $this->similaridade->calcula256Pontos($tabela[$i + 1][0]);
+                for ($j = 0; $j < $cont; $j++) {
+                    if ($i === $j) {
+                        $tabela[$i + 1][$j + 1] = "1";
+                    } else {
+                        $onda2 = $this->similaridade->calcula256Pontos($tabela[0][$j + 1]);
+                        $recebeSpearman = $this->similaridade->spearman($onda1, $onda2);
+                        $tabela[$i + 1][$j + 1] = $recebeSpearman[0];
+                    }
+                }
+            }
+
+//cria o html da tabela
+            $html = "";
+            for ($i = 0; $i < $cont + 1; $i++) {
+                $html .= "<tr>";
+                for ($j = 0; $j < $cont + 1; $j++) {
+                    $html .= "<td>{$tabela[$i][$j]}</td>";
+                }
+                $html .= "</tr>";
+            }
+        }
+//envia para view a tabela completa
+        echo json_encode($html);
+    }
+
+    public function atualizaTable() {
+        //Conectando ao banco de dados
+        $query = $this->ultimascapturadas_model->get_all_detalhes();
+
+        echo json_encode($query);
+    }
+    
+    public function todasCapturas() {
+        //Conectando ao banco de dados
+        $query = $this->ultimascapturadas_model->get_all_captures();
+
+        echo json_encode($query);
+    }    
 }
