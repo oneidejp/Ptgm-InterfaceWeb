@@ -150,7 +150,8 @@ $lang["empty"] = "Empty";
 $lang["dangerousness"] = "Dangerousness";
 $lang["similarity"] = "Similarity";
 $lang["capture_code"] = "Capture Code";
-
+//ultimasCapturas
+$lang["update"] = "Update";
 //comparar
 $lang["valor_medio"] = "Mean Value";
 $lang["cod_onda_padrao"] = "Standard Waveform ID";

@@ -1,12 +1,10 @@
 <?php
-
-/**
-	* 2015
-	* Desenvolvido por: Mateus Perego
-	* Email: mateusperego@yahoo.com.br
-	* Projeto de conclusão de curso
-	* UPF - Ciência da Computação
-	*/	
+//Model
+//* 2016
+//* Desenvolvido por: Leonardo Francisco Rauber
+//* Email: leorauber@hotmail.com - 132789@upf.br
+//* Projeto de conclusão de curso
+//* UPF - Ciência da Computação	
 
 class detalhes_model extends CI_Model{
 	//pega todos os registros das salas em uso
@@ -16,13 +14,27 @@ class detalhes_model extends CI_Model{
 		$this->db->where('cap.codCaptura = uso.codCaptura');
 		$this->db->where('uso.codusosala = ', $sala);
 		$this->db->where('equip.codEquip = cap.codEquip');
-		$this->db->order_by('codEquip, dataAtual');
+		$this->db->order_by('codCaptura, dataAtual');
 		$query = $this->db->get();
 
 		return $query->result();
 	}
+        
+        function get_all_data_table($sala){
+//                return $query = $this->db->query("SELECT cap.codCaptura, cap.CodTomada, cap.CodEquip, equip.desc, cap.eficaz, equip.tempoUso, cap.dataAtual FROM capturaatual AS cap, usosalacaptura AS uso, equipamento AS equip WHERE cap.codCaptura = uso.cod Captura and uso.codusosala = $sala and equip.codEquip = cap.codEquip order by codEquip , dataAtual;");
+                
+                $this->db->select("cap.codCaptura, cap.CodTomada, cap.CodEquip, equip.desc, cap.eficaz, equip.tempoUso, cap.dataAtual");
+		$this->db->from ('capturaatual cap, usosalacaptura uso, equipamento equip');
+		$this->db->where('cap.codCaptura = uso.codCaptura');
+		$this->db->where('uso.codusosala = ', $sala);
+		$this->db->where('equip.codEquip = cap.codEquip');
+		$this->db->order_by('codEquip, dataAtual');
+		$query = $this->db->get();
 
-	//get by id
+		return $query->result();
+        }
+        
+        //get by id
 	function get_by_id_usosala($codUsoSala){
 		$this->db->where('codUsoSala',$codUsoSala);
 		$query=$this->db->get('usosala');
@@ -66,7 +78,7 @@ class detalhes_model extends CI_Model{
 		$this->db->where('uso.codusosala = ', $sala);
 		$this->db->where('equip.codEquip = cap.codEquip');
 		$this->db->where('equip.codEquip = ', $CodEquip);
-		$this->db->order_by('dataAtual');
+		$this->db->order_by('cap.codCaptura desc');
 		$query = $this->db->get();
 
 		return $query->result();
