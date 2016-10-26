@@ -7,23 +7,25 @@
 
 class ultimascapturadas_model extends CI_Model{
 	//pega todos os registros das salas em uso
-	function get_all_detalhes(){
-		$this->db->select("cap.codCaptura, cap.CodTomada, cap.CodEquip, equip.desc, cap.eficaz, equip.tempoUso, cap.dataAtual");
-		$this->db->from ('capturaatual cap, usosalacaptura uso, equipamento equip');
-		$this->db->where('cap.codCaptura = uso.codCaptura');
-		$this->db->where('equip.codEquip = cap.codEquip');
-                $this->db->limit(10);
-		$this->db->order_by('codCaptura, dataAtual');
-		$query = $this->db->get();
+	function get_all_detalhes($captura){
+            $this->db->select("cap.codCaptura, cap.CodTomada, cap.CodEquip, equip.desc, cap.eficaz, equip.tempoUso, cap.dataAtual, cap.codEvento");
+            $this->db->from ('capturaatual cap, usosalacaptura uso, equipamento equip');
+            $this->db->where('cap.codCaptura = uso.codCaptura');
+            $this->db->where('equip.codEquip = cap.codEquip');
+            $this->db->where("cap.codCaptura > $captura");
+            $this->db->where('(cap.codEvento = 1 OR cap.codEvento = 4)');
+            $this->db->order_by('dataAtual desc');
+            $query = $this->db->get();
 
-		return $query->result();
+            return $query->result();
 	}
         
-        function get_all_captures() {
+        function get_last_capture() {
             $this->db->select("codCaptura");
             $this->db->from("capturaatual");
-            $this->db->limit(10);
-            $this->db->order_by("codCaptura");
+            $this->db->where('(codEvento = 1 OR codEvento = 4)');
+            $this->db->order_by("codCaptura desc");
+            $this->db->limit(1);
             $query = $this->db->get();
 
             return $query->result();

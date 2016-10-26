@@ -239,15 +239,16 @@ class Ultimascapturadas extends MY_Controller {
     }
 
     public function atualizaTable() {
+        $captura = filter_input_array(INPUT_POST)['Captura'];
         //Conectando ao banco de dados
-        $query = $this->ultimascapturadas_model->get_all_detalhes();
+        $query = $this->ultimascapturadas_model->get_all_detalhes($captura);
 
         echo json_encode($query);
     }
     
-    public function todasCapturas() {
+    public function ultimaCaptura() {
         //Conectando ao banco de dados
-        $query = $this->ultimascapturadas_model->get_all_captures();
+        $query = $this->ultimascapturadas_model->get_last_capture();
 
         echo json_encode($query);
     }    
