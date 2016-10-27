@@ -71,7 +71,7 @@
   make css circles in different color
 */
 .green-circle {
-	margin: 0 auto;
+    margin: 0 auto;
     background-color:#00FF00;
     height:20px;
     width:20px;

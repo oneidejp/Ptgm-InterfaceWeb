@@ -26,7 +26,7 @@ function pageLoad()
     outlet = document.getElementById("outletsForm");
     channel = document.getElementById("channelForm");
     module = document.getElementById("modulesForm");
-    
+
     capture = document.getElementById("captureWS");
     capture.onclick = enviarCapture;
 
