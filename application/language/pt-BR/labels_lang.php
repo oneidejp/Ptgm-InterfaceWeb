@@ -174,6 +174,7 @@ $lang["button_send"] = "Enviar";
 $lang["reset"] = "Reiniciar";
 $lang["connect"] = "Conectar";
 $lang["test"] = "Testar";
+$lang["event"] = "Evento";
 
 
 ?>

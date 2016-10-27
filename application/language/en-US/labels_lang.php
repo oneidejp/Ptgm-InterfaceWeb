@@ -173,5 +173,6 @@ $lang["button_send"] = "Send";
 $lang["reset"] = "Reset";
 $lang["connect"] = "Connect";
 $lang["test"] = "Test";
+$lang["event"] = "Event";
 
 ?>

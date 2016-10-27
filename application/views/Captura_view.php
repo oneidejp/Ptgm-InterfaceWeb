@@ -65,9 +65,9 @@
                 <button class="btn btn-info" id="limitWS"><?php echo $this->lang->line('button_send'); ?></button>
             </div>
             <div class="col-md-2 col-xs-2 pull-right" id="divOptionsButtons">
-                <!--
-                <button class="btn btn-success" id="testWS"><?php echo $this->lang->line('test'); ?></button>
-                -->
+
+                <!--<button class="btn btn-success" id="testWS"><?php //echo $this->lang->line('test'); ?></button>-->
+
                 <button class="btn btn-primary" id="connectWS"><?php echo $this->lang->line('connect'); ?></button>
                 <button class="btn btn-danger" id="resetWS"><?php echo $this->lang->line('reset'); ?></button>
             </div>
@@ -82,10 +82,10 @@
                     <thead>
                         <tr>
                             <th><?php echo $this->lang->line('capture'); ?></th>
+                            <th><?php echo $this->lang->line('event'); ?></th>
                             <th><?php echo $this->lang->line('plug'); ?></th>
                             <th><?php echo $this->lang->line('equipment'); ?></th>
                             <th><?php echo $this->lang->line('effective'); ?></th>
-                            <th><?php echo $this->lang->line('use'); ?></th>
                             <th><?php echo $this->lang->line('date'); ?></th>
                             <th><?php echo $this->lang->line('dangerousness'); ?></th>
                             <th><?php echo $this->lang->line('compare'); ?></th>
@@ -112,10 +112,10 @@
                                 ?>
                                 <tr id="linha<?php echo $dados->codCaptura; ?>">
                                     <td id="<?php echo $dados->codCaptura; ?>-2"><?php echo $dados->codCaptura; ?></td>
+                                    <td id="<?php echo $dados->codCaptura; ?>-1"><?php echo $dados->codEvento; ?></td>
                                     <td id="<?php echo $dados->codCaptura; ?>-3"><?php echo $dados->codTomada; ?></td>
                                     <td id="<?php echo $dados->codCaptura; ?>-4"><?php echo $dados->codEquip; ?></a></td>
                                     <td id="<?php echo $dados->codCaptura; ?>-5"><?php echo substr($dados->eficaz, 0, 6); ?></td>
-                                    <td id="<?php echo $dados->codCaptura; ?>-6"><?php echo "" ?></td>
                                     <td id="<?php echo $dados->codCaptura; ?>-7"><?php echo date('d/m/Y H:m:s', strtotime($dados->dataAtual)); ?></td>
                                     <td id="<?php echo $dados->codCaptura; ?>-9"><div class="<?php
                                         if ($periculosidade[$ind] === 0) {
