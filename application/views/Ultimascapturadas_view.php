@@ -22,7 +22,7 @@
                             FUGA
                             <input id="fuga" onclick="fuga()" type="checkbox" checked="true">&emsp;
                             Visualização
-                            <input id="visualization" onchange="visualization()" type="text" value="4" style="height:35px;width:40px;">&emsp;
+                            <input id="visualization" oninput="visualization()" type="number" value="4" style="width:70px;">&emsp;
                             FFT
                             <input id="fft" onclick="mostraFFT()" type="checkbox" >
                             
@@ -142,6 +142,7 @@
 
     function geraGraficoInit(){
         for(var i = limitGraf-1; i >= 0; i--){
+//            if ($(".linha"+(qntLines-i)).prop("style") === "display: none") alert("aaaa");
             $("#checkboxequip" + (qntLines - i)).prop("checked", true);
             var captura = $("#checkboxequip" + (qntLines - i)).attr("class");
             var cap = captura.substring(1 , captura.length);
@@ -178,8 +179,6 @@
         }
         
         var $divCont = $('#divlinha' + classe);
-//        alert('#divlinha' + classe);
-        
         $.ajax({
             url: baseUrl + "index.php/Ultimascapturadas/linha", //requisita novo gráfico
             dataType: 'json',
@@ -282,6 +281,7 @@
         // creates a table row
         var row = document.createElement("tr");
         row.id = "linha" + dados.codCaptura;
+        row.className = "linha"+qntLines;
         
         if (dados.codEvento === "1"){
             row.style = "background-color: #FFEEEE;";
@@ -548,7 +548,7 @@
     }
      
     function fase(){
-        alert("implementar graficos embaixo apenas de fase");
+//        alert("implementar graficos embaixo apenas de fase");
         if ($("#fase").prop("checked")){
             $(".fase").prop("style", "background-color: #DDFFDD;");
         }else {
@@ -563,7 +563,7 @@
     }
     
     function fuga(){
-        alert("implementar graficos embaixo apenas de fuga");
+//        alert("implementar graficos embaixo apenas de fuga");
         if ($("#fuga").prop("checked")){
             $(".fuga").prop("style", "background-color: #FFDDDD;");
         }else {
