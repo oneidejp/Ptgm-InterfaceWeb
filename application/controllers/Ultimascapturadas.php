@@ -82,19 +82,34 @@ class Ultimascapturadas extends MY_Controller {
     //função calcula gráfico linha normal e padrão
     public function graficoLinha($codCaptura, $onda) {
         $i = 0;
-        if ($onda == 0) {
+//        if ($onda == 0) {
+//            
             $dados2 = $this->ultimascapturadas_model->get_cod_captura($codCaptura);
-            foreach ($dados2 as $dados2):
-                $ganho = $dados2->gain;
-                $valormedio = $dados2->valormedio;
-                $deslocamento = $dados2->offset;
-            endforeach;
             $dados3 = $this->ultimascapturadas_model->get_harmonica($codCaptura);
-            foreach ($dados3 as $dados3):
-                $cos[$i] = $dados3->cos;
-                $sen[$i] = $dados3->sen;
+            
+                  $ganho = $dados2[0]->gain;
+                    $valormedio = $dados2[0]->valormedio;
+            /*
+            foreach ($dados2 as $dados21):
+                    $ganho = $dados21->gain;
+                    $valormedio = $dados21->valormedio;
+            endforeach;
+/*          
+                    $ret = $dados2->get->row();    
+                    $ganho = $ret->gain;
+                    $valormedio = $ret->valormedio;
+                //    $deslocamento = $dados21->offset;
+  */              
+            
+            
+            foreach ($dados3 as $dados31):
+                $cos[$i] = $dados31->cos;
+                $sen[$i] = $dados31->sen;
                 $i = $i + 1;
             endforeach;
+
+            
+            
             $tempo[0] = 0;
             for ($j = 0; $j < PONTOSONDA; $j++) {
                 $ponto[$j] = $valormedio;
@@ -107,31 +122,32 @@ class Ultimascapturadas extends MY_Controller {
                 $pontos[$j][0] = ($tempo[$j] * 100000);
                 $pontos[$j][1] = $ponto[$j];
             }
-        } else {
-            $dados2 = $this->ultimascapturadas_model->get_cod_captura($codCaptura);
-            foreach ($dados2 as $dados2):
-                $ganho = $dados2->gain;
-                $valormedio = $dados2->valormedio;
-                $deslocamento = $dados2->offset;
-            endforeach;
-            $dados3 = $this->ultimascapturadas_model->get_harmonica_padrao($codCaptura);
-            foreach ($dados3 as $dados3):
-                $cos[$i] = $dados3->cos;
-                $sen[$i] = $dados3->sen;
-                $i = $i + 1;
-            endforeach;
-            $tempo[0] = 0;
-            for ($j = 0; $j < PONTOSONDA; $j++) {
-                $ponto[$j] = (float) $valormedio / 2;
-                for ($i = 0; $i < HARMONICAS; $i++)
-                    $ponto[$j] = $ponto[$j] + $sen[$i] * cos(2 * M_PI * ($i + 1) * FREQBASE * $tempo[$j]) + $cos[$i] * sin(-2 * M_PI * ($i + 1) * FREQBASE * $tempo[$j]);
-                $ponto[$j] = (int) (($ponto[$j] * (2.0)) / 256.0);
-                $ponto[$j] = ($ponto[$j] - $deslocamento ) / $ganho;
-                $tempo[$j + 1] = ($tempo[$j] + (float) (1.0 / (60 * 256)));
-                $pontos[$j][0] = (int) ($tempo[$j] * 100000);
-                $pontos[$j][1] = $ponto[$j];
-            }
-        }
+//        } else {
+//            
+//            $dados3 = $this->ultimascapturadas_model->get_harmonica_padrao($codCaptura);
+//            foreach ($dados3 as $dados3):
+//                $cos[$i] = $dados3->cos;
+//                $sen[$i] = $dados3->sen;
+//                $i = $i + 1;
+//            endforeach;
+//            $dados2 = $this->ultimascapturadas_model->get_cod_captura($codCaptura);
+//            foreach ($dados2 as $dados2):
+//                $ganho = $dados2->gain;
+//                $valormedio = $dados2->valormedio;
+//                $deslocamento = $dados2->offset;
+//            endforeach;
+//            $tempo[0] = 0;
+//            for ($j = 0; $j < PONTOSONDA; $j++) {
+//                $ponto[$j] = (float) $valormedio / 2;
+//                for ($i = 0; $i < HARMONICAS; $i++)
+//                    $ponto[$j] = $ponto[$j] + $sen[$i] * cos(2 * M_PI * ($i + 1) * FREQBASE * $tempo[$j]) + $cos[$i] * sin(-2 * M_PI * ($i + 1) * FREQBASE * $tempo[$j]);
+//                $ponto[$j] = (int) (($ponto[$j] * (2.0)) / 256.0);
+//                $ponto[$j] = ($ponto[$j] - $deslocamento ) / $ganho;
+//                $tempo[$j + 1] = ($tempo[$j] + (float) (1.0 / (60 * 256)));
+//                $pontos[$j][0] = (int) ($tempo[$j] * 100000);
+//                $pontos[$j][1] = $ponto[$j];
+//            }
+//        }
         return($pontos);
     }
 

@@ -9,15 +9,16 @@
 class detalhes_model extends CI_Model{
 	//pega todos os registros das salas em uso
 	function get_all_detalhes($sala){
-		$this->db->select("cap.codCaptura, cap.CodTomada, cap.CodEquip, equip.desc, cap.eficaz, equip.tempoUso, cap.dataAtual");
-		$this->db->from ('capturaatual cap, usosalacaptura uso, equipamento equip');
-		$this->db->where('cap.codCaptura = uso.codCaptura');
-		$this->db->where('uso.codusosala = ', $sala);
-		$this->db->where('equip.codEquip = cap.codEquip');
-		$this->db->order_by('codCaptura, dataAtual');
-		$query = $this->db->get();
+                $this->db->select("cap.codCaptura, cap.CodTomada, cap.CodEquip, equip.desc, cap.eficaz, equip.tempoUso, cap.dataAtual");
+                $this->db->from ('capturaatual cap, usosalacaptura uso, equipamento equip');
+                $this->db->where('cap.codCaptura = uso.codCaptura');
+                $this->db->where('uso.codusosala = ', $sala);
+                $this->db->where('equip.codEquip = cap.codEquip');
+                $this->db->where('(cap.codEvento = 1 OR cap.codEvento = 4)');
+                $this->db->order_by('codCaptura, dataAtual');
+                $query = $this->db->get();
 
-		return $query->result();
+                return $query->result();
 	}
         
         function get_all_data_table($sala){
