@@ -13,6 +13,7 @@ $lang["model_page"] = "Model Page!";
 $lang["control"] = "Control";
 $lang["control_panel"] = "Control Panel";
 $lang["last_captured"] = "Last Captured";
+$lang["communication"] = "Communication";
 $lang["fo_captured"] = "WF Captured";
 $lang["use_room"] = "Rooms use";
 $lang["standard"] = "Standard";

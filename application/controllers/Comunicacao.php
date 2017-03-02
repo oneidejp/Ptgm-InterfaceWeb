@@ -1,88 +1,115 @@
 <?php
 
 defined('BASEPATH') OR exit('No direct script access allowed');
-require_once(APPPATH . 'libraries/Telnet.php');
 
 class Comunicacao extends MY_Controller {
 
+    /**
+     * 2016
+     * Desenvolvido por: Maurício Antonioli Schmitz
+     * Projeto de Mestrado em Computação Aplicada - PPGCA/UPF
+     */
     public function __construct() {
         parent::__construct();
-        //$this->load->model('detalhes_model');
-        //$this->load->library('similaridade');
+        $this->load->model('Comunicacao_model');
+        $this->load->library('similaridade');
     }
 
-    public function conectarTelnet() {
-        //$host = $_POST['Host'];
-        //$comando = $_POST['Comando'];
-        try {
-            $t = new Net_Telnet("192.168.103.102");
-            $t->prompt("root@protegemed:~$ ");
-            $t->connect();
+    public function antes($palavra, $string) {
+        return substr($string, 0, strpos($string, $palavra));
+    }
 
-
-            echo $t->cmd('help');
-
-            $t->disconnect();
-
-            $t->get_data();
-            /* $t = new Net_Telnet($host);
-              $t->connect();
-              $t->prompt("root@protegemed:~$ ");
-
-              $t->cmd('help');
-
-              $t->disconnect();
-
-              $return = $t->get_data(); */
-        } catch (Exception $e) {
-            //$return = "Exception ('{$e->getMessage()}')\n{$e}\n";
+    public function depois($palavra, $string) {
+        if (!is_bool(strpos($string, $palavra))) {
+            return substr($string, strpos($string, $palavra) + strlen($palavra));
         }
+    }
 
+    //ajax function
+    public function getAllCaptures() {
 
+        $id = filter_input_array(INPUT_POST)['idCheckbox']; //pega o id(captura) para gerar os gráficos
+        $data['barra'] = $this->graficoBarra($id, $onda = 0);
+        $data['linha'] = $this->graficoLinha($id, $onda = 0);
 
-        //$algo = $_POST['Algo']; //pega código de captura dos checkboxes clicados, vindo do ajax
-        //echo json_encode($comando);
-        //exit();
+        echo json_encode($data);
+    }
+
+    public function getOutlets() {
+
+        $id = filter_input_array(INPUT_POST)['Module']; //pega o id do modulo
+        $outlets = $this->Comunicacao_model->get_outlets($id);
+
+        echo json_encode($outlets);
+    }
+
+    public function getEquipments() {
+
+        $equipments = $this->Comunicacao_model->get_equipments();
+
+        echo json_encode($equipments);
     }
 
     public function index() {
-        if (isset(filter_input_array(INPUT_POST)['cadastrar'])) {
-            try {
-                //$t = new Net_Telnet();
-                /*$t = new Net_Telnet(array(
-                    'host' => '192.168.103.102',
-                    'debug' => 'false',
-                    'prompt' => 'root@protegemed:~$ ',
-                ));*/
-                $t = new Net_Telnet(array(
-                    'host' => 'localhost',
-                    'debug' => 'true',
-                    'prompt' => 'Mauricios-MacBook-Pro:~ mauricioschmitz$ ',
-                ));
-                $t->echomode('none');
-                $t->login("mauricioschmitz", "mas");
-                //$opa = $t->cmd('listparam');
-                if ($t->online()) {
-                    //mandou help e recebeu o retorno
-                    $data['telnet'] = $t->cmd('help');
-                    var_dump($data['telnet']);
-                    //$data['buff'] = $t->get_data();
-                    //$data['buff'] = $t->read_sthelpream();
-                    $data['telnet2'] = $t->cmd('exit');
-                    var_dump($data['telnet2']);
-                    $data['buff2'] = $t->get_data();
-                    //var_dump($t->cmd('exit'));
-                }
-                //
-                //$data['telnet2'] = $t->cmd('listparam');
-                //
+        //$data['tomadasExistentes'] = $this->Comunicacao_model->get_tomadas();
+        $data['modules'] = $this->Comunicacao_model->get_all_modules();
+        if (isset(filter_input_array(INPUT_POST)['captureTelnet'])) {
+            $modulo = $this->input->post('modulesForm');
+            $outlet = $this->input->post('outletsForm');
+            $channel = $this->input->post('channelForm');
+            //$data['tomadaSelecionada'] = $tomadasForm[0];
+            //$data['comando'] = "capture {$data['tomadaSelecionada']}";
+            //$data['comando'] = "capture 4 d";
+            $data['host'] = $modulo;
+            $data['comando'] = "capture {$outlet} {$channel}";
+            //$data['host'] = $this->input->post('host');
+            //$data['comando'] = $this->input->post('comando');
 
-                $t->disconnect();
-            } catch (Exception $e) {
-                echo "Caught Exception ('{$e->getMessage()}')\n{$e}\n";
-            }
+            $data['telnet'] = $this->comandoTelnet($data['host'], $data['comando']);
         }
-        $data['algo'] = "recebe algo";
+
+        $data['capturas'] = $this->Comunicacao_model->get_all_captures();
+        //$data['capturas'] = $this->Comunicacao_model->get_capture("98355");
+        $i = 0;
+        //$anterior = 0;
+        foreach ($data['capturas'] as $dados) {
+            //periculosidade recebe 0, informando que não existe perigo por padrão
+            //se receber 1 ou 2 nos testes abaixo vai retornar aquele valor, informando perigo
+            $periculosidade = 0;
+
+            //periculosidade corrente
+            if ($dados->eficaz >= 0.1 && $dados->eficaz < 0.5) {
+                //atenção
+                $periculosidade = 1;
+            } elseif ($dados->eficaz >= 0.5) {
+                //perigo
+                $periculosidade = 2;
+            }
+
+            //informa os segundos entre dois campos da tabela
+            //$inicio = strtotime($dados->dataAtual);
+            //$diff = $inicio - $anterior;
+            //$anterior = strtotime($dados->dataAtual);
+
+
+            if ($periculosidade == 0) {
+                $data["periculosidade"][$i] = 0;
+            } elseif ($periculosidade == 1) {
+                $data["periculosidade"][$i] = 1;
+            } elseif ($periculosidade == 2) {
+                $data["periculosidade"][$i] = 2;
+            }
+            $i++;
+        }
+
+        $data['title'] = $this->lang->line('communication');
+        $data['footerHide'] = 'true';
+        $data['headerOption'] = "<link rel='stylesheet' href=" . base_url() . "includes/css/estilo.css>" .
+                "\t\t<link rel='stylesheet' href=" . base_url() . "includes/css/abas.css>" .
+                "\t\t<script src=" . base_url() . "includes/js/highcharts.js></script>" .
+                "\t\t<script src=" . base_url() . "includes/js/graficosdetalhes.js></script>" .
+                "\t\t<script src=" . base_url() . "includes/js/exporting.js></script>" .
+                "\t\t<script src=" . base_url() . "includes/js/webSocket.js></script>\n";
         $this->load->template('Comunicacao_view', $data);
     }
 

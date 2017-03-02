@@ -4,4 +4,3 @@
 	'password' => 'senha.123',
 	'database' => 'protegemed',
 	);
- 
