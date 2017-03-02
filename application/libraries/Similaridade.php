@@ -101,13 +101,12 @@ class Similaridade {
             $spearmanaux1 = sqrt($spearmanaux1);
             $spearman /= $spearmanaux1;
 
-            //System.out.println("\nSpearman Posição " + j + " : " + spearman);
             //teste melhor spearman
             $soma1 = abs($spearman);
             $soma2 = abs($maxspearman[0]);
             if ($soma1 > $soma2) {
                 //armazena melhor spearman deslocando a onda
-                $maxspearman[0] = number_format($spearman, 3, '.', '');
+                $maxspearman[0] = number_format($spearman, 4, '.', '');
                 //armazena deslocamento
                 $maxspearman[1] = $j;
                 //armazena spearman sem deslocar onda
@@ -120,11 +119,10 @@ class Similaridade {
             else {
                 if ($soma1 == $soma2) {
                     if ($spearman > $maxspearman[0]) {
-                        //System.out.println("Entrou Spearman Igual: ");
                         //armazena melhor pearson deslocando a onda
-                        $maxspearman[0] = number_format($spearman, 3, '.', '');
+                        $maxspearman[0] = number_format($spearman, 4, '.', '');
                         //armazena deslocamento
-                        $maxspearman[1] = j;
+                        $maxspearman[1] = $j;
                     }
                 }
             }

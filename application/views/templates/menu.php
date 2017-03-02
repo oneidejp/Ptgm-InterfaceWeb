@@ -26,9 +26,7 @@ if (isset($menuHide) && $menuHide == "true") {
                         <li><a href="<?php echo base_url('index.php/usodesalas') ?>"><?php echo $this->lang->line('use_room'); ?></a></li>
                         <li><a href="<?php echo base_url('index.php/padrao') ?>"><?php echo $this->lang->line('standard'); ?></a></li>
                         <li><a href="<?php echo base_url('index.php/configBanco') ?>"><?php echo $this->lang->line('config_database'); ?></a></li>
-                        <li><a href="<?php echo base_url('index.php/escalas') ?>"><?php echo "Escalas"; ?></a></li>
-                        <li><a href="<?php echo base_url('index.php/Comunicacao') ?>"><?php echo "Comunicação" ?></a></li>
-                        <li><a href="<?php echo base_url('index.php/Captura') ?>"><?php echo $this->lang->line('capture'); ?></a></li>
+                        <li><a href="<?php echo base_url('index.php/Comunicacao') ?>"><?php echo $this->lang->line('communication'); ?></a></li>
                     </ul>
                 </li>
             </ul>

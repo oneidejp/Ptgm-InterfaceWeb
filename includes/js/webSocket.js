@@ -1,5 +1,5 @@
 //informar endereco e porta do servidor WebSocket
-var server = 'localhost';
+var server = '127.0.0.1';
 var port = 8080;
 var conexao;
 //var desconexao;
@@ -12,8 +12,6 @@ var channel;
 var module;
 var conexaoAtiva;
 var reset;
-var moduleRand = ["192.168.1.101", "192.168.1.102"];
-var channelRand = ["p", "d"];
 
 function pageLoad()
 {
@@ -33,8 +31,8 @@ function pageLoad()
     limit = document.getElementById("limitWS");
     limit.onclick = sendLimit;
 
-    //test = document.getElementById("testWS");
-    //test.onclick = sendTestMessage;
+    test = document.getElementById("testWS");
+    test.onclick = sendTestMessage;
 
     reset = document.getElementById("resetWS");
     reset.onclick = enviarReset;
@@ -73,7 +71,7 @@ function onClose(e)
 
 function onMessage(e)
 {
-    consoleLog('<span style="color: blue;">Resposta: ' + e.data + '</span>');
+    //consoleLog('<span style="color: blue;">Resposta: ' + e.data + '</span>');
 }
 
 function onError(e)
@@ -89,9 +87,7 @@ function enviarCapture() {
         //alert("Conexão não estava ativa, favor enviar novamente a mensagem!!!");
         //informar que está desconectado e precisa reenviar a mensagem
     } else {
-        //Math.floor((Math.random() * 6) + 4);
-        //websocket.send("#*capture*#" + moduleRand[Math.floor((Math.random() * 2) + 1) - 1] + ":" + Math.floor((Math.random() * 3) + 4) + ":" + channelRand[Math.floor((Math.random() * 2) + 1) - 1]);
-        websocket.send("#*capture*#" + moduleIP + ":" + outlet.value + ":" + channel.value);
+       websocket.send("#*capture*#" + moduleIP + ":" + outlet.value + ":" + channel.value);
     }
     //consoleLog("Enviado: " + enviarMensagem.value);
 }

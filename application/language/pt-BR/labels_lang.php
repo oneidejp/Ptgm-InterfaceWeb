@@ -15,6 +15,7 @@ $lang["control"] = "Controle";
 $lang["control_panel"] = "Painel de Controle";
 $lang["last_captured"] = "Últimas Capturadas";
 $lang["fo_captured"] = "FO Capturadas";
+$lang["communication"] = "Comunicação";
 $lang["use_room"] = "Uso de Salas";
 $lang["standard"] = "Padrão";
 $lang["config_database"] = "Configuração BD";
