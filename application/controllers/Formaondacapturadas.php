@@ -7,30 +7,35 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Ultimascapturadas extends MY_Controller {
+class Formaondacapturadas extends MY_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->model('ultimascapturadas_model');
+        $this->load->model('formaondacapturadas_model');
         $this->load->library('similaridade');
     }
     
     public function index() {
-        $sala = $this->uri->segment(3);
-        $data['title'] = $this->lang->line('last_captured');
+        $data['title'] = $this->lang->line('fo_captured');
         $data['footerHide'] = 'true';
         $data['headerOption'] = "<link rel='stylesheet' href=" . base_url() . "includes/css/estilo.css>" .
                 "<link rel='stylesheet' href=" . base_url() . "includes/css/abas.css>" .
                 "<link rel='stylesheet' href=" . base_url() . "includes/bootstrapTable/bootstrap-table.min.css>" . 
                 "<link rel='stylesheet' href=" . base_url() . "includes/css/estilosLeo.css>" . 
+                "<link rel='stylesheet' href=" . base_url() . "includes/dataTables/jquery.dataTables.min.css>" .
+                "<link rel='stylesheet' href=" . base_url() . "includes/js/jquery-ui-1.11.4.custom/jquery-ui.min.css>" . 
+                "<link rel='stylesheet' href=" . base_url() . "includes/Timepicker/jquery-ui-timepicker-addon.css>" . 
+                "<script src=" . base_url() . "includes/js/jquery.min.js></script>" .
+                "<script src=" . base_url() . "includes/js/jquery-ui-1.11.4.custom/jquery-ui.min.js></script>" .
+                "<script src=" . base_url() . "includes/Timepicker/jquery-ui-timepicker-addon.js></script>" .
+                "<script src=" . base_url() . "includes/bootstrapTable/bootstrap-table.min.js></script>" .
                 "<script src=" . base_url() . "includes/bootstrapTable/bootstrap-table.min.js></script>" .
                 "<script src=" . base_url() . "includes/dataTables/jquery.dataTables.min.js></script>" .
                 "<script src=" . base_url() . "includes/js/highcharts.js></script>" .
                 "<script src=" . base_url() . "includes/js/graficosdetalhes.js></script>" .
                 "<script src=" . base_url() . "includes/js/exporting.js></script>";
-        $this->load->template('Ultimascapturadas_view', $data);
+        $this->load->template('Formaondacapturadas_view', $data);
     }
-
 
     public function graficos() {
 
@@ -57,6 +62,7 @@ class Ultimascapturadas extends MY_Controller {
 
         echo json_encode($data);
     }
+    
     /**
      * Converte segundos em horas, minutos e segundos
      *
@@ -84,8 +90,8 @@ class Ultimascapturadas extends MY_Controller {
         $i = 0;
 //        if ($onda == 0) {
 //            
-            $dados2 = $this->ultimascapturadas_model->get_cod_captura($codCaptura);
-            $dados3 = $this->ultimascapturadas_model->get_harmonica($codCaptura);
+            $dados2 = $this->formaondacapturadas_model->get_cod_captura($codCaptura);
+            $dados3 = $this->formaondacapturadas_model->get_harmonica($codCaptura);
             
                   $ganho = $dados2[0]->gain;
                     $valormedio = $dados2[0]->valormedio;
@@ -150,18 +156,45 @@ class Ultimascapturadas extends MY_Controller {
 //        }
         return($pontos);
     }
+    
+    public function deslocaOnda(){
+        // AS DUAS ONDAS SELECIONADAS
+        $cod1 = filter_input_array(INPUT_POST)['Cod1']; 
+        $cod2 = filter_input_array(INPUT_POST)['Cod2']; 
+        $onda1 = $this->similaridade->calcula256Pontos($cod1);
+        $onda2 = $this->similaridade->calcula256Pontos($cod2);
+        $deslocamento = $this->similaridade->spearmanDeslocamento($onda1, $onda2);
+        // PEGA A ONDA
+        $linha2 = $this->graficoLinha($cod2, $onda = 0);
+        $ondaDeslocada = $linha2;
+        
+        $tamanho = 256;
+        $l = 0;
+        // DESLOCANDO O VETOR
+        for($d = $deslocamento; $d < $tamanho; $d++){
+            $ondaDeslocada[$l][1] = $linha2[$d][1];
+            $l++;
+        }
+        for($d = 0; $d < $deslocamento; $d++){
+            $ondaDeslocada[$l][1] = $linha2[$d][1];
+            $l++;
+        }
+//        echo json_encode($deslocamento);
+        //echo json_encode($linha2);
+        echo json_encode($ondaDeslocada);
+    }
 
     //função calcula gráfico de barras
     public function graficoBarra($codCaptura, $onda) {
         $i = 0;
         if ($onda == 0) {
-            $dados2 = $this->ultimascapturadas_model->get_cod_captura($codCaptura);
+            $dados2 = $this->formaondacapturadas_model->get_cod_captura($codCaptura);
             foreach ($dados2 as $dados2):
                 $ganho = $dados2->gain;
                 $valormedio = $dados2->valormedio;
                 $deslocamento = $dados2->offset;
             endforeach;
-            $dados3 = $this->ultimascapturadas_model->get_harmonica($codCaptura);
+            $dados3 = $this->formaondacapturadas_model->get_harmonica($codCaptura);
             foreach ($dados3 as $dados3):
                 $cos[$i] = $dados3->cos;
                 $sen[$i] = $dados3->sen;
@@ -181,13 +214,13 @@ class Ultimascapturadas extends MY_Controller {
                 $barra[$i + 1] = $barras[$i + 1];
             }
         } else {
-            $dados2 = $this->ultimascapturadas_model->get_cod_captura($codCaptura);
+            $dados2 = $this->formaondacapturadas_model->get_cod_captura($codCaptura);
             foreach ($dados2 as $dados2):
                 $ganho = $dados2->gain;
                 $valormedio = $dados2->valormedio;
                 $deslocamento = $dados2->offset;
             endforeach;
-            $dados3 = $this->ultimascapturadas_model->get_harmonica_padrao($codCaptura);
+            $dados3 = $this->formaondacapturadas_model->get_harmonica_padrao($codCaptura);
             foreach ($dados3 as $dados3):
                 $cos[$i] = $dados3->cos;
                 $sen[$i] = $dados3->sen;
@@ -245,7 +278,11 @@ class Ultimascapturadas extends MY_Controller {
             for ($i = 0; $i < $cont + 1; $i++) {
                 $html .= "<tr>";
                 for ($j = 0; $j < $cont + 1; $j++) {
-                    $html .= "<td>{$tabela[$i][$j]}</td>";
+                    if($j!=0 && $i!=0 && $tabela[$i][$j] != 1){
+                        $html .= "<td onclick=deslocaGrafico({$tabela[$i][0]},{$tabela[0][$j]})>{$tabela[$i][$j]}</td>";
+                    } else {
+                        $html .= "<td>{$tabela[$i][$j]}</td>";
+                    }
                 }
                 $html .= "</tr>";
             }
@@ -253,19 +290,18 @@ class Ultimascapturadas extends MY_Controller {
 //envia para view a tabela completa
         echo json_encode($html);
     }
-
-    public function atualizaTable() {
-        $captura = filter_input_array(INPUT_POST)['Captura'];
+    
+    public function getDataTable() {
+        $equipment = filter_input_array(INPUT_POST)['Equipment'];
+        $fase = filter_input_array(INPUT_POST)['Fase'];
+        $fuga = filter_input_array(INPUT_POST)['Fuga'];
+        $datestart = filter_input_array(INPUT_POST)['Datestart'];
+        $dateend = filter_input_array(INPUT_POST)['Dateend'];
+        $limit = filter_input_array(INPUT_POST)['Limit'];
         //Conectando ao banco de dados
-        $query = $this->ultimascapturadas_model->get_all_detalhes($captura);
+        $query = $this->formaondacapturadas_model->get_all_data($equipment, $fase, $fuga, $datestart, $dateend, $limit);
 
         echo json_encode($query);
     }
     
-    public function ultimaCaptura() {
-        //Conectando ao banco de dados
-        $query = $this->ultimascapturadas_model->get_last_capture();
-
-        echo json_encode($query);
-    }    
 }

@@ -5,16 +5,33 @@
 //* Projeto de conclusão de curso
 //* UPF - Ciência da Computação
 
-class ultimascapturadas_model extends CI_Model{
+class formaondacapturadas_model extends CI_Model{
 	//pega todos os registros das salas em uso
-	function get_all_detalhes($captura){
-            $this->db->select("cap.codCaptura, cap.CodTomada, cap.CodEquip, equip.desc, cap.eficaz, equip.tempoUso, cap.dataAtual, cap.codEvento");
+	function get_all_data($equipment, $fase, $fuga, $datestart, $dateend, $limit){
+            $codEventOR = "(cap.codEvento = $fuga OR cap.codEvento = $fase)";
+            
+            $this->db->select("cap.codCaptura, cap.codEvento, uso.codUsoSala, cap.valorMedio,cap.CodTomada, cap.CodEquip, equip.desc, cap.eficaz, equip.tempoUso, cap.dataAtual, cap.codEvento");
             $this->db->from ('capturaatual cap, usosalacaptura uso, equipamento equip');
             $this->db->where('cap.codCaptura = uso.codCaptura');
             $this->db->where('equip.codEquip = cap.codEquip');
-            $this->db->where("cap.codCaptura > $captura");
-            $this->db->where('(cap.codEvento = 1 OR cap.codEvento = 4)');
-            $this->db->order_by('dataAtual desc');
+            if($equipment != 0){
+                $this->db->where('cap.codEquip =', $equipment);
+            }
+            if($datestart != 0){
+                if ($datestart != 1){
+                    $this->db->where('cap.dataAtual >', $datestart);
+                }
+                if($dateend == 1){
+                    $this->db->where('cap.dataAtual < now()');
+                } else {
+                    $this->db->where('cap.dataAtual <', $dateend);
+                }
+            }
+            $this->db->where($codEventOR);
+            $this->db->order_by('cap.codCaptura desc');
+            if($limit != 0){
+                $this->db->limit($limit);
+            }
             $query = $this->db->get();
 
             return $query->result();

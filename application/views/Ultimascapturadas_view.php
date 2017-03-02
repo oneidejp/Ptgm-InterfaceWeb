@@ -27,8 +27,13 @@
                             <input id="fft" onclick="mostraFFT()" type="checkbox" >
                             
                         </p> 
+<<<<<<< Updated upstream
                         <div class="col-md-5" style="overflow:auto; height:300px;">
                             <table id="tableUltimascapturas" class="table table-bordered table-condensed table-striped" style="font-size: 10pt; text-align: center; ">
+=======
+                        <div class="col-md-5" style="overflow:auto; height:310px;">
+                            <table id="tableUltimascapturas" class="table table-bordered table-condensed" style="font-size: 12pt; text-align: center; ">
+>>>>>>> Stashed changes
                                 <thead>
                                     <tr>
                                         <th><?php echo $this->lang->line('show'); ?></th>
@@ -284,12 +289,10 @@
         row.className = "linha"+qntLines;
         
         if (dados.codEvento === "1"){
-            row.style = "background-color: #FFEEEE;";
             row.className = "fuga";
         }
         if (dados.codEvento === "4"){
             row.className = "fase";
-            row.style = "background-color: #EEFFEE;";
         }
 //        if(dados.tipoOnda === 1){ row.className = "fuga"; } else { row.className = "fase"; }
 
