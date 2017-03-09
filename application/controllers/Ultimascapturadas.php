@@ -16,7 +16,6 @@ class Ultimascapturadas extends MY_Controller {
     }
     
     public function index() {
-        $sala = $this->uri->segment(3);
         $data['title'] = $this->lang->line('last_captured');
         $data['footerHide'] = 'true';
         $data['headerOption'] = "<link rel='stylesheet' href=" . base_url() . "includes/css/estilo.css>" .
@@ -254,10 +253,26 @@ class Ultimascapturadas extends MY_Controller {
         echo json_encode($html);
     }
 
-    public function atualizaTable() {
+    public function atualizaTablefasefuga() {
         $captura = filter_input_array(INPUT_POST)['Captura'];
         //Conectando ao banco de dados
-        $query = $this->ultimascapturadas_model->get_all_detalhes($captura);
+        $query = $this->ultimascapturadas_model->get_all_datafasefuga($captura);
+
+        echo json_encode($query);
+    }
+    
+    public function atualizaTablefase() {
+        $captura = filter_input_array(INPUT_POST)['Captura'];
+        //Conectando ao banco de dados
+        $query = $this->ultimascapturadas_model->get_all_datafase($captura);
+
+        echo json_encode($query);
+    }
+    
+    public function atualizaTablefuga() {
+        $captura = filter_input_array(INPUT_POST)['Captura'];
+        //Conectando ao banco de dados
+        $query = $this->ultimascapturadas_model->get_all_datafuga($captura);
 
         echo json_encode($query);
     }

@@ -129,4 +129,75 @@ class Similaridade {
         }
         return $maxspearman;
     }
+
+    public function spearmanDeslocamento($pontos1, $pontos2) {
+        $maxspearman[0] = 0;
+        $primeirospear = 0;
+//compara se os dois são iguais
+        if (sizeof($pontos1) <= sizeof($pontos2)) {
+            $tamanho = sizeof($pontos1);
+        } else {
+            $tamanho = sizeof($pontos2);
+        }
+
+        //obtém a média dos valores
+        $media1 = 0;
+        $media2 = 0;
+        for ($i = 0; $i < $tamanho; $i++) {
+            $media1 += $pontos1[$i];
+            $media2 += $pontos2[$i];
+        }
+        $media1 /= $tamanho;
+        $media2 /= $tamanho;
+
+        //for para deslocar onda
+        for ($j = 0; $j < $tamanho; $j++) {
+            $spearman = 0.0;
+            $spearmanaux1 = 0.0;
+            $spearmanaux2 = 0.0;
+            //for para percorrer onda
+            for ($i = 0; $i < $tamanho; $i++) {
+                $soma1 = $pontos1[$i] - $media1;
+                if (($i + $j) < $tamanho) {
+                    $soma2 = $pontos2[$i + $j] - $media2;
+                } else {
+                    $soma2 = $pontos2[$i + $j - $tamanho] - $media2;
+                }
+                $spearman += $soma1 * $soma2;
+                $spearmanaux1 += $soma1 * $soma1;
+                $spearmanaux2 += $soma2 * $soma2;
+            }
+
+            $spearmanaux1 *= $spearmanaux2;
+            $spearmanaux1 = sqrt($spearmanaux1);
+            $spearman /= $spearmanaux1;
+
+            //System.out.println("\nSpearman Posição " + j + " : " + spearman);
+            //teste melhor spearman
+            $soma1 = abs($spearman);
+            $soma2 = abs($maxspearman[0]);
+            if ($soma1 > $soma2) {
+                //armazena melhor spearman deslocando a onda
+                $maxspearman[0] = number_format($spearman, 4, '.', '');
+                //armazena deslocamento
+                $maxspearman[1] = $j;
+                //armazena spearman sem deslocar onda
+                
+            }
+            //se achar uma correlação negativa e positiva igual, armazena a positiva
+            else {
+                if ($soma1 == $soma2) {
+                    if ($spearman > $maxspearman[0]) {
+                        //System.out.println("Entrou Spearman Igual: ");
+                        //armazena melhor pearson deslocando a onda
+                        $maxspearman[0] = number_format($spearman, 4, '.', '');
+                        //armazena deslocamento
+                        $maxspearman[1] = $j;
+                    }
+                }
+            }
+        }
+        
+        return $maxspearman[1];
+    }
 }

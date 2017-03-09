@@ -7,14 +7,40 @@
 
 class ultimascapturadas_model extends CI_Model{
 	//pega todos os registros das salas em uso
-	function get_all_detalhes($captura){
+	function get_all_datafasefuga($captura){
             $this->db->select("cap.codCaptura, cap.CodTomada, cap.CodEquip, equip.desc, cap.eficaz, equip.tempoUso, cap.dataAtual, cap.codEvento");
             $this->db->from ('capturaatual cap, usosalacaptura uso, equipamento equip');
             $this->db->where('cap.codCaptura = uso.codCaptura');
             $this->db->where('equip.codEquip = cap.codEquip');
             $this->db->where("cap.codCaptura > $captura");
             $this->db->where('(cap.codEvento = 1 OR cap.codEvento = 4)');
-            $this->db->order_by('dataAtual desc');
+            $this->db->order_by('cap.codCaptura desc');
+            $query = $this->db->get();
+
+            return $query->result();
+	}
+        
+        function get_all_datafase($captura){
+            $this->db->select("cap.codCaptura, cap.CodTomada, cap.CodEquip, equip.desc, cap.eficaz, equip.tempoUso, cap.dataAtual, cap.codEvento");
+            $this->db->from ('capturaatual cap, usosalacaptura uso, equipamento equip');
+            $this->db->where('cap.codCaptura = uso.codCaptura');
+            $this->db->where('equip.codEquip = cap.codEquip');
+            $this->db->where("cap.codCaptura > $captura");
+            $this->db->where('cap.codEvento = 4');
+            $this->db->order_by('cap.codCaptura desc');
+            $query = $this->db->get();
+
+            return $query->result();
+	}
+        
+        function get_all_datafuga($captura){
+            $this->db->select("cap.codCaptura, cap.CodTomada, cap.CodEquip, equip.desc, cap.eficaz, equip.tempoUso, cap.dataAtual, cap.codEvento");
+            $this->db->from ('capturaatual cap, usosalacaptura uso, equipamento equip');
+            $this->db->where('cap.codCaptura = uso.codCaptura');
+            $this->db->where('equip.codEquip = cap.codEquip');
+            $this->db->where("cap.codCaptura > $captura");
+            $this->db->where('cap.codEvento = 1');
+            $this->db->order_by('cap.codCaptura desc');
             $query = $this->db->get();
 
             return $query->result();

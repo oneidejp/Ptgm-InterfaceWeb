@@ -61,7 +61,9 @@
                         <div class="col-md-12 col-xs-12" style="margin-top: 30px; height:200px;">
                             <div class="col-xs-7">
                                 <div id="linha"></div> <!--grafico linha-->
+                                <div id="linhadeslocada"></div> <!--grafico linhadeslocada-->
                                 <div id="barra"></div> <!--grafico barra-->
+                                <input type="button" id="buttonBarra" value="FFT" disabled="true" onclick="retornaBarra()">
                             </div>
                             <div class="col-xs-5">
                                 <div class="col-xs-12">
@@ -100,7 +102,8 @@
     var baseUrl = getURL();
     
     function deslocaGrafico(cod1, cod2){
-//        alert(cod1+"  "+cod2);
+        $("#barra").prop("style", "display:none;");
+        $("#buttonBarra").attr("disabled", "false");
         $.ajax({
             url: baseUrl + "index.php/Formaondacapturadas/deslocaOnda",
             dataType: 'json',

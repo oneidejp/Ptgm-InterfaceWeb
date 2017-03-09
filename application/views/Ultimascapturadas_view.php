@@ -7,33 +7,28 @@
 -->
 
 <br>
-<div class="container-fluid">
+<div class="container-fluid" >
 
     <div class="row">
         <div class="col-md-12 col-xs-12" id="centro">
             <div id="aba">
                 <div class="row">   <!-- incluir botoes-->
                     <div class="col-md-12 col-xs-12"> 
-                        <p style="font-size: 14pt;">
+                        <p style="font-size: 18pt;">
                             <?php echo $this->lang->line('update'); ?>
                             <input id="atualiza" onclick="controleAtualizar()" type="checkbox" checked="true"> &emsp;
-                            FASE 
+                            <?php echo $this->lang->line('phase'); ?> 
                             <input id="fase" onclick="fase()" type="checkbox" checked="true">&emsp;
-                            FUGA
+                            <?php echo $this->lang->line('leakage'); ?>
                             <input id="fuga" onclick="fuga()" type="checkbox" checked="true">&emsp;
-                            Visualização
-                            <input id="visualization" oninput="visualization()" type="number" value="4" style="width:70px;">&emsp;
+                            <?php echo $this->lang->line('visualization'); ?>
+                            <input id="visualization" onkeypress="visualization()" type="number" value="4" min="2" max="8" style="width:80px;">&emsp;
                             FFT
                             <input id="fft" onclick="mostraFFT()" type="checkbox" >
                             
                         </p> 
-<<<<<<< Updated upstream
-                        <div class="col-md-5" style="overflow:auto; height:300px;">
-                            <table id="tableUltimascapturas" class="table table-bordered table-condensed table-striped" style="font-size: 10pt; text-align: center; ">
-=======
                         <div class="col-md-5" style="overflow:auto; height:310px;">
                             <table id="tableUltimascapturas" class="table table-bordered table-condensed" style="font-size: 12pt; text-align: center; ">
->>>>>>> Stashed changes
                                 <thead>
                                     <tr>
                                         <th><?php echo $this->lang->line('show'); ?></th>
@@ -51,9 +46,10 @@
                             </table>
                         </div>
 
-                        <div class="col-md-7 col-xs-7">
+                        <div class="col-md-6 col-xs-6 col-md-offset-1">
                             <div id="linha"></div> <!--grafico linha-->
                             <div id="barra"></div> <!--grafico barra-->
+                            <br>
                             <div class="col-md-offset-1 col-md-10 col-xs-12">
                                 <table class='table table-striped table-bordered' id="tabelaSimilaridade">
                                     <thead>
@@ -70,7 +66,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row-fluid col-md-12 col-xs-12" id="divMain" style="overflow:auto; height:700px;"> 
+            <div class="row-fluid col-md-12 col-xs-12" id="divMain" > 
                 
             </div>
         </div>
@@ -85,18 +81,49 @@
 <script type="text/javascript"> //pega os dados do banco e coloca na tabela a cada 1s
     var j = 0, cont = 0, checkClicados = 0, lock = 0, atualizando = 0;
     var firstCap = 0, lastCapture, ultimoCodCaptura, qntLines = 0, limitGraf = 4, contGraf = 1;
+    var timeUpdate;
     var $table = $('#tableUltimascapturas');
+    var fasefuga = "fasefuga";
     var graficos = [];
     var baseUrl = getURL();
     window.onload = function () {
         ultimaCaptura();
     };
 
+    function initFaseFuga(){
+        $("#divMain").empty();
+        
+        if(graficos.length > 0){
+            for (var x = checkClicados-1; x >= 0; x--) { 
+                var chart = $('#barra').highcharts();
+                    chart.series[x].remove();
+                var chart = $('#linha').highcharts();
+                    chart.series[x].remove();
+                graficos.splice(x, 1);
+                document.getElementById("tabelaSimilaridade").deleteRow(x+1);
+            }
+            document.getElementById("tabelaSimilaridade").deleteRow(1);
+            checkClicados = 0;
+        }
+        
+        window.setTimeout(function(){
+            qntLines = lock = 0;
+            contGraf = 0;
+            lastCapture = ultimoCodCaptura = firstCap;
+            $('#tbodyUltimasCapturas').empty();
+            atualizaTable();
+            atualizando = 0;
+            $("#fuga").prop("disabled","");
+            $("#fase").prop("disabled","");
+        }, 1010);
+            
+    }
+
     function atualizaTable() {
         $.ajax({
             type: 'post',
             dataType: 'json', //tipo de retorno
-            url: baseUrl + "index.php/Ultimascapturadas/atualizaTable", //arquivo onde serão buscados os dados
+            url: baseUrl + "index.php/Ultimascapturadas/atualizaTable" + fasefuga, //arquivo onde serão buscados os dados
             data: {
                 Captura: ultimoCodCaptura
             },
@@ -124,8 +151,8 @@
                         }else {
                             insereLinha(dados[j]);
                         }
+                        lastCapture = dados[j].codCaptura;
                         j++;
-                        lastCapture = dados[j-1].codCaptura;
                     }// alert(lastCapture + " valor lastCapture depois");
                     if(lock === 0) {
                         geraGraficoInit();
@@ -135,7 +162,7 @@
                         ultimoCodCaptura = dados[j-11].codCaptura;
                     }
                     if(atualizando === 0){
-                        window.setTimeout(atualizaTable, 1000);
+                        timeUpdate = window.setTimeout(atualizaTable, 1000);
                     }
                 } 
                 else {
@@ -146,19 +173,27 @@
     }
 
     function geraGraficoInit(){
-        for(var i = limitGraf-1; i >= 0; i--){
-//            if ($(".linha"+(qntLines-i)).prop("style") === "display: none") alert("aaaa");
-            $("#checkboxequip" + (qntLines - i)).prop("checked", true);
-            var captura = $("#checkboxequip" + (qntLines - i)).attr("class");
-            var cap = captura.substring(1 , captura.length);
-            geraGraficoPrimeiraLinha(cap, 0);
+        if (qntLines > limitGraf){
+            for(var i = limitGraf-1; i >= 0; i--){
+                $("#checkboxequip" + (qntLines - i)).prop("checked", true);
+                var captura = $("#checkboxequip" + (qntLines - i)).attr("class");
+                var cap = captura.substring(1 , captura.length);
+                geraGraficoPrimeiraLinha(cap, 0);
+            }
+        } else {
+            for(var i = qntLines-1; i >= 0; i--){
+                $("#checkboxequip" + (qntLines - i)).prop("checked", true);
+                var captura = $("#checkboxequip" + (qntLines - i)).attr("class");
+                var cap = captura.substring(1 , captura.length);
+                geraGraficoPrimeiraLinha(cap, 0);
+            }
         }
     }
    
     function geraGraficoPrimeiraLinha(codCaptura, f) {
         var classe = codCaptura;
         
-        if (f === 0){
+        if ((f === 0 || f === 1) && document.getElementById("divlinha"+classe) === null ){
             var divMain = document.getElementById("divMain");
             var div = document.createElement("div");
             div.id = "container" + classe;
@@ -168,20 +203,9 @@
             divlinha.className = "divlinha";
             divlinha.style = "height : 350px";
             div.appendChild(divlinha);
-            divMain.insertBefore(div, divMain.firstChild);
+            if (f === 0){ divMain.insertBefore(div, divMain.firstChild); }
+            if (f === 1){ divMain.appendChild(div); }
         }   
-        if (f === 1){
-            var divMain = document.getElementById("divMain");
-            var div = document.createElement("div");
-            div.id = "container" + classe;
-            div.className = "col-md-3";
-            var divlinha = document.createElement("div");
-            divlinha.id = "divlinha" + classe;
-            divlinha.className = "divlinha";
-            divlinha.style = "height : 350px";
-            div.appendChild(divlinha);
-            divMain.appendChild(div);
-        }
         
         var $divCont = $('#divlinha' + classe);
         $.ajax({
@@ -210,7 +234,7 @@
                         },
                         xAxis: {
                             title:{
-                                text: 'Tempo/100 (ms)'
+                                text: "<?php echo $this->lang->line('time'); ?>/100 (ms)"
                             },
                             labels: {
                                 rotation: -45,
@@ -224,7 +248,7 @@
                         yAxis: {
                             title: {
                                 text: 'Corrente (mA)'
-                            },
+                            }
                         },
                         series: [{data: dados.linha}]
                     });
@@ -233,17 +257,76 @@
             }
         });
         
+        setTimeout(function(){
+            if ($("#divlinha"+classe).is(':empty')){
+                recriaGraf(classe);
+            }
+        },1000);
+        
         if($("#fft").prop("checked")) 
             insereFFT(classe);
         if (f === 0){
-            if(contGraf === limitGraf) {
+            if(contGraf >= limitGraf) {
                 $(divMain.lastChild).remove();
             }    
             else contGraf++;
         }
-        
     }
-
+    
+    function recriaGraf(classe){
+        var $divCont = $('#divlinha' + classe);
+        if(document.getElementById("divlinha" + classe)){
+            $.ajax({
+                url: baseUrl + "index.php/Ultimascapturadas/linha", //requisita novo gráfico
+                dataType: 'json',
+                scriptCharset: 'UTF-8',
+                type: "POST",
+                data: {
+                    Captura: classe
+                },
+                success: function (dados) {
+                    if (dados) {
+                        $divCont.highcharts({                    
+                            chart: {
+                                type: 'spline',
+                                spacingBottom: 0,
+                            },
+                            legend: {
+                                enabled: false
+                            },
+                            title: {
+                                text: 'Cap ' + classe
+                            },
+                                    credits: {
+                                enabled: false
+                            },
+                            xAxis: {
+                                title:{
+                                    text: 'Tempo/100 (ms)'
+                                },
+                                labels: {
+                                    rotation: -45,
+                                    style: {
+                                        fontSize: '8px',
+                                        fontFamily: 'Verdana, sans-serif'
+                                    }
+                                },
+                                tickPositions: [0,104,201, 305, 403,501,605,703,800,904,1002,1100,1204,1302,1406,1503,1601]
+                            },
+                            yAxis: {
+                                title: {
+                                    text: 'Corrente (mA)'
+                                }
+                            },
+                            series: [{data: dados.linha}]
+                        });
+                    } else
+                        alert("Erro Ajax.");
+                }
+            });
+        }
+    }
+    
     function criaGraficoEquipamento() {
         var classeI = $(this).attr('class'); //pega a classe do checkbox clicado, contendo o codigo da captura
         var classe = classeI.substring(1, classeI.length);
@@ -260,7 +343,6 @@
     function controleAtualizar(){
         if($("#atualiza").prop("checked")){
             atualizando = 0;
-            lock = 0;
             for(var i = qntLines; i >= 0; i--){
                 $('#checkboxequip'+i).prop("disabled",true);
                 $('#checkboxequip'+i).prop("checked", false);
@@ -268,6 +350,7 @@
             $("#divMain").empty();
             contGraf = 0;
             atualizaTable();
+            geraGraficoInit();
         } else {
             for(var i = qntLines; i >= 0; i--){
                 $('#checkboxequip'+i).prop("disabled",false);
@@ -299,7 +382,9 @@
         var cell = document.createElement('input');
         cell.type = "checkbox";
         cell.className = "w" + dados.codCaptura;
-        cell.disabled = "true";
+        if ($("#atualiza").prop("checked")){
+            cell.disabled = "true";
+        }
 //        cell.id = "checkboxequip"+qntLines;
         cell.id = "checkboxequip"+qntLines;
         cell.onclick = criaGraficoEquipamento;
@@ -368,7 +453,7 @@
                                 ultimoCodCaptura = dados[0].codCaptura-100;
                             }
                     }   
-                    alert("Captura inicial para a pesquisa no Banco " + ultimoCodCaptura);
+//                    alert("Captura inicial para a pesquisa no Banco " + ultimoCodCaptura);
                     firstCap = ultimoCodCaptura;
                     atualizaTable();
                 } else {
@@ -379,6 +464,7 @@
     }
 
     function mostraFFT(){
+        $("#fft").prop("disabled","false");
         var checkFFT = $("#fft").prop("checked");
         if(checkFFT){
             atualizando = 1;
@@ -386,9 +472,10 @@
             if(!($('#atualiza').prop("checked"))){
                 window.setTimeout(controleAtualizar, 2000);
             }
-            atualizando = 0;
+            if ($("#atualiza").prop("checked")){ atualizando = 0; }
         } else {
             $('.divbarra').remove();
+            $("#fft").prop("disabled","");
         }
     }
     
@@ -397,6 +484,7 @@
             if($(".w"+i).prop("checked"))
                 insereFFT(i);
         }
+        $("#fft").prop("disabled","");
     }
     
     function insereFFT(codCaptura){
@@ -533,48 +621,61 @@
     } //OK
        
     function visualization(){
-        var valor = document.getElementById("visualization").value;
-        if (valor >= 2 && valor <= 8){
+        atualizando = 1;
+        window.clearTimeout(timeUpdate);
+        window.setTimeout(function(){
             limitGraf = document.getElementById("visualization").value;
-            atualizando = 1;
-                for(var i = qntLines; i >= 0; i--){
-                    $('#checkboxequip'+i).prop("checked", false);
-                }
+            for(var i = qntLines; i >= 0; i--){
+                $('#checkboxequip'+i).prop("checked", false);
+            }
             $("#divMain").empty();
             contGraf = 0;
             geraGraficoInit();
             atualizando = 0;
-        } else{
-            alert("Permitido valores entre 2 e 8");
-            document.getElementById("visualization").value = limitGraf;
-        }//alert(limitGraf);
+            atualizaTable();
+        }, 1010);
     }
      
     function fase(){
-//        alert("implementar graficos embaixo apenas de fase");
+        atualizando = 1;
+        window.clearTimeout(timeUpdate);
+        $("#fase").prop("disabled","false");
+        $("#fuga").prop("disabled","false");
+        
         if ($("#fase").prop("checked")){
-            $(".fase").prop("style", "background-color: #DDFFDD;");
+            initFaseFuga();
+            fasefuga = "fasefuga";
         }else {
             if ($("#fuga").prop("checked")){
-                $(".fase").prop("style", "display: none;");
+                initFaseFuga();
+                fasefuga = "fuga";
             } else {
                 alert("Deve deixar 1 selecionado.");
                 $("#fase").prop("checked", true);
+                $("#fase").prop("disabled","");
+                $("#fuga").prop("disabled","");
             }
-            
         }
     }
     
     function fuga(){
-//        alert("implementar graficos embaixo apenas de fuga");
+        atualizando = 1;
+        window.clearTimeout(timeUpdate);
+        $("#fuga").prop("disabled","false");
+        $("#fase").prop("disabled","false");
+        
         if ($("#fuga").prop("checked")){
-            $(".fuga").prop("style", "background-color: #FFDDDD;");
+            initFaseFuga();
+            fasefuga = "fasefuga";
         }else {
             if ($("#fase").prop("checked")){
-                $(".fuga").prop("style", "display: none;");
+                initFaseFuga();
+                fasefuga = "fase";
             } else {
                 alert("Deve deixar 1 selecionado.");
                 $("#fuga").prop("checked", true);
+                $("#fase").prop("disabled","");
+                $("#fuga").prop("disabled","");
             }
         }
     }

@@ -22,7 +22,7 @@ if (isset($menuHide) && $menuHide == "true") {
                     <ul class="dropdown-menu">
                         <li><a href="<?php echo base_url('index.php/paineldecontrole') ?>"><?php echo $this->lang->line('control_panel'); ?></a></li>
                         <li><a href="<?php echo base_url('index.php/Ultimascapturadas') ?>"><?php echo $this->lang->line('last_captured'); ?></a></li>
-                        <li><a href="<?php echo base_url('index.php/focapturadas') ?>"><?php echo $this->lang->line('fo_captured'); ?></a></li>
+                        <li><a href="<?php echo base_url('index.php/formaondacapturadas') ?>"><?php echo $this->lang->line('fo_captured'); ?></a></li>
                         <li><a href="<?php echo base_url('index.php/usodesalas') ?>"><?php echo $this->lang->line('use_room'); ?></a></li>
                         <li><a href="<?php echo base_url('index.php/padrao') ?>"><?php echo $this->lang->line('standard'); ?></a></li>
                         <li><a href="<?php echo base_url('index.php/configBanco') ?>"><?php echo $this->lang->line('config_database'); ?></a></li>
