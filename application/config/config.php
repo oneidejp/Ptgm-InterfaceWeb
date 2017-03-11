@@ -24,6 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 $config['base_url'] = 'http://localhost/Ptgm-InterfaceWeb/';
+//$config['base_url'] = 'http:///192.168.0.102/ProtegeMed/Ptgm-InterfaceWeb/';
 //$config['base_url'] = 'http://protegemed.192.168.103.110.xip.io/Ptgm-InterfaceWeb/';
 
 /*
