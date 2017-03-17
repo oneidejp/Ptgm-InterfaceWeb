@@ -6,7 +6,7 @@ class paineldecontrole_model extends CI_Model {
     function get_all_usosala() {
         $this->db->select('usosala.codUsoSala, salacirurgia.desc, usosala.horaInicio, usosala.horaFinal');
         $this->db->from('usosala, salacirurgia');
-        $this->db->where('usosala.codUsoSala = salacirurgia.codSala');
+        $this->db->where('usosala.codSala = salacirurgia.codSala');
         $this->db->where('usosala.ativa = 1');
         $this->db->order_by('usosala.codUsoSala');
         $query = $this->db->get();

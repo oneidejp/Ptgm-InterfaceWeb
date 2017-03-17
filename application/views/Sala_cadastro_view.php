@@ -1,15 +1,13 @@
 <div class="container-fluid">
     <div class="row-fluid">
-        <div class="col-md-1 col-xs-1" id="esquerda"></div>
-        <div class="col-md-10 col-xs-10" id="centro">
+        <div class="col-xs-10 col-xs-offset-1" id="centro">
             <ul class="abas">
                 <li id="consulta"><a href="<?php echo base_url('index.php/sala') ?>" ><?php echo $this->lang->line('consult'); ?></a></li>
                 <li id="cadastro" style="background-color: #A9A9A9;"><a href="<?php echo base_url('index.php/sala?link=cadastro') ?>" ><?php echo $this->lang->line('cadastre'); ?></a></li>
             </ul>
-            <div id="aba">
+            <div id="aba1">
                 <div class="row-fluid">
-                    <div class="col-md-4 col-xs-4" id="formesquerda"></div>
-                    <div class="col-md-4 col-xs-4" id="formcentro">
+                    <div class="col-xs-4 col-xs-offset-4" id="formcentro">
                         <?php if ($sala == 'cadastro') { ?>
                             <form class="form-signin" role="form" method="post" action="<?php echo base_url('index.php/sala/create_sala') ?>">
                                 <fieldset>

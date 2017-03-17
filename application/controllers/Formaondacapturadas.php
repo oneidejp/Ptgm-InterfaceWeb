@@ -279,7 +279,7 @@ class Formaondacapturadas extends MY_Controller {
                 $html .= "<tr>";
                 for ($j = 0; $j < $cont + 1; $j++) {
                     if($j!=0 && $i!=0 && $tabela[$i][$j] != 1){
-                        $html .= "<td onclick=deslocaGrafico({$tabela[$i][0]},{$tabela[0][$j]})>{$tabela[$i][$j]}</td>";
+                        $html .= "<td onclick=deslocaGrafico({$tabela[$i][0]},{$tabela[0][$j]})><a>{$tabela[$i][$j]}</a></td>";
                     } else {
                         $html .= "<td>{$tabela[$i][$j]}</td>";
                     }

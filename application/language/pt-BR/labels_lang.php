@@ -154,6 +154,7 @@ $lang["similarity"] = "Similaridade";
 $lang["capture_code"] = "Código de Captura";
 //ultimasCapturas
 $lang["update"] = "Atualizar";
+$lang["visualization"] = "Visualização";
 //comparar
 $lang["valor_medio"] = "Valor Médio";
 $lang["cod_onda_padrao"] = "Cod Onda Padrão";
@@ -162,7 +163,9 @@ $lang["leakage"] = "Fuga";
 //alertas
 $lang["record"] = "Gravar";
 $lang["comment_alert"] = "Comentário Alerta";
-
+//FO capturadas
+$lang["datestart"] = "Data Inicio";
+$lang["dateend"] = "Data Fim";
 //capture
 $lang["select_command"] = "Selecione o Comando";
 $lang["select_command_capture"] = "Capturar";

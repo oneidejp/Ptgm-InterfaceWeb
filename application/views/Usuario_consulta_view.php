@@ -5,7 +5,7 @@
                 <li id="consulta" style="background-color: #A9A9A9;"><a href="<?php echo base_url('index.php/usuario') ?>" ><?php echo $this->lang->line('consult'); ?></a></li>
                 <li id="cadastro"><a href="<?php echo base_url('index.php/usuario?link=cadastro') ?>" ><?php echo $this->lang->line('cadastre'); ?></a></li>
             </ul>
-            <div id="aba">
+            <div id="aba1">
                 <div class="row-fluid">
                     <div class="col-md-12 col-xs-12" id="formcentro">
                         <?php if ($this->session->userdata('nivel') == '1') { ?>

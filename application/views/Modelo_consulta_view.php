@@ -1,15 +1,15 @@
 <div class="container-fluid">
     <div class="row-fluid">
-        <div class="col-md-12 col-xs-12" id="centro">
+        <div class="col-xs-10 col-xs-offset-1" id="centro">
             <ul class="abas">
                 <li id="consulta" style="background-color: #A9A9A9;"><a href="<?php echo base_url('index.php/modelo') ?>" ><?php echo $this->lang->line('consult'); ?></a></li>
                 <li id="cadastro"><a href="<?php echo base_url('index.php/modelo?link=cadastro') ?>" ><?php echo $this->lang->line('cadastre'); ?></a></li>
             </ul>
-            <div id="aba">
+            <div id="aba1">
                 <div class="row-fluid">
-                    <div class="col-md-12 col-xs-12" id="formcentro">
+                    <div class="col-xs-10 col-xs-offset-1" id="formcentro">
+                        <caption><h2><?php echo $this->lang->line('table_title_template'); ?></h2></caption>
                         <table id="myTable" class="table table-striped table-bordered sortable">
-                            <caption><h2><?php echo $this->lang->line('table_title_template'); ?></h2></caption>
                             <thead>
                                 <tr>
                                     <th  class="col1">

@@ -12,6 +12,7 @@ $lang["model_page"] = "Model Page!";
 //menu
 $lang["control"] = "Control";
 $lang["control_panel"] = "Control Panel";
+$lang["config_database"] = "Configure DB";
 $lang["last_captured"] = "Last Captured";
 $lang["communication"] = "Communication";
 $lang["fo_captured"] = "WF Captured";
@@ -153,6 +154,7 @@ $lang["similarity"] = "Similarity";
 $lang["capture_code"] = "Capture Code";
 //ultimasCapturas
 $lang["update"] = "Update";
+$lang["visualization"] = "Visualization";
 //comparar
 $lang["valor_medio"] = "Mean Value";
 $lang["cod_onda_padrao"] = "Standard Waveform ID";
@@ -161,7 +163,9 @@ $lang["leakage"] = "Leakage";
 //alertas
 $lang["record"] = "Save";
 $lang["comment_alert"] = "Alert Comment";
-
+//FO capturadas
+$lang["datestart"] = "Date Start";
+$lang["dateend"] = "Date End";
 //capture
 $lang["select_command"] = "Select Command";
 $lang["select_command_capture"] = "Capture";

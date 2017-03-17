@@ -6,7 +6,7 @@
                 <li id="consulta"><a href="<?php echo base_url('index.php/tomada') ?>"><?php echo $this->lang->line('consult'); ?></a></li>
                 <li id="cadastro" style="background-color: #A9A9A9;"><a href="<?php echo base_url('index.php/tomada?link=cadastro') ?>" ><?php echo $this->lang->line('cadastre'); ?></a></li>
             </ul>
-            <div id="aba">
+            <div id="aba1">
                 <div class="row-fluid">
                     <div class="col-md-4 col-xs-4" id="formesquerda"></div>
                     <div class="col-md-4 col-xs-4" id="formcentro">

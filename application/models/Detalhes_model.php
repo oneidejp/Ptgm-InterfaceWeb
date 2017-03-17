@@ -1,6 +1,6 @@
 <?php
 //Model
-//* 2016
+//* 2017
 //* Desenvolvido por: Leonardo Francisco Rauber
 //* Email: leorauber@hotmail.com - 132789@upf.br
 //* Projeto de conclusão de curso
@@ -8,22 +8,22 @@
 
 class detalhes_model extends CI_Model{
 	//pega todos os registros das salas em uso
-	function get_all_detalhes($sala){
-                $this->db->select("cap.codCaptura, cap.CodTomada, cap.CodEquip, equip.desc, cap.eficaz, equip.tempoUso, cap.dataAtual");
+	function get_all_detalhes($sala, $ultimaCap){
+                $this->db->select("cap.codCaptura, cap.CodTomada, cap.CodEquip, cap.codEvento, equip.desc, cap.eficaz, equip.tempoUso, cap.dataAtual");
                 $this->db->from ('capturaatual cap, usosalacaptura uso, equipamento equip');
                 $this->db->where('cap.codCaptura = uso.codCaptura');
+                $this->db->where('cap.codCaptura > ', $ultimaCap);
                 $this->db->where('uso.codusosala = ', $sala);
                 $this->db->where('equip.codEquip = cap.codEquip');
                 $this->db->where('(cap.codEvento = 1 OR cap.codEvento = 4)');
                 $this->db->order_by('codCaptura, dataAtual');
+//                $this->db->limit(100);
                 $query = $this->db->get();
 
                 return $query->result();
 	}
         
-        function get_all_data_table($sala){
-//                return $query = $this->db->query("SELECT cap.codCaptura, cap.CodTomada, cap.CodEquip, equip.desc, cap.eficaz, equip.tempoUso, cap.dataAtual FROM capturaatual AS cap, usosalacaptura AS uso, equipamento AS equip WHERE cap.codCaptura = uso.cod Captura and uso.codusosala = $sala and equip.codEquip = cap.codEquip order by codEquip , dataAtual;");
-                
+        function get_all_data_table($sala){               
                 $this->db->select("cap.codCaptura, cap.CodTomada, cap.CodEquip, equip.desc, cap.eficaz, equip.tempoUso, cap.dataAtual");
 		$this->db->from ('capturaatual cap, usosalacaptura uso, equipamento equip');
 		$this->db->where('cap.codCaptura = uso.codCaptura');
@@ -85,15 +85,6 @@ class detalhes_model extends CI_Model{
 		return $query->result();
 	}
         
-        //função para pegar os códigos de captura para calcular a periculosidade por similaridade
-        //realizar uma consulta da dataAtual com os registros da mesma tabela, procurando uma registro no mesmo segundo
-        //função ainda não implementada
-        function get_periculosidade_similaridade($sala, $ultimo = null){
-            $this->db->select("cap.codCaptura");
-            $query = $this->db->get();
-
-            return $query->result();
-        }
         
         //busca o código de captura do último alerta
         function get_ultimo_alerta (){

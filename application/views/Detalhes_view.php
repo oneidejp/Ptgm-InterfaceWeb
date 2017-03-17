@@ -1,14 +1,19 @@
-<div id="borda">
-  <?php //echo $teste; ?>
-</div>
+<!--
+* 2017  View
+* Desenvolvido por: Leonardo Francisco Rauber
+* Email: leorauber@hotmail.com - 132789@upf.br
+* Projeto de conclusão de curso
+* UPF - Ciência da Computação
+-->
 <div class="container-fluid">
+
     <div class="row">
-        <div class="col-md-12 col-xs-12" id="centro">
+        <div class="col-xs-12" id="centro">
             <div id="aba">
-                <div class="row">
-                    <div class="col-md-12 col-xs-12">
-                        <div class="col-md-5 col-xs-5" style="overflow:auto;">
-                            <table class="table table-striped table-bordered detalhes" id="tabelaDados">
+                <div class="row"> <br>
+                    <div class="col-xs-12">
+                        <div class="col-xs-6" style="overflow:auto;">
+                            <table id="tableDetalhes" class="table table-bordered table-condensed" style="font-size: 10pt; text-align: center; ">
                                 <thead>
                                     <tr>
                                         <th><?php echo $this->lang->line('show'); ?></th>
@@ -22,91 +27,25 @@
                                         <th><?php echo $this->lang->line('compare'); ?></th>
                                     </tr>
                                 </thead>
-                                <tbody id="tbodyTabelaDados">
-                                    <?php if (empty($detalhes)) {
-                                        ?>
-                                        <tr>
-                                            <td><input type="checkbox" checked="checked"/></td>
-                                            <td><?php echo $this->lang->line('empty'); ?></td>
-                                            <td><?php echo $this->lang->line('empty'); ?></td>
-                                            <td><?php echo $this->lang->line('empty'); ?></td>
-                                            <td><?php echo $this->lang->line('empty'); ?></td>
-                                            <td><?php echo $this->lang->line('empty'); ?></td>
-                                            <td><?php echo $this->lang->line('empty'); ?></td>
-                                            <td><?php echo $this->lang->line('empty'); ?></td>
-                                            <td><input type="checkbox"/></td>
-                                        </tr>
-                                        <?php
-                                    } else {
-                                        $anterior = 0;
-                                        $ind = 0;
-                                        foreach ($detalhes as $dados) {
-                                            if ($anterior == $dados->CodEquip) {
-                                                ?>
-                                                <tr id="linha<?php echo $dados->codCaptura; ?>">
-                                                    <td id="<?php echo $dados->codCaptura; ?>-1"><input type="checkbox" id="s<?php echo $dados->CodEquip; ?>" class="<?php echo $dados->codCaptura; ?>" name="equipamentos"  /></td>
-                                                    <td id="<?php echo $dados->codCaptura; ?>-2"><?php echo $dados->codCaptura; ?></td>
-                                                    <td id="<?php echo $dados->codCaptura; ?>-3"><?php echo $dados->CodTomada; ?></td>
-                                                    <td id="<?php echo $dados->codCaptura; ?>-4"><a href="<?php echo base_url('index.php/comparar/index/' . $codUsoSala . '/' . $dados->CodEquip) ?>" target="_blank"><?php echo $dados->CodEquip . " - " . $dados->desc; ?></a></td>
-                                                    <td id="<?php echo $dados->codCaptura; ?>-5"><?php echo substr($dados->eficaz, 0, 6); ?></td>
-                                                    <td id="<?php echo $dados->codCaptura; ?>-6"><?php echo $tempoUso[$ind]; ?></td>
-                                                    <td id="<?php echo $dados->codCaptura; ?>-7"><?php echo date('d/m/Y H:m:s', strtotime($dados->dataAtual)); ?></td>
-                                                    <td id="<?php echo $dados->codCaptura; ?>-9"><div class="<?php
-                                                        if ($periculosidade[$ind] === 0) {
-                                                            echo "green-circle";
-                                                        } elseif ($periculosidade[$ind] === 1) {
-                                                            echo "yellow-circle";
-                                                        } elseif ($periculosidade[$ind] === 2) {
-                                                            echo "red-circle";
-                                                        } else {
-                                                            echo "";
-                                                        }
-                                                        ?>"></div></td>
-                                                    <td id="<?php echo $dados->codCaptura; ?>-8"><input type="checkbox"  id="<?php echo $dados->codCaptura; ?>" class="<?php echo $dados->CodEquip; ?>"  name="comparar" /></td>
-                                                </tr>
-                                            <script>
-                                                $("#linha<?php echo $dados->codCaptura; ?>").hide();
-                                                $("#<?php echo $capanterior; ?>-2").html("<img id='' class='<?php echo $dados->CodEquip; ?>' name='mais' src='<?php echo base_url('includes/imagens/mais.jpg') ?>'> <?php echo $capanterior; ?>");
-                                            </script>
-                                            <?php
-                                        } else {
-                                            ?>
-                                            <tr id="linha<?php echo $dados->codCaptura; ?>">
-                                                <td id="<?php echo $dados->codCaptura; ?>-1"><input type="checkbox" checked="checked" id="s<?php echo $dados->CodEquip; ?>" class="<?php echo $dados->codCaptura; ?>" name="equipamentos" /></td>
-                                                <td id="<?php echo $dados->codCaptura; ?>-2"><?php echo $dados->codCaptura; ?></td>
-                                                <td id="<?php echo $dados->codCaptura; ?>-3"><?php echo $dados->CodTomada; ?></td>
-                                                <td id="<?php echo $dados->codCaptura; ?>-4"><a href="<?php echo base_url('index.php/comparar/index/' . $codUsoSala . '/' . $dados->CodEquip) ?>" target="_blank"><?php echo $dados->CodEquip . " - " . $dados->desc; ?></a></td>
-                                                <td id="<?php echo $dados->codCaptura; ?>-5"><?php echo substr($dados->eficaz, 0, 6); ?></td>
-                                                <td id="<?php echo $dados->codCaptura; ?>-6"><?php echo $tempoUso[$ind]; ?></td>
-                                                <td id="<?php echo $dados->codCaptura; ?>-7"><?php echo date('d/m/Y H:m:s', strtotime($dados->dataAtual)); ?></td>
-                                                <td id="<?php echo $dados->codCaptura; ?>-9"><div class="<?php
-                                                    if ($periculosidade[$ind] === 0) {
-                                                        echo "green-circle";
-                                                    } elseif ($periculosidade[$ind] === 1) {
-                                                        echo "yellow-circle";
-                                                    } elseif ($periculosidade[$ind] === 2) {
-                                                        echo "red-circle";
-                                                    } else {
-                                                        echo "";
-                                                    }
-                                                    ?>"></div></td>
-                                                <td id="<?php echo $dados->codCaptura; ?>-8"><input type="checkbox" id="<?php echo $dados->codCaptura; ?>" class="<?php echo $dados->CodEquip; ?>" name="comparar"  /></td>
-                                            </tr>
-                                            <?php
-                                            $anterior = $dados->CodEquip;
-                                            $capanterior = $dados->codCaptura;
-                                        }
-                                        $ind = $ind + 1;
-                                    }
-                                }
-                                ?>
-                                </tbody>
+                                <tbody id="tbodyTableDetalhes1"></tbody>
+                                <tbody id="tbodyTableDetalhes2"></tbody>
+                                <tbody id="tbodyTableDetalhes3"></tbody>
+                                <tbody id="tbodyTableDetalhes4"></tbody>
+                                <tbody id="tbodyTableDetalhes5"></tbody>
+                                <tbody id="tbodyTableDetalhes6"></tbody>
+                                <tbody id="tbodyTableDetalhes7"></tbody>
+                                <tbody id="tbodyTableDetalhes8"></tbody>
+                                <tbody id="tbodyTableDetalhes9"></tbody>
+                                <tbody id="tbodyTableDetalhes10"></tbody>
+                                <tbody id="tbodyTableDetalhes11"></tbody>
+                                <tbody id="tbodyTableDetalhes12"></tbody>
                             </table>
                         </div>
-                        <div class="col-md-7 col-xs-7">
-                            <div id="linha"></div>
-                            <div id="barra"></div>
-                            <div class="col-md-offset-1 col-md-10 col-xs-12">
+
+                        <div class="col-xs-6">
+                            <div id="linha"></div> <!--grafico linha-->
+                            <div id="barra"></div> <!--grafico barra-->
+                            <div class="col-xs-12">
                                 <table class='table table-striped table-bordered' id="tabelaSimilaridade">
                                     <thead>
                                         <tr>
@@ -118,163 +57,400 @@
                                 </table>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
-
-            <!-- div para testes
-            <div id="divTeste" style="margin-top: 100px; margin-bottom: 100px; text-align: center; font-size: 40px;"><?php
-            if (isset($teste)) {
-                echo $teste;
-            }
-            ?></div>-->
-            <div class="row-fluid">
-                <div class="col-md-12 col-xs-12" id="graficoslinha"></div>
+            <div class="row-fluid col-md-12 col-xs-12" id="divMain"> 
+                <div id="container1"></div> 
+                <div id="container2"></div> 
+                <div id="container3"></div> 
+                <div id="container4"></div> 
+                <div id="container5"></div> 
+                <div id="container6"></div> 
+                <div id="container7"></div> 
+                <div id="container8"></div> 
+                <div id="container9"></div> 
+                <div id="container10"></div> 
+                <div id="container11"></div> 
+                <div id="container12"></div> 
             </div>
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    $(document).ready(function () {
-        //insereTabela();
-        var cont = 0, checkClicados = 0;
-        ;
-        var graficos = [];
-        $('input[type="checkbox"]').click(function () {
-            var classe = $(this).attr('class'); //pega a classe do checkbox clicado, contendo o código do equipamento
-            var id = $(this).attr('id'); //pega o id do checkbox clicado, contendo o código de captura
-            var nome = $(this).attr('name'); //pega o nome do checkbox clicado, informando se é checkbox do equipamento ou do comparar
-            var sala = "<?php echo $codUsoSala; ?>"; // pega o cod da sala em uso
-
-            if (nome === "equipamentos") { // classe == equipamentos coluna visualizar
-                var codequip = id.substring(1, id.length);
-                $.ajax({
-                    url: "<?php echo base_url(); ?>" + "index.php/detalhes/mostra_equip",
-                    dataType: 'json',
-                    scriptCharset: 'UTF-8',
-                    type: "POST",
-                    data: {
-                        CodEquip: codequip,
-                        Sala: sala
-                    },
-                    success: function (dados) {
-                        if (dados) {
-                            for (var i = 0; i < dados.captura.length; i++) {
-                                if (dados.captura[i].codCaptura !== classe) {
-                                    $("." + dados.captura[i].codCaptura).attr("checked", false);
+<script> //pega a baseURL
+    function getURL() {
+        var baseUrl = location.origin + "/" + window.location.pathname.split('/')[1] + "/";
+        return baseUrl;
+    }
+</script>
+<script type="text/javascript"> 
+    var j = 0;
+    var $table = $('#tableDetalhes');
+    var graficos = [];
+    var baseUrl = getURL();
+    var cont = 0, checkClicados = 0, ultimaCaptura = 0;
+    window.onload = function () {
+        insertRow(); 
+    };
+    
+//    alert("configurar a pesquisa no banco para pegar somente o usosala");
+    
+    var vetUltimaCaptura = [0,0,0,0,0,0,0,0,0,0,0,0,0], vetEquip = [0,0,0,0,0,0,0,0,0,0,0,0,0],
+            equipMostra = [0,0,0,0,0,0,0,0,0,0,0,0,0];
+    //equipMostra = 0 a tabela ta oculta, = 1 ta mostrando
+    
+    function insertRow() {
+        var sala = window.location.pathname.split('/')[5]; // pega o cod da sala
+        $.ajax({
+            type: 'post',
+            dataType: 'json', //tipo de retorno
+            url: baseUrl + "index.php/detalhes/criarTabela", //arquivo onde serão buscados os dados
+            data: {
+                Sala: sala,
+                UltimaCaptura: ultimaCaptura
+            },
+            success: function (dados) {
+                if (dados) {
+                    while (j < dados.length) {
+                        insereLinha(dados[j]);
+                        if(j === dados.length){
+                            for (var i = 1; i < vetUltimaCaptura.length; i++){
+                                if(vetUltimaCaptura[i] !== 0 ){
+                                    geraGraficoPrimeiraLinha(vetUltimaCaptura[i], i);
                                 }
                             }
-                        } else {
-                            alert("Erro Ajax.");
                         }
                     }
-                });
-                var chart = $('#equipamento' + id).highcharts();
-                if (chart.series.length) {
-                    chart.series[0].remove();
+
+                    if(dados.length > 0) {
+                        ultimaCaptura = dados[j-1].codCaptura;
+                    }
+                    
+                    j = 0;
+                    window.setTimeout(insertRow, 10000);
+                } else {
+                    alert("Erro Ajax.");
                 }
+            }
+        });
+    } //pega os dados do banco e coloca na tabela a cada 3s
+
+    function insereLinha(dados) {
+        
+        // creates a <tbody> element
+        if (document.getElementById('tbodyTableDetalhes' + dados.CodEquip) === null) {
+            var table = document.getElementById("tableDetalhes");
+            var tbody = document.createElement("tbody");
+            tbody.id = "tbodyTableDetalhes" + dados.CodEquip;
+            table.appendChild(tbody);
+        }
+        var tblBody = document.getElementById("tbodyTableDetalhes" + dados.CodEquip);
+        
+        // creating all cells
+        var cellText;
+        
+        // creates a table row
+        var qntLinhas = $("#tbodyTableDetalhes"+dados.CodEquip+" tr").length + 1; 
+        var row = document.createElement("tr");
+        row.id = "linha"+ qntLinhas +"Equip" + dados.CodEquip;
+        if (dados.codEvento === "1"){
+            row.className = "fuga";
+        }
+        if (dados.codEvento === "4"){
+            row.className = "fase";
+        }
+
+        var cell = document.createElement('input');
+        cell.type = "checkbox";
+        cell.name = "equipamentos";
+        cell.className = "w" + dados.codCaptura;
+        cell.id = "s" + dados.CodEquip + "l" + qntLinhas;
+        cell.onclick = criaGraficoEquipamento;
+        row.appendChild(cell);
+
+        var cell = document.createElement("td");
+        cellText = document.createTextNode(dados.codCaptura);
+        var div = document.createElement("div");
+        div.id = "divcaptura" + dados.codCaptura;
+        div.className = dados.CodEquip;
+        div.style = "float: right;";
+        var img = document.createElement("img");
+        if(equipMostra[dados.CodEquip] === 0 ){
+            img.src = baseUrl + "includes/imagens/mais.jpg";
+        } else {
+            img.src = baseUrl + "includes/imagens/menos.jpg";
+        }
+        img.name = "mais";
+        img.id = "imgequip" + dados.CodEquip;
+        img.onclick = ocultaLinhas;
+        div.appendChild(img);
+        cell.appendChild(cellText);
+        cell.appendChild(div);
+        row.appendChild(cell);
+
+        var cell = document.createElement("td");
+        cellText = document.createTextNode(dados.CodTomada);
+        cell.appendChild(cellText);
+        row.appendChild(cell);
+
+        var cell = document.createElement("td");
+        cellText = document.createTextNode(dados.CodEquip);
+        cell.appendChild(cellText);
+        row.appendChild(cell);
+
+        var cell = document.createElement("td");
+        cellText = document.createTextNode(dados.eficaz);
+        cell.appendChild(cellText);
+        row.appendChild(cell);
+
+        var cell = document.createElement("td");
+        cellText = document.createTextNode(dados.tempoUso);
+        cell.appendChild(cellText);
+        row.appendChild(cell);
+
+        var cell = document.createElement("td");
+        cellText = document.createTextNode(dados.dataAtual);
+        cell.appendChild(cellText);
+        row.appendChild(cell);
+        
+        var cell = document.createElement("td");
+        cell.id = "periculosidade" + dados.codCaptura;
+        var div = document.createElement("div");
+        periculosidade(dados, div);
+        cell.appendChild(div);
+        row.appendChild(cell);
+
+        var cell = document.createElement('input');
+        cell.type = "checkbox";
+        cell.name = "comparar";
+        cell.className = dados.CodEquip;
+        cell.id = dados.codCaptura;
+        cell.onclick = criaGraficoBarraLinha;
+        row.appendChild(cell);
+        
+        //retira a img/div da linha anterior e oculta a linha anterior
+        if(tblBody.firstChild !== null){
+            var x = tblBody.firstChild.innerHTML.split('div')[2];
+            x = x.split('"')[0];
+            $("#div" + x).remove();
+            if (equipMostra[dados.CodEquip] === 0){
+                $("#linha"+(qntLinhas-1)+"Equip"+dados.CodEquip).prop("style", "display:none");
+            }
+        }
+        
+        vetUltimaCaptura[dados.CodEquip] = dados.codCaptura;
+        vetEquip[dados.CodEquip] = 1;
+        tblBody.insertBefore(row, tblBody.firstChild);
+        j++;
+    }
+    
+    function ocultaLinhas(){
+        var id = $(this).attr('id'); //pega a classe do checkbox clicado, contendo o código do equipamento
+        var equip = id.substring(8, id.length);
+        var name = $(this).attr('name');   
+        var qntLinhas = $("#tbodyTableDetalhes"+equip +" tr").length;
+        
+        if (name === "mais"){
+            equipMostra[equip] = 1;
+            document.getElementById(id).setAttribute("name","menos");
+            document.getElementById(id).src = baseUrl + "includes/imagens/menos.jpg";
+            
+            for (var x = qntLinhas-1; x > 0 ; x--){
+                $('#linha'+x+'Equip'+equip).prop("style", "");
+            }
+        }else {
+            
+            equipMostra[equip] = 0;
+            document.getElementById(id).setAttribute("name","mais");
+            document.getElementById(id).src = baseUrl + "includes/imagens/mais.jpg";
+            
+            for (var x = qntLinhas-1; x > 0 ; x--){
+                $('#linha'+x+'Equip'+equip).prop("style", "display: none");
+            }
+        }
+    }
+    
+    function geraGraficoPrimeiraLinha(codCaptura, codequip) {
+        //percorre os checkbox e desmarca todos e deixa marcado só o que selecionou
+        desmarcaCheckboxEquipamentosMarcaUltimo(codequip, codCaptura);
+        // ==========================================        
+        //verifica se tem a div pra colocar o grafico, se não tiver cria uma div do equip
+        // se já tiver apenas pega a referencia da div
+        criaDiv(codequip);
+        // ==========================================
+        //pega os dados do banco e Cria grafico
+        criaGrafico(codCaptura, codequip);
+        // ==========================================
+    }
+    
+    function criaGraficoEquipamento() {
+        var classeI = $(this).attr('class'); //pega a classe do checkbox clicado, contendo o wcódigo da captura
+        var codCaptura = classeI.substring(1, classeI.length); // codCaptura
+        var id = $(this).attr('id').split("l"); //pega o id do checkbox clicado, contendo o scódigo de equip
+        var codequip = id[0].substring(1, id[0].length); // codEquip
+        
+        if ($(".w" + codCaptura).prop("checked")) {
+            
+            //percorre os checkbox e desmarca todos e deixa marcado só o que selecionou
+            desmarcaCheckboxEquipamentosMarcaUltimo(codequip, codCaptura);
+            // ==========================================
+            //verifica se tem a div pra colocar o grafico, se não tiver cria uma div do equip
+            // se já tiver apenas pega a referencia da div
+            criaDiv(codequip);
+            // ==========================================
+            //pega os dados do banco e Cria grafico
+            criaGrafico(codCaptura, codequip);
+            // ==========================================
+        } 
+        else {
+            var chart = $('#container'+codequip).highcharts();
+            chart.series[0].remove();
+            $('#container'+codequip).empty();
+            document.getElementById('container' +codequip).setAttribute("class","");
+        }
+    }
+
+    function criaGraficoBarraLinha() {
+        var id = $(this).attr('id'); //pega o id do checkbox clicado, contendo o código de captura
+        var checkadoID = document.getElementById(id).checked; //verifica se o checkbox foi clicado true == sim, false == não
+
+        if (checkadoID === true) { // se checkado == true monta gráfico na área de comparação
+            //ajax envia os dados p/ php e no php processa e retornar valores em dados.linha e dados.
+            if (checkClicados < 5) {
+                graficos[checkClicados] = id;
                 $.ajax({
-                    url: "<?php echo base_url(); ?>" + "index.php/detalhes/linha", //requisita novo gráfico
+                    url: baseUrl + "index.php/Detalhes/graficos",
                     dataType: 'json',
                     scriptCharset: 'UTF-8',
                     type: "POST",
                     data: {
-                        Captura: classe
+                        idCheckbox: id
                     },
                     success: function (dados) {
                         if (dados) {
-                            var chart = $('#equipamento' + id).highcharts();
+                            var chart = $('#barra').highcharts();
                             chart.addSeries({
-                                name: classe,
-                                data: dados.linha,
-                                color: '#7cb5ec'
+                                name: id,
+                                data: dados.barra
                             });
-
+                            var chart = $('#linha').highcharts();
+                            chart.addSeries({
+                                data: dados.linha
+                            });
                         } else
                             alert("Erro Ajax.");
                     }
                 });
-                checkadoClasse = ($("." + classe).is(':checked')); //verifica se o checkbox foi clicado true == sim, false == não
-                if (checkadoClasse === true) { // se checkado == true mostra a div do equipamento
-                    $("#equipamento" + id).show();
-                } else { // senão oculta a div do equipamento
-                    $("#equipamento" + id).hide();
-                }
-                ;
+                checkClicados++;
+            } else {
+                alert("Máximo de 5 Equipamentos Atingido");
+                $("#" + id).attr("checked", false);
             }
-            ;
-            // se fone comparar coluna comparar
-            if (nome === "comparar") {
-                checkadoID = ($("#" + id).is(':checked')); //verifica se o checkbox foi clicado true == sim, false == não
-                if (checkadoID === true) { // se checkado == true monta gráfico na área de comparação
-                    ++checkClicados;
-                    //ajax envia os dados p/ php e no php processa e retornar valores em dados.linha e dados.barra
-                    if (cont < 5) {
-                        graficos[cont] = id;
-                        $.ajax({
-                            url: "<?php echo base_url(); ?>" + "index.php/detalhes/graficos",
-                            dataType: 'json',
-                            scriptCharset: 'UTF-8',
-                            type: "POST",
-                            data: {
-                                action: 'checkDados',
-                                idCheckbox: id
-                            },
-                            success: function (dados) {
-                                if (dados) {
-                                    var chart = $('#barra').highcharts();
-                                    chart.addSeries({
-                                        name: id,
-                                        data: dados.barra
-                                    });
-                                    var chart = $('#linha').highcharts();
-                                    chart.addSeries({
-                                        data: dados.linha
-                                    });
-                                    cont = ++cont;
-                                } else
-                                    alert("Erro Ajax.");
-                            }
-                        });
-                    } else {
-                        alert("Máximo de 5 Equipamentos Atingido");
-                        $("#" + id).attr("checked", false);
+
+        } else { // senão oculta gráfico do equipamento
+
+            for (var x = 0; x < graficos.length; x++) {
+                if (graficos[x] === id) {
+                    var chart = $('#barra').highcharts();
+                    if (chart.series.length) {
+                        chart.series[x].remove();
                     }
-                } else { // senão oculta gráfico do equipamento
-                    --checkClicados;
-                    cont = --cont;
-                    ;
-                    for (var x = 0; x < graficos.length; x++) {
-                        if (graficos[x] === id) {
-                            var chart = $('#barra').highcharts();
-                            if (chart.series.length) {
-                                chart.series[x].remove();
-                            }
-                            var chart = $('#linha').highcharts();
-                            if (chart.series.length) {
-                                chart.series[x].remove();
-                            }
-                            graficos.splice(x, 1);
-                        }
+                    var chart = $('#linha').highcharts();
+                    if (chart.series.length) {
+                        chart.series[x].remove();
                     }
+                    graficos.splice(x, 1);
                 }
-                //para construir a tabela de similaridade
-                if (checkadoID === true) {
-                    mostraTabelaSimilaridade();
-                } else {
-                    if (checkClicados === 0) {
-                        document.getElementById("tabelaSimilaridade").deleteRow(1);
-                        //document.getElementById("tabelaSimilaridade").deleteRow(1);
-                    } else {
-                        mostraTabelaSimilaridade();
-                    }
-                }
+            }
+            --checkClicados;
+        }
+
+        //para construir a tabela de similaridade
+        if (checkadoID === true) {
+            mostraTabelaSimilaridade();
+        } else {
+            if (checkClicados === 0) {
+                document.getElementById("tabelaSimilaridade").deleteRow(1);
+            } else {
+                mostraTabelaSimilaridade();
+            }
+        }
+    } //OK
+    
+    function desmarcaCheckboxEquipamentosMarcaUltimo(codequip, codCaptura){
+        
+        var qntLinhas = $("#tbodyTableDetalhes"+codequip +" tr").length; 
+        for (var x = qntLinhas ; x > 0; x--){ 
+            $("#s" + codequip+"l"+x).attr("checked", false);
+        }
+        $(".w" + codCaptura).prop("checked", true);
+    }
+    
+    function criaDiv(codequip){
+        if (document.getElementById('container' + codequip) === null) {
+            var divMain = document.getElementById("divMain");
+            var div = document.createElement("div");
+            div.id = "container" + codequip;
+            div.className = "col-md-3 col-xs-4";
+            divMain.appendChild(div);
+        }
+    }
+    
+    function criaGrafico(codCaptura, codequip){
+        var $divCont = $('#container' + codequip);
+        document.getElementById('container' + codequip).setAttribute("class","codCap"+codCaptura+"col-md-3 col-xs-4");
+        $.ajax({
+            url: baseUrl + "index.php/Detalhes/linha", //requisita novo gráfico
+            dataType: 'json',
+            scriptCharset: 'UTF-8',
+            type: "POST",
+            data: {
+                Captura: codCaptura
+            },
+            success: function (dados) {
+                if (dados) {
+                    $divCont.highcharts({
+                        chart: {
+                            type: 'line',
+                            marginRight: 10
+                        },
+                        title: {
+                            text: 'Equip ' + codequip + " Cap " + codCaptura 
+                        },
+                        series: [{name: codCaptura,
+                                data: dados.linha}]
+                    });
+                } else
+                    alert("Erro Ajax.");
             }
         });
-    });
-</script>
+    }
+    
+    function deslocaGrafico(cod1, cod2){
+        var w = 750, h = 450, url = baseUrl+ "index.php/popup_grafico_deslocada?cod1="+cod1+"&cod2="+cod2, title = "popupGrafico";
+        var left = (screen.width/2)-(w/2);
+        var top = (screen.height/2)-(h/2);
+        return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
+    } //OK
+    
+    function periculosidade(dados, div) {
+
+        div.className = "green-circle";
+        if (dados.eficaz >= 0.1 && dados.eficaz < 0.5) {
+            //atenção
+            div.className = "yellow-circle";
+        } else if (dados.eficaz >= 0.5) {
+            //perigo
+            div.className = "red-circle";
+        }
+
+    } //OK
+</script>   
 <script>
     function mostraTabelaSimilaridade() {
+
+        var baseUrl = getURL();
         //pega os checkboxes clicados em um array, a ordenação não é por clique e sim por leitura dos clicados, de cima para baixo
         var checkboxSelecionados = [];
         $('#aba input[name="comparar"]:checked').each(function () {
@@ -283,7 +459,7 @@
         //envia por post um json contendo os códigos de capturas dos checkboxes
         //recebendo o retorno da tabela preenchida
         $.ajax({
-            url: "<?php echo base_url(); ?>" + "index.php/detalhes/tabelaSimilaridade",
+            url: baseUrl + "index.php/detalhes/tabelaSimilaridade",
             dataType: 'json',
             scriptCharset: 'UTF-8',
             type: "POST",
@@ -321,113 +497,4 @@
         //document.getElementById("divTeste").innerHTML = indice;
 
     }
-</script>
-<script type="text/javascript">
-    $(document).ready(function () {
-<?php
-$cont = 0;
-$old = -1;
-foreach ($detalhes as $dados) {
-    if ($old != $dados->CodEquip) {
-        ?>
-                $("#graficoslinha").append("<div id='equipamentos<?php echo $dados->CodEquip; ?>' style='width:32.5%; height:280px;float:left; margin:5px auto auto 5px;'></div>");
-                $(function () {
-                    $('#equipamentos' +<?php echo $dados->CodEquip; ?>).highcharts({
-                        chart: {
-                            type: 'spline',
-                            spacingBottom: -5,
-                            spacingLeft: -5
-                        },
-                        title: {
-                            text: ''
-                        },
-                        credits: {
-                            enabled: false
-                        },
-                        xAxis: {
-                            title: {
-                                text: 'Tempo/100 (ms)'
-                            },
-                            labels: {
-                                rotation: -45,
-                                style: {
-                                    fontSize: '8px',
-                                    fontFamily: 'Verdana, sans-serif'
-                                }
-                            },
-                            tickPositions: [0, 104, 201, 305, 403, 501, 605, 703, 800, 904, 1002, 1100, 1204, 1302, 1406, 1503, 1601]
-                        },
-                        yAxis: {
-                            title: {
-                                text: 'Corrente (mA)'
-                            }
-                        }
-                    });
-                });
-
-                $.ajax({
-                    url: "<?php echo base_url(); ?>" + "index.php/detalhes/linha",
-                    dataType: 'json',
-                    scriptCharset: 'UTF-8',
-                    type: "POST",
-                    data: {
-                        Captura: <?php echo $dados->codCaptura; ?>
-                    },
-                    success: function (dados) {
-                        if (dados) {
-                            var chart = $('#equipamentos' +<?php echo $dados->CodEquip; ?>).highcharts();
-                            chart.addSeries({
-                                name: "<?php echo $dados->codCaptura ?>",
-                                data: dados.linha
-                            });
-
-                        } else
-                            alert("Erro Ajax.");
-                    }
-                });
-        <?php
-        $cont = $cont + 1;
-        $old = $dados->CodEquip;
-    }
-}
-?>
-    });
-</script>
-<script type="text/javascript">
-    //controla as linhas expande ou oculta, mostra imagem de mais ou menos
-    $(document).ready(function () {
-        $("img").click(function () {
-
-            var classe = $(this).attr('class');
-            var sala = "<?php echo $codUsoSala; ?>";
-            var nome = $(this).attr('name');
-
-            if (nome === "mais") {
-                $(this).attr('src', '<?php echo base_url("includes/imagens/menos.jpg") ?>');
-                $(this).attr('name', 'menos');
-            } else {
-                $(this).attr('src', '<?php echo base_url("includes/imagens/mais.jpg") ?>');
-                $(this).attr('name', 'mais');
-            }
-
-            $.ajax({
-                url: "<?php echo base_url(); ?>" + "index.php/detalhes/mostra_equip",
-                dataType: 'json',
-                scriptCharset: 'UTF-8',
-                type: "POST",
-                data: {
-                    CodEquip: classe,
-                    Sala: sala
-                },
-                success: function (dados) {
-                    if (dados) {
-                        for (var i = 1; i < dados.captura.length; i++) {
-                            $("#linha" + dados.captura[i].codCaptura + "").toggle("slow");
-                        }
-                    } else
-                        alert("Erro Ajax.");
-                }
-            });
-        });
-    });
 </script>

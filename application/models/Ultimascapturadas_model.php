@@ -46,12 +46,23 @@ class ultimascapturadas_model extends CI_Model{
             return $query->result();
 	}
         
+        function get_all_captures($captura) {
+            $this->db->select("codCaptura");
+            $this->db->from("capturaatual");
+            $this->db->where("codCaptura > $captura");
+            $this->db->where('(codEvento = 1 OR codEvento = 4)');
+            $this->db->order_by("codCaptura desc");
+            $query = $this->db->get();
+
+            return $query->result();
+        }
+        
         function get_last_capture() {
             $this->db->select("codCaptura");
             $this->db->from("capturaatual");
             $this->db->where('(codEvento = 1 OR codEvento = 4)');
             $this->db->order_by("codCaptura desc");
-            $this->db->limit(1);
+            $this->db->limit(100);
             $query = $this->db->get();
 
             return $query->result();

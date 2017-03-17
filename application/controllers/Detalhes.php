@@ -1,6 +1,6 @@
 <?php
 //Controller
-//* 2016
+//* 2017
 //* Desenvolvido por: Leonardo Francisco Rauber
 //* Email: leorauber@hotmail.com - 132789@upf.br
 //* Projeto de conclusão de curso
@@ -236,7 +236,11 @@ class Detalhes extends MY_Controller {
             for ($i = 0; $i < $cont + 1; $i++) {
                 $html .= "<tr>";
                 for ($j = 0; $j < $cont + 1; $j++) {
-                    $html .= "<td>{$tabela[$i][$j]}</td>";
+                    if($j!=0 && $i!=0 && $tabela[$i][$j] != 1){
+                        $html .= "<td onclick=deslocaGrafico({$tabela[$i][0]},{$tabela[0][$j]})><a>{$tabela[$i][$j]}</a></td>";
+                    } else {
+                        $html .= "<td>{$tabela[$i][$j]}</td>";
+                    }
                 }
                 $html .= "</tr>";
             }
@@ -248,7 +252,8 @@ class Detalhes extends MY_Controller {
     public function criarTabela() {
         //Conectando ao banco de dados
         $sala = filter_input_array(INPUT_POST)['Sala']; //pega Sala vindo do ajax
-        $query = $this->detalhes_model->get_all_detalhes($sala);
+        $ultimaCap = filter_input_array(INPUT_POST)['UltimaCaptura']; //pega Sala vindo do ajax
+        $query = $this->detalhes_model->get_all_detalhes($sala,$ultimaCap);
 
         echo json_encode($query);
     }

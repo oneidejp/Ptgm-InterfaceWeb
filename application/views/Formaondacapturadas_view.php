@@ -5,81 +5,75 @@
 * Projeto de conclusão de curso
 * UPF - Ciência da Computação
 -->
-
-<br>
 <div class="container-fluid" >
 
     <div class="row">
         <div class="col-md-12 col-xs-12" id="centro">
-            <div id="aba1">
+            <div id="aba">
                 <div class="row">   <!-- incluir botoes-->
-                    <div class="col-md-12 col-xs-12"> 
-                        <p style="font-size: 16pt;"> <!-- incluir botoes-->
+                    <div class="col-xs-12"> 
+                        <p style="font-size: 15pt;"> <!-- incluir botoes-->
                             <?php echo $this->lang->line('equipments'); ?>
                             <input id="allequips" type="checkbox" checked="true" onclick="allEquips()">
-                            <input id="equipment" type="text" disabled="false">&emsp;&emsp;&emsp;
+                            <input id="equipment" type="text" disabled="false">&emsp;&emsp;
                             
                             <?php echo $this->lang->line('phase'); ?> 
                             <input id="fase" type="checkbox" checked="true">
                             
                             <?php echo $this->lang->line('leakage'); ?>
-                            <input id="fuga" type="checkbox" checked="true">&emsp;&emsp;&emsp;
+                            <input id="fuga" type="checkbox" checked="true">&emsp;&emsp;
                             
                             <input id="writedate" type="checkbox" checked="true" onclick="writeDate()">
                             <?php echo $this->lang->line('datestart'); ?>
                             <input type="text" id="calendariostart" disabled="false" onblur>
                             
                             <?php echo $this->lang->line('dateend'); ?>
-                            <input type="text" id="calendarioend" disabled="false">&emsp;&emsp;&emsp;
+                            <input type="text" id="calendarioend" disabled="false">&emsp;&emsp;
                             
-<!--                            <?php echo $this->lang->line('dateend'); ?> -->
                             Limit
                             <input id="limitcheckbox" type="checkbox" checked="true" onclick="limitSet()">
-                            <input type="text" id="limit" value="0" min="0" max="10000" style="width: 70px;" disabled="true">&emsp;&emsp;&emsp;
+                            <input type="text" id="limit" value="0" min="0" max="10000" style="width: 70px;" disabled="true">&emsp;&emsp;
                             
                             <input type="button" id="buttonSearch" value="Search" onclick="getData()">
-                        </p> 
-                        <div class="col-md-10 col-xs-offset-1" style="overflow:auto; height:530px; margin-top: 30px;">
-                            <table id="tableFormaonda" class="table table-bordered table-condensed" style="font-size: 16pt; text-align: center; ">
-                                <thead>
-                                    <tr>
-                                        <th ><?php echo $this->lang->line('capture'); ?></th>
-                                        <th ><?php echo $this->lang->line('room'); ?></th>
-                                        <th ><?php echo $this->lang->line('plug'); ?></th>
-                                        <th ><?php echo $this->lang->line('equipment'); ?></th>
-                                        <th ><?php echo $this->lang->line('use'); ?></th>
-                                        <th ><?php echo $this->lang->line('effective'); ?> </th>
-                                        <th ><?php echo $this->lang->line('dangerousness'); ?></th>
-                                        <th  class="col-xs-2"><?php echo $this->lang->line('date'); ?></th>
-                                        <th ><?php echo $this->lang->line('compare'); ?></th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tbodyFormaonda"></tbody>
-                            </table>
-                        </div>
+                        </p>
+                    </div>
+                    <div class="col-md-10 col-xs-offset-1" style="overflow:auto; height:570px; margin-top: 10px;">
+                        <table id="tableFormaonda" class="table table-bordered " style="font-size: 14pt; text-align: center; ">
+                            <thead>
+                                <tr>
+                                    <th ><?php echo $this->lang->line('capture'); ?></th>
+                                    <th ><?php echo $this->lang->line('room'); ?></th>
+                                    <th ><?php echo $this->lang->line('plug'); ?></th>
+                                    <th ><?php echo $this->lang->line('equipment'); ?></th>
+                                    <th ><?php echo $this->lang->line('use'); ?></th>
+                                    <th ><?php echo $this->lang->line('effective'); ?> </th>
+                                    <th ><?php echo $this->lang->line('dangerousness'); ?></th>
+                                    <th  class="col-xs-2"><?php echo $this->lang->line('date'); ?></th>
+                                    <th ><?php echo $this->lang->line('compare'); ?></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyFormaonda"></tbody>
+                        </table>
+                    </div>
 
-                        <div class="col-md-12 col-xs-12" style="margin-top: 30px; height:200px;">
-                            <div class="col-xs-7">
-                                <div id="linha"></div> <!--grafico linha-->
-                                <div id="linhadeslocada"></div> <!--grafico linhadeslocada-->
-                                <div id="barra"></div> <!--grafico barra-->
-                                <input type="button" id="buttonBarra" value="FFT" disabled="true" onclick="retornaBarra()">
-                            </div>
-                            <div class="col-xs-5">
-                                <div class="col-xs-12">
-                                    <table class='table table-striped table-bordered' id="tabelaSimilaridade">
-                                        <thead>
-                                            <tr>
-                                                <th class="col-xs-3"><?php echo $this->lang->line('capture_code'); ?></th>
-                                                <th colspan="5"><?php echo $this->lang->line('similarity'); ?></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tbodyTabelaSimilaridade"></tbody>
-                                    </table>
-                                </div>
+                    <div class="col-md-12 col-xs-12" style="margin-top: 30px; height:200px;">
+                        <div class="col-xs-7">
+                            <div id="linha"></div> <!--grafico linha-->
+                            <div id="barra"></div> <!--grafico barra-->
+                        </div>
+                        <div class="col-xs-5">
+                            <div class="col-xs-12">
+                                <table class='table table-striped table-bordered' id="tabelaSimilaridade">
+                                    <thead>
+                                        <tr>
+                                            <th class="col-xs-3"><?php echo $this->lang->line('capture_code'); ?></th>
+                                            <th colspan="5"><?php echo $this->lang->line('similarity'); ?></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyTabelaSimilaridade"></tbody>
+                                </table>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -93,6 +87,7 @@
     }
 </script>
 <script type="text/javascript"> //pega os dados do banco e coloca na tabela a cada 1s
+    document.body.style = "padding-bottom: 10px; padding-top: 70px;"; alert("");
     var j = 0, cont = 0, checkClicados = 0, lock = 0, atualizando = 0;
     var qntLines = 0;
     var table = $('#tableFormaonda').DataTable( {
@@ -100,41 +95,12 @@
     } ); //========================
     var graficos = [];
     var baseUrl = getURL();
-    
+    //funcao para chamar a tela com o grafico deslocado
     function deslocaGrafico(cod1, cod2){
-        $("#barra").prop("style", "display:none;");
-        $("#buttonBarra").attr("disabled", "false");
-        $.ajax({
-            url: baseUrl + "index.php/Formaondacapturadas/deslocaOnda",
-            dataType: 'json',
-            scriptCharset: 'UTF-8',
-            type: "POST",
-            data: {
-                Cod1: cod1,
-                Cod2: cod2
-            },
-            success: function (dados) {
-                if (dados) { 
-                    for (var x = 0; x < graficos.length; x++) {
-                        if (graficos[x] === cod2) {
-                            var chart = $('#linha').highcharts();
-                            if (chart.series.length) {
-                                chart.series[x].remove();
-                            }
-//                            graficos.splice(x, 1);
-                        }
-                    }
-//                    graficos[] = cod2;
-                    var chart = $('#linha').highcharts();
-                    chart.addSeries({
-                        name: cod2,
-                        data: dados 
-                    });
-                    
-                } else
-                    alert("Erro Ajax.");
-            }
-        });
+        var w = 750, h = 450, url = "popup_grafico_deslocada?cod1="+cod1+"&cod2="+cod2, title = "popupGrafico";
+        var left = (screen.width/2)-(w/2);
+        var top = (screen.height/2)-(h/2);
+        return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
     }
     
     function getData() {
@@ -270,6 +236,7 @@
                             });
                             var chart = $('#linha').highcharts();
                             chart.addSeries({
+                                name: id,
                                 data: dados.linha
                             });
                         } else

@@ -13,8 +13,8 @@
         <div class="col-md-12 col-xs-12" id="centro">
             <div id="aba">
                 <div class="row">   <!-- incluir botoes-->
-                    <div class="col-md-12 col-xs-12"> 
-                        <p style="font-size: 18pt;">
+                    <div class="col-xs-10 col-xs-offset-1"> 
+                        <p style="font-size: 15pt;">
                             <?php echo $this->lang->line('update'); ?>
                             <input id="atualiza" onclick="controleAtualizar()" type="checkbox" checked="true"> &emsp;
                             <?php echo $this->lang->line('phase'); ?> 
@@ -25,32 +25,31 @@
                             <input id="visualization" onkeypress="visualization()" type="number" value="4" min="2" max="8" style="width:80px;">&emsp;
                             FFT
                             <input id="fft" onclick="mostraFFT()" type="checkbox" >
-                            
                         </p> 
-                        <div class="col-md-5" style="overflow:auto; height:310px;">
-                            <table id="tableUltimascapturas" class="table table-bordered table-condensed" style="font-size: 12pt; text-align: center; ">
-                                <thead>
-                                    <tr>
-                                        <th><?php echo $this->lang->line('show'); ?></th>
-                                        <th><?php echo $this->lang->line('capture'); ?></th>
-                                        <th><?php echo $this->lang->line('plug'); ?></th>
-                                        <th><?php echo $this->lang->line('equipment'); ?></th>
-                                        <th><?php echo $this->lang->line('effective'); ?></th>
-                                        <th><?php echo $this->lang->line('use'); ?></th>
-                                        <th><?php echo $this->lang->line('date'); ?></th>
-                                        <th><?php echo $this->lang->line('dangerousness'); ?></th>
-                                        <th><?php echo $this->lang->line('compare'); ?></th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tbodyUltimasCapturas"></tbody>
-                            </table>
-                        </div>
+                    </div>
+                    <div class="col-xs-5" style="overflow:auto; height:400px;">
+                        <table id="tableUltimascapturas" class="table table-bordered table-condensed" style="font-size: 12pt; text-align: center; ">
+                            <thead>
+                                <tr>
+                                    <th><?php echo $this->lang->line('show'); ?></th>
+                                    <th><?php echo $this->lang->line('capture'); ?></th>
+                                    <th><?php echo $this->lang->line('plug'); ?></th>
+                                    <th><?php echo $this->lang->line('equipment'); ?></th>
+                                    <th><?php echo $this->lang->line('effective'); ?></th>
+                                    <th><?php echo $this->lang->line('use'); ?></th>
+                                    <th><?php echo $this->lang->line('date'); ?></th>
+                                    <th><?php echo $this->lang->line('dangerousness'); ?></th>
+                                    <th><?php echo $this->lang->line('compare'); ?></th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyUltimasCapturas"></tbody>
+                        </table>
+                    </div>
 
-                        <div class="col-md-6 col-xs-6 col-md-offset-1">
+                        <div class="col-xs-6">
                             <div id="linha"></div> <!--grafico linha-->
                             <div id="barra"></div> <!--grafico barra-->
-                            <br>
-                            <div class="col-md-offset-1 col-md-10 col-xs-12">
+                            <div class="col-md-offset-1 col-md-10 col-xs-10">
                                 <table class='table table-striped table-bordered' id="tabelaSimilaridade">
                                     <thead>
                                         <tr>
@@ -63,7 +62,7 @@
                             </div>
                         </div>
 
-                    </div>
+                    
                 </div>
             </div>
             <div class="row-fluid col-md-12 col-xs-12" id="divMain" > 
@@ -445,15 +444,9 @@
             url: baseUrl + "index.php/Ultimascapturadas/ultimaCaptura", //arquivo onde serão buscados os dados
             success: function (dados) {
                 if (dados) {
-                    if(dados[0].codCaptura < 100){
-                        ultimoCodCaptura = 0;
-                    } else {if (dados[0].codCaptura < 200){
-                                ultimoCodCaptura = dados[0].codCaptura/2;
-                            } else {
-                                ultimoCodCaptura = dados[0].codCaptura-100;
-                            }
-                    }   
-//                    alert("Captura inicial para a pesquisa no Banco " + ultimoCodCaptura);
+                    dados = dados.slice(0).reverse();
+                    ultimoCodCaptura = dados[0].codCaptura-1;
+                    
                     firstCap = ultimoCodCaptura;
                     atualizaTable();
                 } else {
@@ -480,11 +473,26 @@
     }
     
     function iniciaFFT() {
-        for(var i = lastCapture; i >= firstCap; i--){
-            if($(".w"+i).prop("checked"))
-                insereFFT(i);
-        }
-        $("#fft").prop("disabled","");
+        $.ajax({
+            type: 'post',
+            dataType: 'json', //tipo de retorno
+            url: baseUrl + "index.php/Ultimascapturadas/ultimaCaptura", //arquivo onde serão buscados os dados
+            data: {
+                PrimeiraCaptura: firstCap
+            },
+            success: function (dados) {
+                if (dados) {
+                    for(var i = 0 ; i < dados.length; i++){
+                        if($(".w"+dados[i].codCaptura).prop("checked")){
+                            insereFFT(dados[i].codCaptura);
+                        }
+                    }
+                    $("#fft").prop("disabled","");
+                } else {
+                    alert("Erro Ajax.");
+                }
+            }
+        });
     }
     
     function insereFFT(codCaptura){
@@ -497,7 +505,7 @@
         div.appendChild(divbarra);
         
         var $divCont = $('#divbarra' + codCaptura);
-
+        
         $.ajax({
             url: baseUrl + "index.php/Ultimascapturadas/barra", //requisita novo gráfico
             dataType: 'json',
@@ -511,7 +519,7 @@
                     $divCont.highcharts({
                         chart: {
                             type: 'column',
-                            spacingBottom: 0,
+                            spacingBottom: 0
                         },
                         title: {
                             text: 'Cap ' + codCaptura
@@ -578,6 +586,7 @@
                             });
                             var chart = $('#linha').highcharts();
                             chart.addSeries({
+                                name: id,
                                 data: dados.linha
                             });
                         } else
@@ -678,6 +687,13 @@
                 $("#fuga").prop("disabled","");
             }
         }
+    }
+    
+    function deslocaGrafico(cod1, cod2){
+        var w = 750, h = 450, url = "popup_grafico_deslocada?cod1="+cod1+"&cod2="+cod2, title = "popupGrafico";
+        var left = (screen.width/2)-(w/2);
+        var top = (screen.height/2)-(h/2);
+        return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
     }
     
     function periculosidade(dados, div) {

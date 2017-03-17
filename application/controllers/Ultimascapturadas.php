@@ -244,7 +244,11 @@ class Ultimascapturadas extends MY_Controller {
             for ($i = 0; $i < $cont + 1; $i++) {
                 $html .= "<tr>";
                 for ($j = 0; $j < $cont + 1; $j++) {
-                    $html .= "<td>{$tabela[$i][$j]}</td>";
+                    if($j!=0 && $i!=0 && $tabela[$i][$j] != 1){
+                        $html .= "<td onclick=deslocaGrafico({$tabela[$i][0]},{$tabela[0][$j]})><a>{$tabela[$i][$j]}</a></td>";
+                    } else {
+                        $html .= "<td>{$tabela[$i][$j]}</td>";
+                    }
                 }
                 $html .= "</tr>";
             }
@@ -282,5 +286,12 @@ class Ultimascapturadas extends MY_Controller {
         $query = $this->ultimascapturadas_model->get_last_capture();
 
         echo json_encode($query);
-    }    
+    }   
+    public function all_captures() {
+        $captura = filter_input_array(INPUT_POST)['PrimeiraCaptura'];
+        //Conectando ao banco de dados
+        $query = $this->ultimascapturadas_model->get_all_captures($captura);
+
+        echo json_encode($query);
+    } 
 }
