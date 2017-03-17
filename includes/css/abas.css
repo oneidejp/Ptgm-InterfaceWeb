@@ -43,7 +43,25 @@
 	position:relative;
 	background:#fff;
 	width:auto;
-	min-height:270px;
+        /*overflow: auto ;*/
+        /*height: auto;*/
+	min-height: 270px;
+	margin:auto;
+	padding:10px;
+	clear:both;
+	border:1px solid #999;
+	-moz-box-shadow:0 -1px 3px #ccc;
+	-webkit-box-shadow:0 -1px 3px #ccc;
+	border-radius:10px;
+}
+
+#aba1{
+	position:relative;
+	background:#fff;
+	width:auto;
+        overflow: auto ;
+        /*height: auto;*/
+	min-height: 270px;
 	margin:auto;
 	padding:10px;
 	clear:both;
