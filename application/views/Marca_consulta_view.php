@@ -8,8 +8,7 @@
             <div id="aba1">
                 <div class="row-fluid">
                     <div class="col-xs-10 col-xs-offset-1" id="formcentro">
-                        <caption><h2><?php echo $this->lang->line('table_title_trademark'); ?></h2></caption>
-                            
+                        <h2><?php echo $this->lang->line('table_title_trademark'); ?></h2>
                         <table id="myTable" class="table table-striped table-bordered sortable">
                             <thead>
                                 <tr>

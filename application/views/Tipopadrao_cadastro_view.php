@@ -43,10 +43,8 @@
                         }
                         ?>
                     </div>
-                    <div class="col-md-4 col-xs-4" id="formesquerda"></div>
                 </div>
             </div>
         </div>
-        <div class="col-md-1 col-xs-1" id="direita"></div>
     </div>
 </div>

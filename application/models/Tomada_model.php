@@ -5,6 +5,12 @@
 	* Email: mateusperego@yahoo.com.br
 	* Projeto de conclusão de curso
 	* UPF - Ciência da Computação
+        *  
+        * 2017
+        * Alterado por: Leonardo F. Rauber
+        * Email: leorauber@hotmail.com - 132789@upf.br
+        * Projeto de conclusão de curso
+        * UPF - Ciência da Computação
 	*/	
 
 class tomada_model extends CI_Model{
@@ -12,22 +18,14 @@ class tomada_model extends CI_Model{
 	function get_all_tomada($limite, $offset){
 		$this->db->limit($limite,$offset);
 
-		$this->db->select('tomada.codTomada, tomada.desc, tomada.indice, tomada.modulo, salacirurgia.desc as sala');
+		$this->db->select('tomada.codTomada, tomada.desc, tomada.indice, tomada.codModulo, tomada.limiteFase, tomada.limiteFuga, tomada.limiteStandByFase, tomada.limiteStandByFuga, salacirurgia.desc as sala');
 		$this->db->from ('tomada,salacirurgia');
 		$this->db->where('tomada.codSala = salacirurgia.codSala');
 		$this->db->order_by('tomada.codTomada');
 		$query = $this->db->get();
 		return $query->result();
 	}
-	function get_all_tomada_cadastro(){
-
-		$this->db->select('tomada.codTomada, tomada.desc, tomada.indice, tomada.modulo, salacirurgia.desc as sala');
-		$this->db->from ('tomada,salacirurgia');
-		$this->db->where('tomada.codSala = salacirurgia.codSala');
-		$this->db->order_by('tomada.codTomada');
-		$query = $this->db->get();
-		return $query->result();
-	}
+	
 	//create 
 	function add_tomada($options=array()){
 
@@ -42,16 +40,33 @@ class tomada_model extends CI_Model{
 	}
 	//update 
 	function update_tomada($options=array()){
-		if(isset($options['codTomada']))
-			$this->db->set('codTomada',$options['codTomada']);
-		if(isset($options['codSala']))
-			$this->db->set('codSala',$options['codSala']);
-		if(isset($options['indice']))
-			$this->db->set('indice',$options['indice']);
-		if(isset($options['modulo']))
-			$this->db->set('modulo',$options['modulo']);
-		if(isset($options['desc']))
-			$this->db->set('desc',$options['desc']);
+		if(isset($options['codTomada'])){
+                    $this->db->set('codTomada',$options['codTomada']);
+                }
+		if(isset($options['codSala'])){
+                    $this->db->set('codSala',$options['codSala']);
+                }
+		if(isset($options['indice'])){
+                    $this->db->set('indice',$options['indice']);
+                }
+		if(isset($options['codModulo'])){
+                    $this->db->set('codModulo',$options['codModulo']);
+                }
+                if(isset($options['limiteFase'])){
+                    $this->db->set('limiteFase',$options['limiteFase']);
+                }
+                if(isset($options['limiteFuga'])){
+                    $this->db->set('limiteFuga',$options['limiteFuga']);
+                }
+                if(isset($options['limiteStandByFase'])){
+                    $this->db->set('limiteStandByFase',$options['limiteStandByFase']);
+                }
+                if(isset($options['limiteStandByFuga'])){
+                    $this->db->set('limiteStandByFuga',$options['limiteStandByFuga']);
+                }
+		if(isset($options['desc'])){
+                    $this->db->set('desc',$options['desc']);
+                }
 
 		$this->db->where('codTomada',$options['codTomada']);
 		$this->db->update('tomada');

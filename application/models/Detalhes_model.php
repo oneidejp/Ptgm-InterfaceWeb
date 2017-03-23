@@ -8,7 +8,7 @@
 
 class detalhes_model extends CI_Model{
 	//pega todos os registros das salas em uso
-	function get_all_detalhes($sala, $ultimaCap){
+	function get_all_detalhes($sala, $ultimaCap, $limit){
                 $this->db->select("cap.codCaptura, cap.CodTomada, cap.CodEquip, cap.codEvento, equip.desc, cap.eficaz, equip.tempoUso, cap.dataAtual");
                 $this->db->from ('capturaatual cap, usosalacaptura uso, equipamento equip');
                 $this->db->where('cap.codCaptura = uso.codCaptura');
@@ -16,8 +16,10 @@ class detalhes_model extends CI_Model{
                 $this->db->where('uso.codusosala = ', $sala);
                 $this->db->where('equip.codEquip = cap.codEquip');
                 $this->db->where('(cap.codEvento = 1 OR cap.codEvento = 4)');
-                $this->db->order_by('codCaptura, dataAtual');
-//                $this->db->limit(100);
+                $this->db->order_by('codCaptura desc');
+                if($limit > 0){
+                    $this->db->limit($limit);
+                }
                 $query = $this->db->get();
 
                 return $query->result();

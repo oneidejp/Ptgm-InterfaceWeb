@@ -1,15 +1,15 @@
 <div class="container-fluid">
     <div class="row-fluid">
-        <div class="col-xs-10 col-xs-offset-1" id="centro">
+        <div class="col-xs-12" id="centro">
             <ul class="abas">
                 <li id="consulta" style="background-color: #A9A9A9;"><a href="<?php echo base_url('index.php/equipamento') ?>" ><?php echo $this->lang->line('consult'); ?></a></li>
                 <li id="cadastro"><a href="<?php echo base_url('index.php/equipamento?link=cadastro') ?>" ><?php echo $this->lang->line('cadastre'); ?></a></li>
             </ul>
             <div id="aba1">
                 <div class="row-fluid">
-                    <div class="col-xs-12 " id="formcentro">
-                        <caption><h2><?php echo $this->lang->line('table_title_equipment'); ?></h2></caption>
-                            <table id="myTable" class="table table-striped table-bordered sortable">
+                    <div  id="formcentro" >
+                        <h2><?php echo $this->lang->line('table_title_equipment'); ?></h2>
+                        <table id="myTable" class="table table-striped table-bordered sortable">
                             <thead>
                                 <tr>
                                     <th  class="col1">
@@ -61,34 +61,73 @@
                                         <input type="text" id="txtColuna7" class="7">
                                         <button id="fechar7" ><?php echo $this->lang->line('close'); ?></button>
                                     </th>
+                                    
                                     <th  class="col8">
                                         <img id="mostrar8" src="<?php echo base_url('includes/imagens/lupa.png') ?>" />
-                                        <?php echo $this->lang->line('cod_heritage'); ?>
+                                        <?php echo $this->lang->line('plug'); ?>
                                         <img id="filtro8" src="<?php echo base_url('includes/imagens/filter.png') ?>" /><br/>
                                         <input type="text" id="txtColuna8" class="8">
                                         <button id="fechar8" ><?php echo $this->lang->line('close'); ?></button>
                                     </th>
                                     <th  class="col9">
                                         <img id="mostrar9" src="<?php echo base_url('includes/imagens/lupa.png') ?>" />
-                                        <?php echo $this->lang->line('date_last_failure'); ?>
+                                        LimitFase
                                         <img id="filtro9" src="<?php echo base_url('includes/imagens/filter.png') ?>" /><br/>
                                         <input type="text" id="txtColuna9" class="9">
                                         <button id="fechar9" ><?php echo $this->lang->line('close'); ?></button>
                                     </th>
                                     <th  class="col10">
                                         <img id="mostrar10" src="<?php echo base_url('includes/imagens/lupa.png') ?>" />
-                                        <?php echo $this->lang->line('date_last_maintenance'); ?>
+                                        LimitFuga
                                         <img id="filtro10" src="<?php echo base_url('includes/imagens/filter.png') ?>" /><br/>
                                         <input type="text" id="txtColuna10" class="10">
                                         <button id="fechar10" ><?php echo $this->lang->line('close'); ?></button>
                                     </th>
                                     <th  class="col11">
                                         <img id="mostrar11" src="<?php echo base_url('includes/imagens/lupa.png') ?>" />
-                                        <?php echo $this->lang->line('usage_time'); ?>
+                                        LimitStandByFase
                                         <img id="filtro11" src="<?php echo base_url('includes/imagens/filter.png') ?>" /><br/>
                                         <input type="text" id="txtColuna11" class="11">
                                         <button id="fechar11" ><?php echo $this->lang->line('close'); ?></button>
                                     </th>
+                                    <th  class="col12">
+                                        <img id="mostrar12" src="<?php echo base_url('includes/imagens/lupa.png') ?>" />
+                                        LimitStandByFuga
+                                        <img id="filtro12" src="<?php echo base_url('includes/imagens/filter.png') ?>" /><br/>
+                                        <input type="text" id="txtColuna12" class="12">
+                                        <button id="fechar12" ><?php echo $this->lang->line('close'); ?></button>
+                                    </th>
+                                    
+                                    <th  class="col13">
+                                        <img id="mostrar13" src="<?php echo base_url('includes/imagens/lupa.png') ?>" />
+                                        <?php echo $this->lang->line('cod_heritage'); ?>
+                                        <img id="filtro13" src="<?php echo base_url('includes/imagens/filter.png') ?>" /><br/>
+                                        <input type="text" id="txtColuna13" class="13">
+                                        <button id="fechar13" ><?php echo $this->lang->line('close'); ?></button>
+                                    </th>
+                                    <th  class="col14">
+                                        <img id="mostrar14" src="<?php echo base_url('includes/imagens/lupa.png') ?>" />
+                                        <?php echo $this->lang->line('date_last_failure'); ?>
+                                        <img id="filtro14" src="<?php echo base_url('includes/imagens/filter.png') ?>" /><br/>
+                                        <input type="text" id="txtColuna14" class="14">
+                                        <button id="fechar14" ><?php echo $this->lang->line('close'); ?></button>
+                                    </th>
+                                    <th  class="col15">
+                                        <img id="mostrar15" src="<?php echo base_url('includes/imagens/lupa.png') ?>" />
+                                        <?php echo $this->lang->line('date_last_maintenance'); ?>
+                                        <img id="filtro15" src="<?php echo base_url('includes/imagens/filter.png') ?>" /><br/>
+                                        <input type="text" id="txtColuna15" class="15">
+                                        <button id="fechar15" ><?php echo $this->lang->line('close'); ?></button>
+                                    </th>
+                                    <th  class="col16">
+                                        <img id="mostrar16" src="<?php echo base_url('includes/imagens/lupa.png') ?>" />
+                                        <?php echo $this->lang->line('usage_time'); ?>
+                                        <img id="filtro16" src="<?php echo base_url('includes/imagens/filter.png') ?>" /><br/>
+                                        <input type="text" id="txtColuna16" class="16">
+                                        <button id="fechar16" ><?php echo $this->lang->line('close'); ?></button>
+                                    </th>
+                                    
+                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -108,10 +147,16 @@
                                         <td><a href="<?php echo base_url('') ?>index.php/equipamento/editar_equipamento/<?php echo $dados->codEquip; ?>"><?php echo $dados->modelo; ?></a></td>
                                         <td><a href="<?php echo base_url('') ?>index.php/equipamento/editar_equipamento/<?php echo $dados->codEquip; ?>"><?php echo $dados->tipo; ?></a></td>
                                         <td><a href="<?php echo base_url('') ?>index.php/equipamento/editar_equipamento/<?php echo $dados->codEquip; ?>"><?php echo $dados->rfid; ?></a></td>
+                                        <td><a href="<?php echo base_url('') ?>index.php/equipamento/editar_equipamento/<?php echo $dados->codEquip; ?>"><?php echo $dados->codTomada; ?></a></td>
+                                        <td><a href="<?php echo base_url('') ?>index.php/equipamento/editar_equipamento/<?php echo $dados->codEquip; ?>"><?php echo $dados->limiteFase; ?></a></td>
+                                        <td><a href="<?php echo base_url('') ?>index.php/equipamento/editar_equipamento/<?php echo $dados->codEquip; ?>"><?php echo $dados->limiteFuga; ?></a></td>
+                                        <td><a href="<?php echo base_url('') ?>index.php/equipamento/editar_equipamento/<?php echo $dados->codEquip; ?>"><?php echo $dados->limiteStandByFase; ?></a></td>
+                                        <td><a href="<?php echo base_url('') ?>index.php/equipamento/editar_equipamento/<?php echo $dados->codEquip; ?>"><?php echo $dados->limiteStandByFuga; ?></a></td>
                                         <td><a href="<?php echo base_url('') ?>index.php/equipamento/editar_equipamento/<?php echo $dados->codEquip; ?>"><?php echo $dados->codPatrimonio; ?></a></td>
                                         <td><a href="<?php echo base_url('') ?>index.php/equipamento/editar_equipamento/<?php echo $dados->codEquip; ?>"><?php echo date('d/m/Y', strtotime($dados->dataUltimaFalha)); ?></a></td>
                                         <td><a href="<?php echo base_url('') ?>index.php/equipamento/editar_equipamento/<?php echo $dados->codEquip; ?>"><?php echo date('d/m/Y', strtotime($dados->dataUltimaManutencao)); ?></a></td>
-                                        <td><a href="<?php echo base_url('') ?>index.php/equipamento/editar_equipamento/<?php echo $dados->codEquip; ?>"><?php echo gmdate("H:i:s", $dados->tempoUso); ?></a></td>
+                                        <td><a href="<?php echo base_url('') ?>index.php/equipamento/editar_equipamento/<?php echo $dados->codEquip; ?>"><?php echo gmdate("H:i:s", $dados->tempoUso);?></a></td>
+                                        
                                     </tr>
                                 <?php }
                                 ?>

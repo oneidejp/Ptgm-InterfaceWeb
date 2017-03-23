@@ -9,10 +9,10 @@
 
     <div class="row">
         <div class="col-md-12 col-xs-12" id="centro">
-            <div id="aba">
+            <div id="abaFO">
                 <div class="row">   <!-- incluir botoes-->
                     <div class="col-xs-12"> 
-                        <p style="font-size: 15pt;"> <!-- incluir botoes-->
+                        <p style="font-size: 15pt; text-align: center;"> <!-- incluir botoes-->
                             <?php echo $this->lang->line('equipments'); ?>
                             <input id="allequips" type="checkbox" checked="true" onclick="allEquips()">
                             <input id="equipment" type="text" disabled="false">&emsp;&emsp;
@@ -87,7 +87,7 @@
     }
 </script>
 <script type="text/javascript"> //pega os dados do banco e coloca na tabela a cada 1s
-    document.body.style = "padding-bottom: 10px; padding-top: 70px;"; alert("");
+    document.body.style = "padding-bottom: 10px; padding-top: 70px;";
     var j = 0, cont = 0, checkClicados = 0, lock = 0, atualizando = 0;
     var qntLines = 0;
     var table = $('#tableFormaonda').DataTable( {
@@ -95,13 +95,7 @@
     } ); //========================
     var graficos = [];
     var baseUrl = getURL();
-    //funcao para chamar a tela com o grafico deslocado
-    function deslocaGrafico(cod1, cod2){
-        var w = 750, h = 450, url = "popup_grafico_deslocada?cod1="+cod1+"&cod2="+cod2, title = "popupGrafico";
-        var left = (screen.width/2)-(w/2);
-        var top = (screen.height/2)-(h/2);
-        return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
-    }
+    
     
     function getData() {
         table.clear();
@@ -199,6 +193,13 @@
         } else {
             $("#limit").prop("disabled", "");
         }
+    }
+    //funcao para chamar a tela com o grafico deslocado
+    function deslocaGrafico(cod1, cod2){
+        var w = 750, h = 450, url = "popup_grafico_deslocada?cod1="+cod1+"&cod2="+cod2, title = "popupGrafico";
+        var left = (screen.width/2)-(w/2);
+        var top = (screen.height/2)-(h/2);
+        return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
     }
     function periculosidade(dados) {
         var classdiv;
@@ -326,7 +327,7 @@
         var baseUrl = getURL();
         //pega os checkboxes clicados em um array, a ordenação não é por clique e sim por leitura dos clicados, de cima para baixo
         var checkboxSelecionados = [];
-        $('#aba1 input[name="comparar"]:checked').each(function () {
+        $('#aba input[name="comparar"]:checked').each(function () {
             checkboxSelecionados.push($(this).attr('id'));
         });
         //envia por post um json contendo os códigos de capturas dos checkboxes

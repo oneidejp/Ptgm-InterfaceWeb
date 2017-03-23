@@ -10,6 +10,12 @@ class Tomada extends MY_Controller {
      * Email: mateusperego@yahoo.com.br
      * Projeto de conclusão de curso
      * UPF - Ciência da Computação
+     * 
+     * 2017
+     * Alterado por: Leonardo F. Rauber
+     * Email: leorauber@hotmail.com - 132789@upf.br
+     * Projeto de conclusão de curso
+     * UPF - Ciência da Computação
      */
     public function __construct() {
         parent::__construct();
@@ -55,7 +61,11 @@ class Tomada extends MY_Controller {
                 'codTomada' => $this->input->post('codTomada'),
                 'codSala' => $this->input->post('codSala'),
                 'indice' => $this->input->post('indice'),
-                'modulo' => $this->input->post('modulo'),
+                'codModulo' => $this->input->post('codModulo'),
+                'limiteFase' => $this->input->post('limiteFase'),
+                'limiteFuga' => $this->input->post('limiteFuga'),
+                'limiteStandByFase' => $this->input->post('limiteStandByFase'),
+                'limiteStandByFuga' => $this->input->post('limiteStandByFuga'),
                 'desc' => $this->input->post('desc')
             );
             if ($this->tomada_model->add_tomada($data)) {
@@ -99,7 +109,11 @@ class Tomada extends MY_Controller {
             }
             $this->load->model('sala_model'); //carrega o model
             $data['sala'] = $this->sala_model->get_all_sala_cadastro();
-            $this->load->view('tomada_cadastro', $data);
+            $data['title'] = $this->lang->line('page_title_cadastre_plug');
+            $data['headerOption'] = "<link rel='stylesheet' href=" . base_url() . "includes/css/estilo.css>" .
+                    "<link rel='stylesheet' href=" . base_url() . "includes/css/abas.css>";
+            $this->load->template('Tomada_cadastro_view', $data);
+//            $this->load->view('Tomada_cadastro_view', $data);
         } else {
             $this->session->set_flashdata('msg', $this->lang->line('msg_permission_update'));
             redirect('index.php/tomada');

@@ -252,8 +252,9 @@ class Detalhes extends MY_Controller {
     public function criarTabela() {
         //Conectando ao banco de dados
         $sala = filter_input_array(INPUT_POST)['Sala']; //pega Sala vindo do ajax
-        $ultimaCap = filter_input_array(INPUT_POST)['UltimaCaptura']; //pega Sala vindo do ajax
-        $query = $this->detalhes_model->get_all_detalhes($sala,$ultimaCap);
+        $ultimaCap = filter_input_array(INPUT_POST)['UltimaCaptura'];
+        $limit = filter_input_array(INPUT_POST)['Limit'];//pega Sala vindo do ajax
+        $query = $this->detalhes_model->get_all_detalhes($sala,$ultimaCap,$limit);
 
         echo json_encode($query);
     }

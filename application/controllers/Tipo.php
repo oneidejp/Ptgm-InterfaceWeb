@@ -10,6 +10,12 @@ class Tipo extends MY_Controller {
      * Email: mateusperego@yahoo.com.br
      * Projeto de conclusão de curso
      * UPF - Ciência da Computação
+     * 
+     * 2017
+     * Alterado por: Leonardo F. Rauber
+     * Email: leorauber@hotmail.com - 132789@upf.br
+     * Projeto de conclusão de curso
+     * UPF - Ciência da Computação
      */
     public function __construct() {
         parent::__construct();
@@ -92,7 +98,10 @@ class Tipo extends MY_Controller {
                     redirect('index.php/tipo?link=cadastro');
                 }
             }
-            $this->load->view('tipo_cadastro', $data);
+            $data['title'] = $this->lang->line('page_title_cadastre_kind');
+            $data['headerOption'] = "<link rel='stylesheet' href=" . base_url() . "includes/css/estilo.css>" .
+                    "<link rel='stylesheet' href=" . base_url() . "includes/css/abas.css>";
+            $this->load->template('Tipo_cadastro_view', $data);
         } else {
             $this->session->set_flashdata('msg', $this->lang->line('msg_permission_update'));
             redirect('index.php/tipo');

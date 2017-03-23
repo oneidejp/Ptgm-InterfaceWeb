@@ -92,7 +92,10 @@ class Procedimento extends MY_Controller {
                     redirect('index.php/procedimento?link=cadastro');
                 }
             }
-            $this->load->view('procedimento_cadastro', $data);
+            $data['title'] = $this->lang->line('page_title_cadastre_procedure');
+            $data['headerOption'] = "<link rel='stylesheet' href=" . base_url() . "includes/css/estilo.css>" .
+                    "<link rel='stylesheet' href=" . base_url() . "includes/css/abas.css>";
+            $this->load->template('Procedimento_cadastro_view', $data);
         } else {
             $this->session->set_flashdata('msg', $this->lang->line('msg_permission_update'));
             redirect('index.php/procedimento');

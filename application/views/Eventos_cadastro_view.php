@@ -44,23 +44,26 @@
                                     <input type="text" class="form-control" readonly="readonly" autofocus name="codEvento"  value="<?php echo $eventos->codEvento; ?>">
                                     <h4 class="form-signin-heading"><?php echo $this->lang->line('description') . ":"; ?></h4>
                                     <input type="text" class="form-control" placeholder="<?php echo $this->lang->line('description'); ?>" required autofocus name="desc" value="<?php echo $eventos->desc; ?>">
+                                    
+                                    <br>
                                     <h4 class="form-signin-heading"><?php echo $this->lang->line('form_wave') . ":"; ?></h4>
-                                    <label class="radio">
+                                    <p>   
                                         <input type="radio" name="formaOnda" id="optionsRadios1" <?php
                                         if ($eventos->formaOnda == "1") {
                                             echo(' checked ');
                                         }
                                         ?> value="1" >
-                                        <h4><?php echo $this->lang->line('yes'); ?></h4>
-                                    </label>
-                                    <label class="radio">
+                                        <?php echo $this->lang->line('yes'); ?>
+                                    
+                                    
                                         <input type="radio" name="formaOnda" id="optionsRadios2" <?php
                                         if ($eventos->formaOnda == "0") {
                                             echo(' checked ');
                                         }
                                         ?> value="0">
-                                        <h4><?php echo $this->lang->line('no'); ?></h4>
-                                    </label>
+                                        <?php echo $this->lang->line('no'); ?>
+                                    </p><br>
+                                    
                                     <button class="btn  btn-primary" type="submit"><?php echo $this->lang->line('alter'); ?></button>
                                     <button class="btn  btn-primary" type="submit" formaction="<?php echo base_url('index.php/eventos'); ?>"><?php echo $this->lang->line('cancel'); ?></button>
                                 </fieldset>
@@ -72,10 +75,8 @@
                         }
                         ?>
                     </div>
-                    <div class="col-md-4 col-xs-4" id="formesquerda"></div>
                 </div>
             </div>
         </div>
-        <div class="col-md-1 col-xs-1" id="direita"></div>
     </div>
 </div>

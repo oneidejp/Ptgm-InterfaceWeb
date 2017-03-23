@@ -10,6 +10,12 @@ class Equipamento extends MY_Controller {
      * Email: mateusperego@yahoo.com.br
      * Projeto de conclusão de curso
      * UPF - Ciência da Computação
+     * 
+     * 2017
+     * Alterado por: Leonardo F. Rauber
+     * Email: leorauber@hotmail.com - 132789@upf.br
+     * Projeto de conclusão de curso
+     * UPF - Ciência da Computação
      */
     public function __construct() {
         parent::__construct();
@@ -40,22 +46,20 @@ class Equipamento extends MY_Controller {
                     "<script src=" . base_url() . "includes/js/exporting.js></script>";
             $this->load->template('Equipamento_cadastro_view', $data);
         } else {
-
             //paginacao
             $config = array();
             $config['base_url'] = base_url() . "index.php/equipamento/index";
-            $config['total_rows'] = $this->db->get('marca')->num_rows();
+            $config['total_rows'] = $this->db->get('equipamento')->num_rows();
             $config['per_page'] = LIMITE;
             $config['uri_segment'] = 3;
             $this->pagination->initialize($config);
             $data['paginacao'] = $this->pagination->create_links();
             $data['equipamento'] = $this->equipamento_model->get_all_equipamento(LIMITE, $offset);
             $data['title'] = $this->lang->line('page_title_consult_equipment');
-            $data['headerOption'] = 
-                "<link rel='stylesheet' href=".base_url()."includes/css/estilo.css>" .
-                "<link rel='stylesheet' href=".base_url()."includes/css/abas.css>" .
-                "<script src=".base_url()."includes/js/sorttable.js></script>" .
-                "<script src=".base_url()."includes/js/funcoesjs.js></script>";
+            $data['headerOption'] = "<link rel='stylesheet' href=" . base_url() . "includes/css/estilo.css>" .
+                    "<link rel='stylesheet' href=" . base_url() . "includes/css/abas.css>" .
+                    "<script src=" . base_url() . "includes/js/sorttable.js></script>" .
+                    "<script src=" . base_url() . "includes/js/funcoesjs.js></script>";
             $this->load->template('Equipamento_consulta_view', $data);
         }
     }
@@ -75,7 +79,12 @@ class Equipamento extends MY_Controller {
                 'desc' => $this->input->post('desc'),
                 'dataUltimaFalha' => $this->input->post('dataUltimaFalha'),
                 'dataUltimaManutencao' => $this->input->post('dataUltimaManutencao'),
-                'tempoUso' => $this->input->post('tempoUso')
+                'tempoUso' => $this->input->post('tempoUso'),
+                'codTomada' => $this->input->post('codTomada'),
+                'limiteFase' => $this->input->post('limiteFase'),
+                'limiteFuga' => $this->input->post('limiteFuga'),
+                'limiteStandByFase' => $this->input->post('limiteStandByFase'),
+                'limiteStandByFuga' => $this->input->post('limiteStandByFuga')
             );
             if ($this->equipamento_model->add_equipamento($data)) {
                 $this->session->set_flashdata('msg', $this->lang->line('msg_insert'));
@@ -125,7 +134,17 @@ class Equipamento extends MY_Controller {
             $data['modelo'] = $this->modelo_model->get_all_modelo_cadastro();
             $this->load->model('tipo_model'); //carrega o model
             $data['tipo'] = $this->tipo_model->get_all_tipo_cadastro();
-            $this->load->view('equipamento_cadastro', $data);
+            $data['title'] = $this->lang->line('page_title_cadastre_equipment');
+            $data['headerOption'] = "<link rel='stylesheet' href=" . base_url() . "includes/css/estilo.css>" .
+                    "<link rel='stylesheet' href=" . base_url() . "includes/css/abas.css>" .
+                    "<link rel='stylesheet' href=" . base_url() . "includes/css/jquery-ui_calendar.css>" .
+                    "<script src=" . base_url() . "includes/js/highcharts.js></script>" .
+                    "<script src=" . base_url() . "includes/js/graficosdetalhes.js></script>" .
+                    "<script src=" . base_url() . "includes/js/jquery-1.8.2_calendar.js></script>" .
+                    "<script src=" . base_url() . "includes/js/jquery-ui_calendar.js></script>" .
+                    "<script src=" . base_url() . "includes/js/calendario.js></script>" .
+                    "<script src=" . base_url() . "includes/js/exporting.js></script>";
+            $this->load->template('Equipamento_cadastro_view', $data);
         } else {
             $this->session->set_flashdata('msg', $this->lang->line('msg_permission_update'));
             redirect('index.php/equipamento');

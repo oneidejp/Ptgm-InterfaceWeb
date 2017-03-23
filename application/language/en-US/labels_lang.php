@@ -49,6 +49,7 @@ $lang["page_title_cadastre_user"] = "New user";
 $lang["page_title_consult_user"] = "Search user";
 $lang["form_alter_title_user"] = "Update user";
 $lang["form_alter_title_password"] = "Update password";
+$lang["table_title_user"] = "Users";
 $lang["name"] = "Name";
 $lang["email"] = "Email";
 $lang["level"] = "Level";
@@ -179,5 +180,14 @@ $lang["reset"] = "Reset";
 $lang["connect"] = "Connect";
 $lang["test"] = "Test";
 $lang["event"] = "Event";
+
+
+//pagina modulo
+$lang["page_title_cadastre_module"] = "Register Module";
+$lang["page_title_consult_module"] = "View Module";
+$lang["form_alter_title_module"] = "Change Module";
+$lang["table_title_module"] = "Module";
+$lang["last_on"] = "Last On";
+$lang["module"] = "Module";
 
 ?>

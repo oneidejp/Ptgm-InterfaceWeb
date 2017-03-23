@@ -50,6 +50,7 @@ $lang["page_title_cadastre_user"] = "Cadastrar Usuário";
 $lang["page_title_consult_user"] = "Consultar Usuário";
 $lang["form_alter_title_user"] = "Alterar Usuário";
 $lang["form_alter_title_password"] = "Alterar Senha";
+$lang["table_title_user"] = "Usuários";
 $lang["name"] = "Nome";
 $lang["email"] = "Email";
 $lang["level"] = "Nível";
@@ -180,5 +181,12 @@ $lang["connect"] = "Conectar";
 $lang["test"] = "Testar";
 $lang["event"] = "Evento";
 
+//pagina modulo
+$lang["page_title_cadastre_module"] = "Cadastrar Modulo";
+$lang["page_title_consult_module"] = "Consultar Modulo";
+$lang["form_alter_title_module"] = "Alterar Modulo";
+$lang["table_title_module"] = "Modulo";
+$lang["last_on"] = "Ultimo Liga";
+$lang["module"] = "Modulo";
 
 ?>

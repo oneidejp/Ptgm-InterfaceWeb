@@ -12,7 +12,13 @@
             <div id="aba">
                 <div class="row"> <br>
                     <div class="col-xs-12">
-                        <div class="col-xs-6" style="overflow:auto;">
+                        <div class="col-xs-6" style="overflow:auto; height: 500px;">
+                            <div id="divBottons" style="font-size: 20px;">
+                                Limit
+                                <input type="checkbox" id="checkboxLimit" checked="true" onclick="setlimit()"> 
+                                <input type="number" id="limit" value="0" min="0" max="10000" disabled="true">
+                                <input type="button" id="buttonSearch" value="Search" onclick="deleteBottons()">
+                            </div>
                             <table id="tableDetalhes" class="table table-bordered table-condensed" style="font-size: 10pt; text-align: center; ">
                                 <thead>
                                     <tr>
@@ -89,16 +95,17 @@
     var $table = $('#tableDetalhes');
     var graficos = [];
     var baseUrl = getURL();
-    var cont = 0, checkClicados = 0, ultimaCaptura = 0;
+    var cont = 0, checkClicados = 0, ultimaCaptura = 0, limit = 0;
     window.onload = function () {
-        insertRow(); 
+        insereDadosNoArray();
     };
     
-//    alert("configurar a pesquisa no banco para pegar somente o usosala");
-    
-    var vetUltimaCaptura = [0,0,0,0,0,0,0,0,0,0,0,0,0], vetEquip = [0,0,0,0,0,0,0,0,0,0,0,0,0],
-            equipMostra = [0,0,0,0,0,0,0,0,0,0,0,0,0];
+    //alert("configurar a pesquisa no banco para pegar somente o usosala");
+    var vetUltimaCaptura = new Array(101), 
+                vetEquip = new Array(101),
+             equipMostra = new Array(101);
     //equipMostra = 0 a tabela ta oculta, = 1 ta mostrando
+    
     
     function insertRow() {
         var sala = window.location.pathname.split('/')[5]; // pega o cod da sala
@@ -108,10 +115,12 @@
             url: baseUrl + "index.php/detalhes/criarTabela", //arquivo onde serão buscados os dados
             data: {
                 Sala: sala,
-                UltimaCaptura: ultimaCaptura
+                UltimaCaptura: ultimaCaptura,
+                Limit: limit
             },
             success: function (dados) {
                 if (dados) {
+                    dados = dados.slice(0).reverse();
                     while (j < dados.length) {
                         insereLinha(dados[j]);
                         if(j === dados.length){
@@ -128,14 +137,14 @@
                     }
                     
                     j = 0;
-                    window.setTimeout(insertRow, 10000);
+                    limit = 0;
+                    window.setTimeout(insertRow, 3000);
                 } else {
                     alert("Erro Ajax.");
                 }
             }
         });
     } //pega os dados do banco e coloca na tabela a cada 3s
-
     function insereLinha(dados) {
         
         // creates a <tbody> element
@@ -174,7 +183,7 @@
         var div = document.createElement("div");
         div.id = "divcaptura" + dados.codCaptura;
         div.className = dados.CodEquip;
-        div.style = "float: right;";
+        div.style = "float: right; margin-right: 10px;";
         var img = document.createElement("img");
         if(equipMostra[dados.CodEquip] === 0 ){
             img.src = baseUrl + "includes/imagens/mais.jpg";
@@ -182,6 +191,7 @@
             img.src = baseUrl + "includes/imagens/menos.jpg";
         }
         img.name = "mais";
+        img.style = "width: 140%;";
         img.id = "imgequip" + dados.CodEquip;
         img.onclick = ocultaLinhas;
         div.appendChild(img);
@@ -244,7 +254,6 @@
         tblBody.insertBefore(row, tblBody.firstChild);
         j++;
     }
-    
     function ocultaLinhas(){
         var id = $(this).attr('id'); //pega a classe do checkbox clicado, contendo o código do equipamento
         var equip = id.substring(8, id.length);
@@ -270,7 +279,6 @@
             }
         }
     }
-    
     function geraGraficoPrimeiraLinha(codCaptura, codequip) {
         //percorre os checkbox e desmarca todos e deixa marcado só o que selecionou
         desmarcaCheckboxEquipamentosMarcaUltimo(codequip, codCaptura);
@@ -283,7 +291,6 @@
         criaGrafico(codCaptura, codequip);
         // ==========================================
     }
-    
     function criaGraficoEquipamento() {
         var classeI = $(this).attr('class'); //pega a classe do checkbox clicado, contendo o wcódigo da captura
         var codCaptura = classeI.substring(1, classeI.length); // codCaptura
@@ -310,7 +317,6 @@
             document.getElementById('container' +codequip).setAttribute("class","");
         }
     }
-
     function criaGraficoBarraLinha() {
         var id = $(this).attr('id'); //pega o id do checkbox clicado, contendo o código de captura
         var checkadoID = document.getElementById(id).checked; //verifica se o checkbox foi clicado true == sim, false == não
@@ -377,7 +383,6 @@
             }
         }
     } //OK
-    
     function desmarcaCheckboxEquipamentosMarcaUltimo(codequip, codCaptura){
         
         var qntLinhas = $("#tbodyTableDetalhes"+codequip +" tr").length; 
@@ -386,20 +391,17 @@
         }
         $(".w" + codCaptura).prop("checked", true);
     }
-    
     function criaDiv(codequip){
         if (document.getElementById('container' + codequip) === null) {
             var divMain = document.getElementById("divMain");
             var div = document.createElement("div");
             div.id = "container" + codequip;
-            div.className = "col-md-3 col-xs-4";
             divMain.appendChild(div);
         }
     }
-    
     function criaGrafico(codCaptura, codequip){
         var $divCont = $('#container' + codequip);
-        document.getElementById('container' + codequip).setAttribute("class","codCap"+codCaptura+"col-md-3 col-xs-4");
+        document.getElementById('container' + codequip).setAttribute("class","codCap"+codCaptura+" col-xs-3 divContainerEquip");
         $.ajax({
             url: baseUrl + "index.php/Detalhes/linha", //requisita novo gráfico
             dataType: 'json',
@@ -426,14 +428,40 @@
             }
         });
     }
-    
     function deslocaGrafico(cod1, cod2){
         var w = 750, h = 450, url = baseUrl+ "index.php/popup_grafico_deslocada?cod1="+cod1+"&cod2="+cod2, title = "popupGrafico";
         var left = (screen.width/2)-(w/2);
         var top = (screen.height/2)-(h/2);
         return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
     } //OK
-    
+    function deleteBottons(){
+        if(!($("#checkboxLimit").prop("checked"))){
+            limit = $("#limit").prop("value");
+        } 
+        if (limit > 10000 || limit < 0){
+            alert("Limit Invalid");
+            $("#limit").prop("value", 0);
+        } else {
+            $("div").remove('#divBottons');
+            insertRow();
+        }
+        
+    }
+    function setlimit(){
+        if($("#checkboxLimit").prop("checked")){
+            $("#limit").prop("value", "0");
+            $("#limit").prop("disabled", true);
+        } else {
+            $("#limit").prop("disabled", false);
+        }
+    }
+    function insereDadosNoArray(){
+        for (var i = 0; i <= 101; i++){
+            vetUltimaCaptura[i] = 0;
+            vetEquip[i] = 0;
+            equipMostra[i] = 0;
+        }
+    }
     function periculosidade(dados, div) {
 
         div.className = "green-circle";

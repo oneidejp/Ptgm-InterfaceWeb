@@ -65,6 +65,7 @@ if (isset($menuHide) && $menuHide == "true") {
                             </ul>
                         </li>
                         <li><a href="<?php echo base_url('index.php/tipopadrao') ?>"><?php echo $this->lang->line('kinds of standards'); ?></a></li>
+                        <li><a href="<?php echo base_url('index.php/modulo') ?>"><?php echo $this->lang->line('module'); ?></a></li>
                     </ul>
                 </li>
                 <li><a id="ajuda" href="<?php echo base_url('index.php/usuario') ?>"><?php echo $this->lang->line('user'); ?></a></li>
