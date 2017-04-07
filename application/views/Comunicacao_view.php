@@ -97,6 +97,9 @@
                         } else {
                             $ind = 0;
                             foreach ($capturas as $dados) {
+                                //formata data para exibir dia/mes/ano
+                                $data_brasil = DateTime::createFromFormat('Y-m-d H:i:s', $dados->dataAtual);
+                                $dados->dataAtual = $data_brasil->format('d-m-Y H:i:s');
                                 ?>
                                 <tr id="linha<?php echo $dados->codCaptura; ?>">
                                     <td id="<?php echo $dados->codCaptura; ?>-2"><?php echo $dados->codCaptura; ?></td>
@@ -104,7 +107,7 @@
                                     <td id="<?php echo $dados->codCaptura; ?>-3"><?php echo $dados->codTomada; ?></td>
                                     <td id="<?php echo $dados->codCaptura; ?>-4"><?php echo $dados->codEquip; ?></a></td>
                                     <td id="<?php echo $dados->codCaptura; ?>-5"><?php echo substr($dados->eficaz, 0, 6); ?></td>
-                                    <td id="<?php echo $dados->codCaptura; ?>-7"><?php echo date('d/m/Y H:m:s', strtotime($dados->dataAtual)); ?></td>
+                                    <td id="<?php echo $dados->codCaptura; ?>-7"><?php echo $dados->dataAtual; ?></td>
                                     <td id="<?php echo $dados->codCaptura; ?>-9"><div class="<?php
                                         if ($periculosidade[$ind] === 0) {
                                             echo "green-circle";
