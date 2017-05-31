@@ -30,7 +30,7 @@
                                             <option value="3"><?php echo $this->lang->line('operator'); ?></option>
                                             <option value="4"><?php echo $this->lang->line('viewer'); ?></option>
                                         </select>
-                                        <br/>
+                                        <br/><br/>
                                         <button class="btn  btn-primary" type="submit"><?php echo $this->lang->line('insert'); ?></button>
                                         <button class="btn  btn-primary" type="reset"><?php echo $this->lang->line('clean_up'); ?></button>
                                     </fieldset>
