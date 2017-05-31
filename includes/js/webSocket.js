@@ -1,11 +1,13 @@
 //informar endereco e porta do servidor WebSocket
-var server = '127.0.0.1';
+//var varip = <?php echo $_SERVER['SERVER_ADDR'] ?>;
+var varip = window.location.host;// = ip_server
+var server = varip;
 var port = 8080;
 var conexao;
 //var desconexao;
 var capture;
 var limit;
-var test;
+//var test;
 var outlet;
 var equipment;
 var channel;
@@ -31,8 +33,8 @@ function pageLoad()
     limit = document.getElementById("limitWS");
     limit.onclick = sendLimit;
 
-    test = document.getElementById("testWS");
-    test.onclick = sendTestMessage;
+//    test = document.getElementById("testWS");
+//    test.onclick = sendTestMessage;
 
     reset = document.getElementById("resetWS");
     reset.onclick = enviarReset;

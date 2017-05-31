@@ -12,7 +12,7 @@
             <div id="abaFO">
                 <div class="row">   <!-- incluir botoes-->
                     <div class="col-xs-12"> 
-                        <p style="font-size: 15pt; text-align: center;"> <!-- incluir botoes-->
+                        <p style="font-size: 14pt; text-align: center;"> <!-- incluir botoes-->
                             <?php echo $this->lang->line('equipments'); ?>
                             <input id="allequips" type="checkbox" checked="true" onclick="allEquips()">
                             <input id="equipment" type="text" disabled="false">&emsp;&emsp;
@@ -32,13 +32,14 @@
                             
                             Limit
                             <input id="limitcheckbox" type="checkbox" checked="true" onclick="limitSet()">
-                            <input type="text" id="limit" value="0" min="0" max="10000" style="width: 70px;" disabled="true">&emsp;&emsp;
+                            <input type="text" id="limit" value="100" min="0" max="10000" style="width: 70px;" disabled="true">&emsp;&emsp;
                             
                             <input type="button" id="buttonSearch" value="Search" onclick="getData()">
+				<img id="loader" class="hidden" src="../includes/imagens/ajax-loader.gif">
                         </p>
                     </div>
-                    <div class="col-md-10 col-xs-offset-1" style="overflow:auto; height:570px; margin-top: 10px;">
-                        <table id="tableFormaonda" class="table table-bordered " style="font-size: 14pt; text-align: center; ">
+                    <div class="col-md-10 col-xs-offset-1" style="overflow:auto; height:610px; margin-top: 10px;">
+                        <table id="tableFormaonda" class="table table-bordered " style="font-size: 13pt; text-align: center; ">
                             <thead>
                                 <tr>
                                     <th ><?php echo $this->lang->line('capture'); ?></th>
@@ -106,7 +107,7 @@
         }
         
         if($("#allequips").prop("checked")) equipamento = 0;
-        else                                equipamento = document.getElementById("equipment").value;
+        else                                equipamento = $("#equipment").val();
         if($("#fase").prop("checked"))      fase = 4;
         else                                fase = 0;
         if($("#fuga").prop("checked"))      fuga = 1;
@@ -116,32 +117,28 @@
             dateend = "0";
         }
         else {
-            if (document.getElementById("calendariostart").value === ""){
+            if ($("#calendariostart").val() === ""){
                 datestart = 1;
             } else {
-                datestart = document.getElementById("calendariostart").value;
+                datestart = $("#calendariostart").val();
             }
-            if(document.getElementById("calendarioend").value === ""){ 
+            if($("#calendarioend").val() === ""){ 
                 dateend = 1;
             }
             else{
-                dateend = document.getElementById("calendarioend").value;
+                dateend = $("#calendarioend").val();
             }
         }
         
-        if ($("#limitcheckbox").prop("checked")){
-            limit = 100;
-        } 
-        else{
-            limit = document.getElementById("limit").value;
-            if (limit <= 0 || limit >= 10000){
-                alert("Value limit invalid " + limit);
-                document.getElementById("limit").value = 0;
-                return 0;
-            }
-        }
+	
+	limit = $("#limit").val();
+	if (limit < 0 || limit > 10000){
+		alert("Value limit invalid " + limit);
+		limit = $("#limit").val(0);
+	}
         
-//        alert(limit);
+if(limit > 0){
+	$("#loader").removeClass("hidden");
         $.ajax({
             type: 'post',
             dataType: 'json', //tipo de retorno
@@ -180,18 +177,25 @@
                         $('#tableFormaonda tbody tr').addClass( evento );
                         j++;
                     }
+		$("#loader").addClass("hidden");
                 } 
                 else {
                     alert("Erro Ajax.");
                 }
             }
         });
+        } else {
+           table.clear().draw();
+        }
     }
+
     function limitSet(){
         if($("#limitcheckbox").prop("checked")) {
             $("#limit").prop("disabled", "true");
+	    $("#limit").val(0);
         } else {
             $("#limit").prop("disabled", "");
+	    $("#limit").val(0);
         }
     }
     //funcao para chamar a tela com o grafico deslocado

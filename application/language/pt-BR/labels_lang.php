@@ -189,4 +189,9 @@ $lang["table_title_module"] = "Modulo";
 $lang["last_on"] = "Ultimo Liga";
 $lang["module"] = "Modulo";
 
+//ferramenta_db
+$lang["Ferramenta_DB"] = "Ferramentas DB";
+$lang["loading_db"] = "Carregando Backup";
+
+
 ?>

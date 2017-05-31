@@ -13,7 +13,7 @@ if (isset($menuHide) && $menuHide == "true") {
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="<?php echo base_url('index.php') ?>"><?php echo $this->lang->line('web_interface'); ?></a>
+            <a class="navbar-brand" href="<?php echo base_url('') ?>"><?php echo $this->lang->line('web_interface'); ?></a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-left">
@@ -71,11 +71,15 @@ if (isset($menuHide) && $menuHide == "true") {
                 <li><a id="ajuda" href="<?php echo base_url('index.php/usuario') ?>"><?php echo $this->lang->line('user'); ?></a></li>
                 <li><a id="ajuda" href="<?php echo base_url('index.php/ajuda') ?>"><?php echo $this->lang->line('help'); ?></a></li>
             </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="<?php echo base_url() ?>index.php/Ferramenta_DB"> <?php echo $this->lang->line('Ferramenta_DB'); ?></a></li>
+            </ul>
 
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="<?php echo base_url() ?>index.php/ConfigBanco"><span class="glyphicon glyphicon-cog"></span> <?php echo $this->lang->line('options'); ?></a></li>
                 <li><a href="<?php echo base_url() ?>index.php/login/logout"><span class="glyphicon glyphicon-log-out"></span> <?php echo $this->lang->line('exit'); ?></a></li>
             </ul>
+            
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>

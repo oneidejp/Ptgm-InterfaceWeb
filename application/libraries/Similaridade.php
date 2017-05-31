@@ -133,7 +133,7 @@ class Similaridade {
     public function spearmanDeslocamento($pontos1, $pontos2) {
         $maxspearman[0] = 0;
         $primeirospear = 0;
-//compara se os dois são iguais
+        //compara se os dois são iguais
         if (sizeof($pontos1) <= sizeof($pontos2)) {
             $tamanho = sizeof($pontos1);
         } else {

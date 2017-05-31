@@ -29,9 +29,7 @@ class formaondacapturadas_model extends CI_Model{
             }
             $this->db->where($codEventOR);
             $this->db->order_by('cap.codCaptura desc');
-            if($limit > 0){
-                $this->db->limit($limit);
-            }
+            $this->db->limit($limit);
             $query = $this->db->get();
 
             return $query->result();

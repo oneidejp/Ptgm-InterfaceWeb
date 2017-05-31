@@ -10,7 +10,13 @@
                             }
                             ?></h2>
                         <form class="form-signin" role="form" method="post" action="<?php echo base_url('index.php/alertas/create_alerta/'.$codUsoSala) ?>">
-                            <table class="table table-striped table-bordered">
+                            
+			    <label for="comment"><?php echo $this->lang->line('comment_alert') . ":"; ?></label>
+                            <textarea class="form-control comentario" rows="8" name="comentario" maxlength="400" required></textarea>
+                            <br/>
+                            <button class="btn  btn-primary" type="submit"><?php echo $this->lang->line('record'); ?></button>									
+                            <button type="button" value="fechar" class="btn btn-primary" onclick="window.history.back();"><?php echo $this->lang->line('cancel'); ?></button>		
+			    <table class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
                                         <th><?php echo $this->lang->line('record'); ?></th>
@@ -39,11 +45,7 @@
                                 </tbody>
                             </table>
 
-                            <label for="comment"><?php echo $this->lang->line('comment_alert') . ":"; ?></label>
-                            <textarea class="form-control comentario" rows="8" name="comentario" maxlength="400" required></textarea>
-                            <br/>
-                            <button class="btn  btn-primary" type="submit"><?php echo $this->lang->line('record'); ?></button>									
-                            <button type="button" value="fechar" class="btn btn-primary" onclick="window.history.back();"><?php echo $this->lang->line('cancel'); ?></button>								
+                            						
                         </form>	
                     </div>
                 </div>

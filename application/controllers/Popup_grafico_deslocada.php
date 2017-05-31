@@ -68,7 +68,7 @@ class Popup_grafico_deslocada extends MY_Controller {
         $onda1 = $this->similaridade->calcula256Pontos($cod1);
         $onda2 = $this->similaridade->calcula256Pontos($cod2);
         $deslocamento = $this->similaridade->spearmanDeslocamento($onda1, $onda2);
-        
+        //echo $deslocamento;
         // PEGA A ONDA
         $linha2 = $this->graficoLinha($cod2, $onda = 0);
         $ondaDeslocada = $linha2;

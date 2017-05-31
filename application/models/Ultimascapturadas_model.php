@@ -9,11 +9,10 @@ class ultimascapturadas_model extends CI_Model{
 	//pega todos os registros das salas em uso
 	function get_all_datafasefuga($captura){
             $this->db->select("cap.codCaptura, cap.CodTomada, cap.CodEquip, equip.desc, cap.eficaz, equip.tempoUso, cap.dataAtual, cap.codEvento");
-            $this->db->from ('capturaatual cap, usosalacaptura uso, equipamento equip');
-            $this->db->where('cap.codCaptura = uso.codCaptura');
+            $this->db->from ('capturaatual cap, equipamento equip');
             $this->db->where('equip.codEquip = cap.codEquip');
             $this->db->where("cap.codCaptura > $captura");
-            $this->db->where('(cap.codEvento = 1 OR cap.codEvento = 4)');
+            $this->db->where('(cap.codEvento = 1 OR cap.codEvento = 4 OR cap.codEvento = 9 OR cap.codEvento = 10)');
             $this->db->order_by('cap.codCaptura desc');
             $query = $this->db->get();
 
@@ -50,7 +49,7 @@ class ultimascapturadas_model extends CI_Model{
             $this->db->select("codCaptura");
             $this->db->from("capturaatual");
             $this->db->where("codCaptura > $captura");
-            $this->db->where('(codEvento = 1 OR codEvento = 4)');
+            $this->db->where('(codEvento = 1 OR codEvento = 4 OR codEvento = 9 OR codEvento = 10)');
             $this->db->order_by("codCaptura desc");
             $query = $this->db->get();
 
@@ -60,7 +59,7 @@ class ultimascapturadas_model extends CI_Model{
         function get_last_capture() {
             $this->db->select("codCaptura");
             $this->db->from("capturaatual");
-            $this->db->where('(codEvento = 1 OR codEvento = 4)');
+            $this->db->where('(codEvento = 1 OR codEvento = 4 OR codEvento = 9 OR codEvento = 10)');
             $this->db->order_by("codCaptura desc");
             $this->db->limit(100);
             $query = $this->db->get();

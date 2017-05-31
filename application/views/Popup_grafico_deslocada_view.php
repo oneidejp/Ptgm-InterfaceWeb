@@ -38,6 +38,7 @@
         },
         success: function (dados) {
             if (dados) { 
+//console.log(dados);
                 var chart = $('#linha').highcharts();
                 chart.addSeries({
                     name: cod1,

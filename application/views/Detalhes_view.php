@@ -13,7 +13,8 @@
                 <div class="row"> <br>
                     <div class="col-xs-12">
                         <div class="col-xs-6" style="overflow:auto; height: 500px;">
-                            <div id="divBottons" style="font-size: 20px;">
+                           
+			    <div id="divBottons" style="font-size: 20px;">
                                 Limit
                                 <input type="checkbox" id="checkboxLimit" checked="true" onclick="setlimit()"> 
                                 <input type="number" id="limit" value="0" min="0" max="10000" disabled="true">

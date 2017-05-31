@@ -22,13 +22,13 @@
                             <?php echo $this->lang->line('leakage'); ?>
                             <input id="fuga" onclick="fuga()" type="checkbox" checked="true">&emsp;
                             <?php echo $this->lang->line('visualization'); ?>
-                            <input id="visualization" onkeypress="visualization()" type="number" value="4" min="2" max="8" style="width:80px;">&emsp;
+                            <input id="visualization" onkeyup="visualization()" type="number" value="4" min="2" max="8" style="width:80px;">&emsp;
                             FFT
                             <input id="fft" onclick="mostraFFT()" type="checkbox" >
                         </p> 
                     </div>
-                    <div class="col-xs-5" style="overflow:auto; height:400px;">
-                        <table id="tableUltimascapturas" class="table table-bordered table-condensed" style="font-size: 12pt; text-align: center; ">
+                    <div class="col-xs-6" style="overflow:auto; height:400px;">
+                        <table id="tableUltimascapturas" class="table table-bordered table-condensed" style="font-size: 10pt; text-align: center; ">
                             <thead>
                                 <tr>
                                     <th><?php echo $this->lang->line('show'); ?></th>
@@ -119,6 +119,7 @@
     }
 
     function atualizaTable() {
+
         $.ajax({
             type: 'post',
             dataType: 'json', //tipo de retorno
@@ -438,12 +439,14 @@
     }
     
     function ultimaCaptura() {
+
         $.ajax({
             type: 'post',
             dataType: 'json', //tipo de retorno
             url: baseUrl + "index.php/Ultimascapturadas/ultimaCaptura", //arquivo onde serão buscados os dados
             success: function (dados) {
                 if (dados) {
+
                     dados = dados.slice(0).reverse();
                     ultimoCodCaptura = dados[0].codCaptura-1;
                     
@@ -630,19 +633,24 @@
     } //OK
        
     function visualization(){
-        atualizando = 1;
-        window.clearTimeout(timeUpdate);
-        window.setTimeout(function(){
-            limitGraf = document.getElementById("visualization").value;
-            for(var i = qntLines; i >= 0; i--){
-                $('#checkboxequip'+i).prop("checked", false);
-            }
-            $("#divMain").empty();
-            contGraf = 0;
-            geraGraficoInit();
-            atualizando = 0;
-            atualizaTable();
-        }, 1010);
+	var valVizu = $("#visualization").val();
+	if (valVizu > 1 && valVizu < 9){
+		atualizando = 1;
+		window.clearTimeout(timeUpdate);
+		window.setTimeout(function(){
+		    limitGraf = $("#visualization").val();
+		    for(var i = qntLines; i >= 0; i--){
+		        $('#checkboxequip'+i).prop("checked", false);
+		    }
+		    $("#divMain").empty();
+		    contGraf = 0;
+		    geraGraficoInit();
+		    atualizando = 0;
+		    atualizaTable();
+		}, 1010);
+	} else {
+		$("#visualization").val(limitGraf);	
+	}
     }
      
     function fase(){
