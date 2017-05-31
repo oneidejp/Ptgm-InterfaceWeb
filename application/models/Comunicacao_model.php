@@ -7,7 +7,17 @@
  */
 
 class Comunicacao_model extends CI_Model {
+    
+    function get_all_data($limit) {
+        $this->db->select("*");
+        $this->db->from("capturaatual");
+        $this->db->order_by('codCaptura desc');
+        $this->db->limit($limit);
+        $query = $this->db->get();
 
+        return $query->result();
+    }
+    
     //get all outlets
     function get_outlets($id) {
         $this->db->select("codTomada, desc");

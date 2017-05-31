@@ -68,44 +68,11 @@ class Comunicacao extends MY_Controller {
             $data['telnet'] = $this->comandoTelnet($data['host'], $data['comando']);
         }
 
-        $data['capturas'] = $this->Comunicacao_model->get_all_captures();
-        //$data['capturas'] = $this->Comunicacao_model->get_capture("98355");
-        $i = 0;
-        //$anterior = 0;
-        foreach ($data['capturas'] as $dados) {
-            //periculosidade recebe 0, informando que não existe perigo por padrão
-            //se receber 1 ou 2 nos testes abaixo vai retornar aquele valor, informando perigo
-            $periculosidade = 0;
-
-            //periculosidade corrente
-            if ($dados->eficaz >= 0.1 && $dados->eficaz < 0.5) {
-                //atenção
-                $periculosidade = 1;
-            } elseif ($dados->eficaz >= 0.5) {
-                //perigo
-                $periculosidade = 2;
-            }
-
-            //informa os segundos entre dois campos da tabela
-            //$inicio = strtotime($dados->dataAtual);
-            //$diff = $inicio - $anterior;
-            //$anterior = strtotime($dados->dataAtual);
-
-
-            if ($periculosidade == 0) {
-                $data["periculosidade"][$i] = 0;
-            } elseif ($periculosidade == 1) {
-                $data["periculosidade"][$i] = 1;
-            } elseif ($periculosidade == 2) {
-                $data["periculosidade"][$i] = 2;
-            }
-            $i++;
-        }
-
         $data['title'] = $this->lang->line('communication');
         $data['footerHide'] = 'true';
         $data['headerOption'] = "<link rel='stylesheet' href=" . base_url() . "includes/css/estilo.css>" .
                 "\t\t<link rel='stylesheet' href=" . base_url() . "includes/css/abas.css>" .
+                "\t\t<link rel='stylesheet' href=" . base_url() . "includes/css/estilosLeo.css>" .
                 "\t\t<script src=" . base_url() . "includes/js/highcharts.js></script>" .
                 "\t\t<script src=" . base_url() . "includes/js/graficosdetalhes.js></script>" .
                 "\t\t<script src=" . base_url() . "includes/js/exporting.js></script>" .
@@ -113,4 +80,11 @@ class Comunicacao extends MY_Controller {
         $this->load->template('Comunicacao_view', $data);
     }
 
+    public function atualizaTable() {
+        $limit = filter_input_array(INPUT_POST)['Limit'];
+        //Conectando ao banco de dados
+        $query = $this->Comunicacao_model->get_all_data($limit);
+
+        echo json_encode($query);
+    }
 }
