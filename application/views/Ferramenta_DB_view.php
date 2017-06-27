@@ -3,7 +3,10 @@
         <div class="col-xs-10 col-xs-offset-1" id="centro">
             <div id="aba1">
                 <div class="row-fluid">
-                    <div class="col-xs-10 col-xs-offset-1" id="formcentro">
+
+			<p style="font-size: 50px; text-align: center; font-weight: bolder;"> In Maintenance </p>
+
+                    <div class="col-xs-10 col-xs-offset-1 hidden" id="formcentro">
                         <br>
                         <a id="aBackup" class="aDB" href="">Backup</a>
                         <scan class="hidden" id="loader"><?php echo $this->lang->line('loading_db'); ?>
@@ -30,6 +33,7 @@
         return baseUrl;
     }
 </script>
+
 <script>
     
     $("#aBackup").click(function (e){
@@ -110,8 +114,8 @@
 //        }
 //    });
 //==============================================================================
-    
-    
+//    
+//  
 //============================================================================== 
 //$(function(){
 //    var myFile = document.getElementById('myFile');

@@ -1,6 +1,18 @@
 <div id="teste">
     <?php
-      //div para testes
+    if (isset($telnet)) {
+        echo "<b>Resultado do Comando Telnet: </b>" . $telnet;
+    }
+    if (isset($teste)) {
+        /* foreach ($teste as $dados) {
+          echo "Tomada: ";
+          echo $dados->codTomada;
+          echo "\nDescrição: ";
+          echo $dados->desc;
+          }
+         * */
+        //echo $teste;
+    }
     ?>
 </div>
 <div class="container-fluid">
@@ -48,14 +60,13 @@
             </form>
             <div class="col-md-2 col-xs-2" id="divCaptureButton">
                 <button class="btn btn-info" id="captureWS"><?php echo $this->lang->line('select_command_capture'); ?></button>
-                <span class="glyphicon glyphicon-refresh" style="margin-left: 20px; font-size: 20px;" onclick="atualizaTable()"></span>
             </div>
             <div class="col-md-2 col-xs-2" id="divLimitButton">
                 <button class="btn btn-info" id="limitWS"><?php echo $this->lang->line('button_send'); ?></button>
             </div>
             <div class="col-md-2 col-xs-2 pull-right" id="divOptionsButtons">
 
-                <!-- <button class="btn btn-success" id="testWS"><?php echo $this->lang->line('test'); ?></button> -->
+                <!--<button class="btn btn-success" id="testWS"><?php //echo $this->lang->line('test'); ?></button>-->
 
                 <button class="btn btn-primary" id="connectWS"><?php echo $this->lang->line('connect'); ?></button>
                 <button class="btn btn-danger" id="resetWS"><?php echo $this->lang->line('reset'); ?></button>
@@ -66,35 +77,71 @@
 <div class="container-fluid">
     <div class="col-md-12 col-xs-12" id="borda">
         <div class="row">
-            <div class="col-md-6 col-xs-6" style="overflow:auto; height: 500px;">
-		    <table id="tableComunicacao" class="table table-bordered table-condensed" style="font-size: 12pt; text-align: center; ">
-		        <thead>
-		            <tr>
-		                <th>
-		                <div class="dropdown">
-		                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-		                      <?php echo $this->lang->line('capture'); ?> 
-		                      <span class="caret"></span>
-		                    </button>
-		                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-		                        <li onclick="setLimit(10)">10</li>
-		                        <li onclick="setLimit(20)">20</li>
-		                        <li onclick="setLimit(50)">50</li>
-		                    </ul>
-		                </div>
-		                </th>
-		                <th><?php echo $this->lang->line('plug'); ?></th>
-		                <th><?php echo $this->lang->line('equipment'); ?></th>
-		                <th><?php echo $this->lang->line('effective'); ?></th>
-		                <th><?php echo $this->lang->line('date'); ?></th>
-		                <th><?php echo $this->lang->line('dangerousness'); ?></th>
-		                <th><?php echo $this->lang->line('compare'); ?></th>
-		            </tr>
-		        </thead>
-	        	<tbody id="tbodyComunicacao"></tbody>
-		    </table>
+            <div class="col-md-5 col-xs-5">
+                <table class="table table-striped table-bordered detalhes" id="tabelaCapturas">
+                    <thead>
+                        <tr>
+                            <th><?php echo $this->lang->line('capture'); ?></th>
+                            <th><?php echo $this->lang->line('event'); ?></th>
+                            <th><?php echo $this->lang->line('plug'); ?></th>
+                            <th><?php echo $this->lang->line('equipment'); ?></th>
+                            <th><?php echo $this->lang->line('effective'); ?></th>
+                            <th><?php echo $this->lang->line('date'); ?></th>
+                            <th><?php echo $this->lang->line('dangerousness'); ?></th>
+                            <th><?php echo $this->lang->line('compare'); ?></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyTabelaCapturas">
+                        <?php
+                        if (empty($capturas)) {
+                            ?>
+                            <tr>
+                                <td><?php echo $this->lang->line('empty'); ?></td>
+                                <td><?php echo $this->lang->line('empty'); ?></td>
+                                <td><?php echo $this->lang->line('empty'); ?></td>
+                                <td><?php echo $this->lang->line('empty'); ?></td>
+                                <td><?php echo $this->lang->line('empty'); ?></td>
+                                <td><?php echo $this->lang->line('empty'); ?></td>
+                                <td><?php echo $this->lang->line('empty'); ?></td>
+                                <td><input type="checkbox"/></td>
+                            </tr>
+                            <?php
+                        } else {
+                            $ind = 0;
+                            foreach ($capturas as $dados) {
+                              //formata data para exibir dia/mes/ano
+                              $data_brasil = DateTime::createFromFormat('Y-m-d H:i:s', $dados->dataAtual);
+                              $dados->dataAtual = $data_brasil->format('d-m-Y H:i:s');
+                                ?>
+                                <tr id="linha<?php echo $dados->codCaptura; ?>">
+                                    <td id="<?php echo $dados->codCaptura; ?>-2"><?php echo $dados->codCaptura; ?></td>
+                                    <td id="<?php echo $dados->codCaptura; ?>-1"><?php echo $dados->codEvento; ?></td>
+                                    <td id="<?php echo $dados->codCaptura; ?>-3"><?php echo $dados->codTomada; ?></td>
+                                    <td id="<?php echo $dados->codCaptura; ?>-4"><?php echo $dados->codEquip; ?></a></td>
+                                    <td id="<?php echo $dados->codCaptura; ?>-5"><?php echo substr($dados->eficaz, 0, 6); ?></td>
+                                    <td id="<?php echo $dados->codCaptura; ?>-7"><?php echo $dados->dataAtual; ?></td>
+                                    <td id="<?php echo $dados->codCaptura; ?>-9"><div class="<?php
+                                        if ($periculosidade[$ind] === 0) {
+                                            echo "green-circle";
+                                        } elseif ($periculosidade[$ind] === 1) {
+                                            echo "yellow-circle";
+                                        } elseif ($periculosidade[$ind] === 2) {
+                                            echo "red-circle";
+                                        } else {
+                                            echo "";
+                                        }
+                                        ?>"></div></td>
+                                    <td id="<?php echo $dados->codCaptura; ?>-8"><input type="checkbox" id="<?php echo $dados->codCaptura; ?>" name="comparar"/></td>
+                                </tr>
+                                <?php
+                                $ind += 1;
+                            }
+                        }
+                        ?>
+                    </tbody>
+                </table>
             </div>
-            <div class="col-md-6 col-xs-6">
+            <div class="col-md-7 col-xs-7">
                 <div id="linha"></div>
                 <div id="barra"></div>
                 <div class="col-md-offset-1 col-md-10 col-xs-10">
@@ -114,6 +161,11 @@
 </div>
 <script>
     $(document).ready(function () {
+        //função para simular clique no botão capturar
+        //var ws = setInterval(testClickWS,5000);
+        //função para simular clique no botão capturar
+        //var telnet = setInterval(testClickTelnet,3000);
+
         //oculta as divs
         $('#divCommands').hide();
         $('#divEquipment').hide();
@@ -141,216 +193,110 @@
         });
     });
 </script>
-<script> //pega a baseURL
-    function getURL() {
-        var baseUrl = location.origin + "/" + window.location.pathname.split('/')[1] + "/";
-        return baseUrl;
-    }
+<script>
+    $(document).ready(function () {
+        var cont = 0, checkClicados = 0;
+        var graficos = [];
+        $('input[type="checkbox"]').click(function () {
+            var id = $(this).attr('id'); //pega o id do checkbox clicado, contendo o código de captura
+            var nome = $(this).attr('name'); //pega o nome do checkbox clicado, informando se é checkbox do equipamento ou do comparar
+            // se fone comparar coluna comparar
+            if (nome === "comparar") {
+                checkadoID = ($("#" + id).is(":checked")); //verifica se o checkbox foi clicado true == sim, false == não
+                if (checkadoID === true) { // se checkado == true monta gráfico na área de comparação
+                    ++checkClicados;
+                    //ajax envia os dados p/ php e no php processa e retornar valores em dados.linha e dados.barra
+                    if (cont < 5) {
+                        graficos[cont] = id;
+                        $.ajax({
+                            url: "<?php echo base_url(); ?>" + "index.php/detalhes/graficos",
+                            dataType: 'json',
+                            scriptCharset: 'UTF-8',
+                            type: "POST",
+                            data: {
+                                idCheckbox: id
+                            },
+                            success: function (dados) {
+                                if (dados) {
+                                    var chart = $('#barra').highcharts();
+                                    chart.addSeries({
+                                        name: id,
+                                        data: dados.barra
+                                    });
+                                    var chart = $('#linha').highcharts();
+                                    chart.addSeries({
+                                        data: dados.linha
+                                    });
+                                    cont = ++cont;
+                                } else
+                                    alert("Erro Ajax.");
+                            }
+                        });
+                    } else {
+                        alert("Máximo de 5 Equipamentos Atingido");
+                        $("#" + id).attr("checked", false);
+                    }
+                } else { // senão oculta gráfico do equipamento
+                    --checkClicados;
+                    cont = --cont;
+                    for (var x = 0; x < graficos.length; x++) {
+                        if (graficos[x] === id) {
+                            var chart = $('#barra').highcharts();
+                            if (chart.series.length) {
+                                chart.series[x].remove();
+                            }
+                            var chart = $('#linha').highcharts();
+                            if (chart.series.length) {
+                                chart.series[x].remove();
+                            }
+                            graficos.splice(x, 1);
+                        }
+                    }
+                }
+                //para construir a tabela de similaridade
+                if (checkadoID === true) {
+                    mostraTabelaSimilaridade();
+                } else {
+                    if (checkClicados === 0) {
+                        document.getElementById("tabelaSimilaridade").deleteRow(1);
+                        //document.getElementById("tabelaSimilaridade").deleteRow(1);
+                    } else {
+                        mostraTabelaSimilaridade();
+                    }
+                }
+            }
+        });
+    });
 </script>
 <script>
-//    var date="21/01/2015";
-//    var newdate = date.split("/").reverse().join("-");
-    var j = 0, checkClicados = 0, limite = 10;
-    var baseUrl = getURL();
-    var graficos = [];
-    var $table = $('#tableComunicacao');
-    window.onload = function () {
-        atualizaTable();
-    };
-    function atualizaTable() {
-        $("#tbodyComunicacao").empty();
-	if(graficos.length > 0){
-            cleanScreen();
-        }
+    function testClickWS() {
+        $("#mensagemWS").click();
+    }
+    function testClickTelnet() {
+        var moduloRandTelnet = ["192.168.1.101", "192.168.1.102"];
+        var channelRandTelnet = ["p", "d"];
+        var moduloTelnet = moduloRandTelnet[Math.floor((Math.random() * 2) + 1) - 1];
+        var channelTelnet = channelRandTelnet[Math.floor((Math.random() * 2) + 1) - 1];
+        var outlet = Math.floor((Math.random() * 3) + 4);
         $.ajax({
-            type: 'post',
-            dataType: 'json', //tipo de retorno
-            url: baseUrl + "index.php/Comunicacao/atualizaTable", //arquivo onde serão buscados os dados
-            data : { 
-                Limit: limite 
+            url: "<?php echo base_url(); ?>" + "index.php/captura/testTelnet",
+            dataType: 'json',
+            scriptCharset: 'UTF-8',
+            type: "POST",
+            data: {
+                Host: moduloTelnet,
+                Channel: channelTelnet,
+                Outlet: outlet
             },
             success: function (dados) {
                 if (dados) {
-                    for(j = 0 ; j < dados.length; j++) {
-                        insereLinha(dados[j]);
-                    }
-                } else { alert("Erro Ajax."); }
+                    //alert(dados);
+                } else {
+                    alert("Erro Ajax.");
+                }
             }
         });
     }
-    function setLimit(n){
-        
-        limite = n;
-        atualizaTable();
-    }
-    $("#captureWS").click(function(){
-        window.setTimeout(atualizaTable, 500);
-    });
-    
-    function insereLinha(dados) {
-        // creates a <tbody> element
-        var tblBody = document.getElementById("tbodyComunicacao");
-        
-        // creating all cells
-        var cellText;
-        // creates a table row
-        var row = document.createElement("tr");
-        row.id = "linha" + dados.codCaptura;
-        
-        if (dados.codEvento === "1"){
-            row.className = "fuga";
-        }
-        if (dados.codEvento === "4"){
-            row.className = "fase";
-        }
-	if (dados.codEvento === "9"){
-            row.className = "cExtFase";
-        }
-	if (dados.codEvento === "10"){
-            row.className = "cExtFuga";
-        }
-
-        var cell = document.createElement("td");
-        cellText = document.createTextNode(dados.codCaptura);
-        cell.appendChild(cellText);
-        row.appendChild(cell);
-
-        var cell = document.createElement("td");
-        cellText = document.createTextNode(dados.codTomada);
-        cell.appendChild(cellText);
-        row.appendChild(cell);
-
-        var cell = document.createElement("td");
-        cellText = document.createTextNode(dados.codEquip);
-        cell.appendChild(cellText);
-        row.appendChild(cell);
-
-        var cell = document.createElement("td");
-        cellText = document.createTextNode(dados.eficaz);
-        cell.appendChild(cellText);
-        row.appendChild(cell);
-
-        var cell = document.createElement("td");
-        cellText = document.createTextNode(dados.dataAtual);
-        cell.appendChild(cellText);
-        row.appendChild(cell);
-        
-        var cell = document.createElement("td");
-	 if (dados.codEvento === "1" || dados.codEvento === "10"){
-        	cell.id = "periculosidade" + dados.codCaptura;
-        	var div = document.createElement("div");
-        	periculosidade(dados, div);
-        	cell.appendChild(div);
-	 }
-        row.appendChild(cell);
-
-        var cell = document.createElement('input');
-        cell.type = "checkbox";
-        cell.name = "comparar";
-        cell.className = dados.CodEquip;
-        cell.id = dados.codCaptura;
-        cell.onclick = criaGraficoBarraLinha;
-        row.appendChild(cell);
-        
-        tblBody.appendChild(row, tblBody.firstChild);
-    }
-    
-    function criaGraficoBarraLinha() {
-        var id = $(this).attr('id'); //pega o id do checkbox clicado, contendo o código de captura
-        var checkadoID = document.getElementById(id).checked; //verifica se o checkbox foi clicado true == sim, false == não
-
-        if (checkadoID === true) { // se checkado == true monta gráfico na área de comparação
-            //ajax envia os dados p/ php e no php processa e retornar valores em dados.linha e dados.
-            if (checkClicados < 5) {
-                graficos[checkClicados] = id;
-                $.ajax({
-                    url: baseUrl + "index.php/Ultimascapturadas/graficos",
-                    dataType: 'json',
-                    scriptCharset: 'UTF-8',
-                    type: "POST",
-                    data: {
-                        idCheckbox: id
-                    },
-                    success: function (dados) {
-                        if (dados) {
-                            var chart = $('#barra').highcharts();
-                            chart.addSeries({
-                                name: id,
-                                data: dados.barra
-                            });
-                            var chart = $('#linha').highcharts();
-                            chart.addSeries({
-                                name: id,
-                                data: dados.linha
-                            });
-                        } else
-                            alert("Erro Ajax.");
-                    }
-                });
-                checkClicados++;
-            } else {
-                alert("Máximo de 5 Equipamentos Atingido");
-                $("#" + id).attr("checked", false);
-            }
-        } else { // senão oculta gráfico do equipamento
-
-            for (var x = 0; x < graficos.length; x++) {
-                if (graficos[x] === id) {
-                    var chart = $('#barra').highcharts();
-                    if (chart.series.length) {
-                        chart.series[x].remove();
-                    }
-                    var chart = $('#linha').highcharts();
-                    if (chart.series.length) {
-                        chart.series[x].remove();
-                    }
-                    graficos.splice(x, 1);
-                }
-            }
-            --checkClicados;
-        }
-        //para construir a tabela de similaridade
-        if (checkadoID === true) {
-            mostraTabelaSimilaridade();
-        } else {
-            if (checkClicados === 0) {
-                document.getElementById("tabelaSimilaridade").deleteRow(1);
-            } else {
-                mostraTabelaSimilaridade();
-            }
-        }
-    } //OK
-    function cleanScreen(){
-        if (graficos.length >= 2) document.getElementById("tabelaSimilaridade").deleteRow(1);
-        for (var x = checkClicados-1; x >= 0; x--) { 
-            var chart = $('#barra').highcharts();
-                chart.series[x].remove();
-            var chart = $('#linha').highcharts();
-                chart.series[x].remove();
-            graficos.splice(x, 1);
-            document.getElementById("tabelaSimilaridade").deleteRow(x+1);
-        }
-        checkClicados = 0;
-    }
-    function deslocaGrafico(cod1, cod2){
-        var w = 750, h = 450, url = baseUrl+ "index.php/popup_grafico_deslocada?cod1="+cod1+"&cod2="+cod2, title = "popupGrafico";
-        var left = (screen.width/2)-(w/2);
-        var top = (screen.height/2)-(h/2);
-        return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
-    } //OK
-    function periculosidade(dados, div) {
-        div.className = "green-circle";
-        if (dados.eficaz >= 0.1 && dados.eficaz < 0.5) {
-            //atenção
-            div.className = "yellow-circle";
-        } else if (dados.eficaz >= 0.5) {
-            //perigo
-            div.className = "red-circle";
-        }
-    } //OK
-</script>
-<script>
-    
     function showCommands(command) {
         $('#commandsForm').val("choose");
         $('#divCommands').hide();
@@ -390,7 +336,7 @@
             }
             //ajax para preencher o select dos equipamentos
             $.ajax({
-                url: "<?php echo base_url(); ?>" + "index.php/Comunicacao/getEquipments",
+                url: "<?php echo base_url(); ?>" + "index.php/Captura/getEquipments",
                 dataType: 'json',
                 scriptCharset: 'UTF-8',
                 type: "POST",
@@ -427,7 +373,7 @@
             }
             //ajax para preencher o select das tomadas
             $.ajax({
-                url: "<?php echo base_url(); ?>" + "index.php/Comunicacao/getOutlets",
+                url: "<?php echo base_url(); ?>" + "index.php/Captura/getOutlets",
                 dataType: 'json',
                 scriptCharset: 'UTF-8',
                 type: "POST",
@@ -499,3 +445,4 @@
         });
     }
 </script>
+

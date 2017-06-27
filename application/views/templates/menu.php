@@ -69,7 +69,7 @@ if (isset($menuHide) && $menuHide == "true") {
                     </ul>
                 </li>
                 <li><a id="ajuda" href="<?php echo base_url('index.php/usuario') ?>"><?php echo $this->lang->line('user'); ?></a></li>
-                <li><a id="ajuda" href="<?php echo base_url('index.php/ajuda') ?>"><?php echo $this->lang->line('help'); ?></a></li>
+                <!-- <li><a id="ajuda" href="<?php echo base_url('index.php/ajuda') ?>"><?php echo $this->lang->line('help'); ?></a></li> -->
             </ul>
             <ul class="nav navbar-nav">
                 <li><a href="<?php echo base_url() ?>index.php/Ferramenta_DB"> <?php echo $this->lang->line('Ferramenta_DB'); ?></a></li>

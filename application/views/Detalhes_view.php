@@ -164,11 +164,18 @@
         var qntLinhas = $("#tbodyTableDetalhes"+dados.CodEquip+" tr").length + 1; 
         var row = document.createElement("tr");
         row.id = "linha"+ qntLinhas +"Equip" + dados.CodEquip;
+
         if (dados.codEvento === "1"){
             row.className = "fuga";
         }
         if (dados.codEvento === "4"){
             row.className = "fase";
+        }
+	 if (dados.codEvento === "9"){
+            row.className = "cExtFase";
+        }
+        if (dados.codEvento === "10"){
+            row.className = "cExtFuga";
         }
 
         var cell = document.createElement('input');
@@ -226,10 +233,12 @@
         row.appendChild(cell);
         
         var cell = document.createElement("td");
-        cell.id = "periculosidade" + dados.codCaptura;
-        var div = document.createElement("div");
-        periculosidade(dados, div);
-        cell.appendChild(div);
+	 if (dados.codEvento === "1" || dados.codEvento === "10"){
+        	 cell.id = "periculosidade" + dados.codCaptura;
+	        var div = document.createElement("div");
+	        periculosidade(dados, div);
+		 cell.appendChild(div);
+	 }
         row.appendChild(cell);
 
         var cell = document.createElement('input');

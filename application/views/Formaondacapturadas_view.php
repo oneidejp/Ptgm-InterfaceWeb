@@ -157,9 +157,12 @@ if(limit > 0){
                         var evento;
                         var cod = dados[j].codCaptura;
                         var checkbox = "<input name='comparar' id="+cod+" type='checkbox' onclick='criaGraficoBarraLinha("+cod+")'>";
-                        var classper = periculosidade(dados[j]);
-                        var peri = "<div style='align: left;' class="+classper+">";
-                        
+                        if (dados[j].codEvento === "1" || dados[j].codEvento === "10"){
+			   	var classper = periculosidade(dados[j]);
+                        	var peri = "<div style='align: left;' class="+classper+">";
+                        } else {
+			   	var peri = " "; 
+			   }
                         table.row.add([
                             cod,
                             dados[j].codUsoSala,
@@ -172,8 +175,10 @@ if(limit > 0){
                             checkbox
                         ]).draw(false);
                         
-                        if(dados[j].codEvento === 1) evento = "fuga";
-                        else evento = "fase";
+                        if(dados[j].codEvento === "1") evento = "fuga";
+                        if(dados[j].codEvento === "2") evento = "fase";
+                        if(dados[j].codEvento === "9") evento = "cExtFase";
+                        if(dados[j].codEvento === "10") evento = "cExtFuga";
                         $('#tableFormaonda tbody tr').addClass( evento );
                         j++;
                     }
