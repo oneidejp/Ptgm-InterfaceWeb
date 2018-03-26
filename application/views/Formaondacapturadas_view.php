@@ -88,6 +88,10 @@
     }
 </script>
 <script type="text/javascript"> //pega os dados do banco e coloca na tabela a cada 1s
+   //remoção das classes odd e even que o bootstrap coloca automaticamente
+    $.extend($.fn.dataTable.ext.classes, {
+        sStripeEven: '', sStripeOdd: ''
+      });
     document.body.style = "padding-bottom: 10px; padding-top: 70px;";
     var j = 0, cont = 0, checkClicados = 0, lock = 0, atualizando = 0;
     var qntLines = 0;
@@ -96,7 +100,7 @@
     } ); //========================
     var graficos = [];
     var baseUrl = getURL();
-    
+    var tcheckboxSelecionados = [];
     
     function getData() {
         table.clear();
@@ -176,10 +180,10 @@ if(limit > 0){
                         ]).draw(false);
                         
                         if(dados[j].codEvento === "1") evento = "fuga";
-                        if(dados[j].codEvento === "2") evento = "fase";
+                        if(dados[j].codEvento === "4") evento = "fase";
                         if(dados[j].codEvento === "9") evento = "cExtFase";
                         if(dados[j].codEvento === "10") evento = "cExtFuga";
-                        $('#tableFormaonda tbody tr').addClass( evento );
+                        $('#tableFormaonda tbody tr:last').addClass( evento );
                         j++;
                     }
 		$("#loader").addClass("hidden");
@@ -203,6 +207,7 @@ if(limit > 0){
 	    $("#limit").val(0);
         }
     }
+    
     //funcao para chamar a tela com o grafico deslocado
     function deslocaGrafico(cod1, cod2){
         var w = 750, h = 450, url = "popup_grafico_deslocada?cod1="+cod1+"&cod2="+cod2, title = "popupGrafico";
@@ -279,12 +284,22 @@ if(limit > 0){
         }
         
         //para construir a tabela de similaridade
+        //foi usado uma array global para corrigir o problema de comparação com itens de outras paginas.
         if (checkadoID === true) {
+            tcheckboxSelecionados.push(id);
+            tcheckboxSelecionados.sort(function(a, b){return b-a}); 
             mostraTabelaSimilaridade();
         } else {
+            var index =  tcheckboxSelecionados.indexOf(id);
             if (checkClicados === 0) {
                 document.getElementById("tabelaSimilaridade").deleteRow(1);
+                if(index >=0){
+                    tcheckboxSelecionados.splice(index,1);
+                }
             } else {
+                if(index >=0){
+                    tcheckboxSelecionados.splice(index,1);
+                }
                 mostraTabelaSimilaridade();
             }
         }
@@ -298,6 +313,16 @@ if(limit > 0){
             timeFormat: 'HH:mm:ss', 
             dateFormat: "yy-mm-dd"
         });
+        
+//         $('#paginate_button').click(function({
+//            table.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+//            var data = this.data();
+//               console.log(data);
+//            } );
+//             
+//         }));
+        
+        $('a.paginate_button ').click(function(){alert("opas")});
     });
     function cleanScreen(){
         if (graficos.length >= 2) document.getElementById("tabelaSimilaridade").deleteRow(1);
@@ -307,7 +332,9 @@ if(limit > 0){
             var chart = $('#linha').highcharts();
                 chart.series[x].remove();
             graficos.splice(x, 1);
-            document.getElementById("tabelaSimilaridade").deleteRow(x+1);
+            if(document.getElementById("tabelaSimilaridade").rows[x+1] !== undefined)
+                document.getElementById("tabelaSimilaridade").deleteRow(x+1);
+            
         }
         checkClicados = 0;
     }
@@ -335,10 +362,11 @@ if(limit > 0){
 
         var baseUrl = getURL();
         //pega os checkboxes clicados em um array, a ordenação não é por clique e sim por leitura dos clicados, de cima para baixo
-        var checkboxSelecionados = [];
-        $('#aba input[name="comparar"]:checked').each(function () {
-            checkboxSelecionados.push($(this).attr('id'));
-        });
+//        var checkboxSelecionados = [];
+//        $('#abaFO input[name="comparar"]:checked').each(function () {
+//            checkboxSelecionados.push($(this).attr('id'));
+//        });
+        
         //envia por post um json contendo os códigos de capturas dos checkboxes
         //recebendo o retorno da tabela preenchida
         $.ajax({
@@ -347,11 +375,11 @@ if(limit > 0){
             scriptCharset: 'UTF-8',
             type: "POST",
             data: {
-                Check: checkboxSelecionados
+                Check: tcheckboxSelecionados
             },
             success: function (dados) {
                 if (dados) {
-                    var HTML = dados;
+                    HTML = dados;
                     //insere na tabela os dados calculados
                     document.getElementById("tbodyTabelaSimilaridade").innerHTML = HTML;
                 } else {
@@ -360,4 +388,5 @@ if(limit > 0){
             }
         });
     }
+    
 </script>
