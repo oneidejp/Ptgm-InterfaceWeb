@@ -22,9 +22,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | If you need to allow multiple domains, remember that this file is still
 | a PHP script and you can easily do that on your own.
 |
+| VARIÁVEL NECESSÁRIA PARA A MANUTENÇÃO DA URL PRINCIPAL DO SISTEMA
+| ALTERAÇÕES NESSA VARIÁVEL PODEM RESULTAR NO ERRO 307
+| MANTER HTTP_HOST QUANDO FOR COMMITAR
+| Matheus Hernandes - 2018
 */
 //$config['base_url'] = 'http://IP_DO_SERVER/Ptgm-InterfaceWeb/';
-$config['base_url'] = 'http://' . $_SERVER['SERVER_ADDR'] . "/Ptgm-InterfaceWeb/";
+$config['base_url'] = 'http://' . $_SERVER['HTTP_HOST'] . "/Ptgm-InterfaceWeb/";
 /*
 |--------------------------------------------------------------------------
 | Index File
