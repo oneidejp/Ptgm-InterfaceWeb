@@ -22,8 +22,7 @@ class Popup_grafico_deslocada extends MY_Controller {
         $data['headerOption'] = "<link rel='stylesheet' href=" . base_url() . "includes/css/estilo.css>" .
                 "<link rel='stylesheet' href=" . base_url() . "includes/css/abas.css>" .
                 "<link rel='stylesheet' href=" . base_url() . "includes/bootstrapTable/bootstrap-table.min.css>" . 
-                "<link rel='stylesheet' href=" . base_url() . "includes/css/estilosLeo.css>" . 
-                "<link rel='stylesheet' href=" . base_url() . "includes/js/jquery-ui-1.11.4.custom/jquery-ui.min.css>" . 
+                "<link rel='stylesheet' href=" . base_url() . "includes/js/jquery-ui-1.11.4.custom/jquery-ui.min.css>" .
                 "<script src=" . base_url() . "includes/js/jquery.min.js></script>" .
                 "<script src=" . base_url() . "includes/js/jquery-ui-1.11.4.custom/jquery-ui.min.js></script>" .
                 "<script src=" . base_url() . "includes/bootstrapTable/bootstrap-table.min.js></script>" .

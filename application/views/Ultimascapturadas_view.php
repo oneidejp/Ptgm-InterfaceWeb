@@ -13,23 +13,32 @@
         <div class="col-md-12 col-xs-12" id="centro">
             <div id="aba">
                 <div class="row">   <!-- incluir botoes-->
-                    <div class="col-xs-10 col-xs-offset-1"> 
-                        <p style="font-size: 15pt;">
-                            <?php echo $this->lang->line('update'); ?>
-                            <input id="atualiza" onclick="controleAtualizar()" type="checkbox" checked="true"> &emsp;
-                            <?php echo $this->lang->line('phase'); ?> 
-                            <input id="fase" onclick="fase()" type="checkbox" checked="true">&emsp;
-                            <?php echo $this->lang->line('leakage'); ?>
-                            <input id="fuga" onclick="fuga()" type="checkbox" checked="true">&emsp;
-                            <?php echo $this->lang->line('visualization'); ?>
-                            <input id="visualization" onkeyup="visualization()" type="number" value="4" min="2" max="8" style="width:80px;">&emsp;
-                            FFT
-                            <input id="fft" onclick="mostraFFT()" type="checkbox" >
-                        </p> 
+                    <div class="col-xs-10 ">
+                        <p>
+                            <b>
+                                <?php echo $this->lang->line('update'); ?>
+                                <input id="atualiza" onclick="controleAtualizar()" type="checkbox" checked="true"> &emsp;
+
+                                <?php echo $this->lang->line('phase'); ?>
+                                <input id="fase" onclick="fase()" type="checkbox" checked="true">&emsp;
+
+                                <?php echo $this->lang->line('leakage'); ?>
+                                <input id="fuga" onclick="fuga()" type="checkbox" checked="true">&emsp;
+
+                                <?php echo $this->lang->line('visualization'); ?>
+                                <input id="visualization" onkeyup="visualization()" type="number" value="4" min="2" max="8" style="width:80px;">&emsp;
+
+                                <?php echo $this->lang->line('fft'); ?>
+                                <input id="fft" onclick="mostraFFT()" type="checkbox" >
+                            </b>
+                        </p>
                     </div>
-                    <div class="col-xs-6" style="overflow:auto; height:400px;">
-                        <table id="tableUltimascapturas" class="table table-bordered table-condensed" style="font-size: 10pt; text-align: center; ">
-                            <thead>
+
+                    <div class="col-xs-6">
+
+                        <div style="overflow:auto; height:400px;">
+                            <table id="tableUltimascapturas" class="table  table-condensed" style="font-size: 10pt; text-align: center; ">
+                                <thead>
                                 <tr>
                                     <th><?php echo $this->lang->line('show'); ?></th>
                                     <th><?php echo $this->lang->line('capture'); ?></th>
@@ -38,50 +47,71 @@
                                     <th><?php echo $this->lang->line('effective'); ?></th>
                                     <th><?php echo $this->lang->line('use'); ?></th>
                                     <th><?php echo $this->lang->line('date'); ?></th>
-                                    <th><?php echo $this->lang->line('dangerousness'); ?></th>
+                                    <th><?php //echo $this->lang->line('dangerousness'); ?></th>
                                     <th><?php echo $this->lang->line('compare'); ?></th>
                                 </tr>
-                            </thead>
-                            <tbody id="tbodyUltimasCapturas"></tbody>
-                        </table>
-                    </div>
+                                </thead>
+                                <tbody id="tbodyUltimasCapturas"></tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <div class="legenda">
 
-                        <div class="col-xs-6">
-                            <div id="linha"></div> <!--grafico linha-->
-                            <div id="barra"></div> <!--grafico barra-->
-                            <div class="col-md-offset-1 col-md-10 col-xs-10">
-                                <table class='table table-striped table-bordered' id="tabelaSimilaridade">
-                                    <thead>
-                                        <tr>
-                                            <th><?php echo $this->lang->line('capture_code'); ?></th>
-                                            <th colspan="5"><?php echo $this->lang->line('similarity'); ?></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tbodyTabelaSimilaridade"></tbody>
-                                </table>
+                                <div class="line-fase"></div>
+                                <span>Fase</span>
+
+                                <div class="line-fuga"></div>
+                                <span>Fuga</span>
+
+                                <div class="green-circle"></div>
+                                <span> Baixa periculosidade</span>
+
+                                <div class="yellow-circle"></div>
+                                <span>Média periculosidade</span>
+
+                                <div class="red-circle"></div>
+                                <span>Alta periculosidade</span>
+
                             </div>
                         </div>
+                    </div>
 
-                    
+                    <div class="col-xs-6">
+                        <div id="linha"></div>
+                        <div id="barra"></div>
+                        <div class="col-md-offset-1 col-md-10 col-xs-10">
+                            <table class='table table-striped table-bordered' id="tabelaSimilaridade">
+                                <thead>
+                                <tr>
+                                    <th><?php echo $this->lang->line('capture_code'); ?></th>
+                                    <th colspan="5"><?php echo $this->lang->line('similarity'); ?></th>
+                                </tr>
+                                </thead>
+                                <tbody id="tbodyTabelaSimilaridade"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
-            <div class="row-fluid col-md-12 col-xs-12" id="divMain" > 
-                
+
+            <div class="row-fluid col-md-12 col-xs-12" id="divMain" >
+
             </div>
         </div>
     </div>
+
 </div>
 <script> //pega a baseURL
     function getURL() {
-        var baseUrl = location.origin + "/" + window.location.pathname.split('/')[1] + "/";
-        return baseUrl;
+        return location.origin + "/" + window.location.pathname.split('/')[1] + "/";
     }
 </script>
 <script type="text/javascript"> //pega os dados do banco e coloca na tabela a cada 1s
     var j = 0, cont = 0, checkClicados = 0, lock = 0, atualizando = 0;
     var firstCap = 0, lastCapture, ultimoCodCaptura, qntLines = 0, limitGraf = 4, contGraf = 1;
     var timeUpdate;
-    var $table = $('#tableUltimascapturas');
     var fasefuga = "fasefuga";
     var graficos = [];
     var baseUrl = getURL();
@@ -91,20 +121,20 @@
 
     function initFaseFuga(){
         $("#divMain").empty();
-        
+
         if(graficos.length > 0){
-            for (var x = checkClicados-1; x >= 0; x--) { 
+            for (var x = checkClicados-1; x >= 0; x--) {
                 var chart = $('#barra').highcharts();
-                    chart.series[x].remove();
+                chart.series[x].remove();
                 var chart = $('#linha').highcharts();
-                    chart.series[x].remove();
+                chart.series[x].remove();
                 graficos.splice(x, 1);
                 document.getElementById("tabelaSimilaridade").deleteRow(x+1);
             }
             document.getElementById("tabelaSimilaridade").deleteRow(1);
             checkClicados = 0;
         }
-        
+
         window.setTimeout(function(){
             qntLines = lock = 0;
             contGraf = 0;
@@ -115,7 +145,7 @@
             $("#fuga").prop("disabled","");
             $("#fase").prop("disabled","");
         }, 1010);
-            
+
     }
 
     function atualizaTable() {
@@ -137,7 +167,7 @@
                             if (lastCapture !== dados[i].codCaptura) j++;
                             else {
                                 j++;
-                                break;   
+                                break;
                             }
                             i++;
                         }// alert(lastCapture + " valor lastCapture antes");
@@ -164,7 +194,7 @@
                     if(atualizando === 0){
                         timeUpdate = window.setTimeout(atualizaTable, 1000);
                     }
-                } 
+                }
                 else {
                     alert("Erro Ajax.");
                 }
@@ -189,10 +219,10 @@
             }
         }
     }
-   
+
     function geraGraficoPrimeiraLinha(codCaptura, f) {
         var classe = codCaptura;
-        
+
         if ((f === 0 || f === 1) && document.getElementById("divlinha"+classe) === null ){
             var divMain = document.getElementById("divMain");
             var div = document.createElement("div");
@@ -205,8 +235,8 @@
             div.appendChild(divlinha);
             if (f === 0){ divMain.insertBefore(div, divMain.firstChild); }
             if (f === 1){ divMain.appendChild(div); }
-        }   
-        
+        }
+
         var $divCont = $('#divlinha' + classe);
         $.ajax({
             url: baseUrl + "index.php/Ultimascapturadas/linha", //requisita novo gráfico
@@ -218,7 +248,7 @@
             },
             success: function (dados) {
                 if (dados) {
-                    $divCont.highcharts({                    
+                    $divCont.highcharts({
                         chart: {
                             type: 'spline',
                             spacingBottom: 0,
@@ -229,7 +259,7 @@
                         title: {
                             text: 'Cap ' + classe
                         },
-                                credits: {
+                        credits: {
                             enabled: false
                         },
                         xAxis: {
@@ -256,23 +286,23 @@
                     alert("Erro Ajax.");
             }
         });
-        
+
         setTimeout(function(){
             if ($("#divlinha"+classe).is(':empty')){
                 recriaGraf(classe);
             }
         },1000);
-        
-        if($("#fft").prop("checked")) 
+
+        if($("#fft").prop("checked"))
             insereFFT(classe);
         if (f === 0){
             if(contGraf >= limitGraf) {
                 $(divMain.lastChild).remove();
-            }    
+            }
             else contGraf++;
         }
     }
-    
+
     function recriaGraf(classe){
         var $divCont = $('#divlinha' + classe);
         if(document.getElementById("divlinha" + classe)){
@@ -286,7 +316,7 @@
                 },
                 success: function (dados) {
                     if (dados) {
-                        $divCont.highcharts({                    
+                        $divCont.highcharts({
                             chart: {
                                 type: 'spline',
                                 spacingBottom: 0,
@@ -297,7 +327,7 @@
                             title: {
                                 text: 'Cap ' + classe
                             },
-                                    credits: {
+                            credits: {
                                 enabled: false
                             },
                             xAxis: {
@@ -326,7 +356,7 @@
             });
         }
     }
-    
+
     function criaGraficoEquipamento() {
         var classeI = $(this).attr('class'); //pega a classe do checkbox clicado, contendo o codigo da captura
         var classe = classeI.substring(1, classeI.length);
@@ -334,12 +364,12 @@
 
         if (check) {
             geraGraficoPrimeiraLinha(classe, 1);
-        } 
+        }
         else {
             $('#container'+classe).remove();
         }
     }
-    
+
     function controleAtualizar(){
         if($("#atualiza").prop("checked")){
             atualizando = 0;
@@ -358,95 +388,76 @@
             atualizando = 1;
         }
     }
-    
+
+    function newTd(texto) {
+        var tdElement = document.createElement("td");
+        var textElement = document.createTextNode(texto);
+        tdElement.appendChild(textElement);
+        return tdElement;
+    }
+
     function insereLinha(dados) {
         qntLines++;//acrescenta uma linha
-        // creates a <tbody> element
+
         var tblBody = document.getElementById("tbodyUltimasCapturas");
-        
-        // creating all cells
-        var cellText;
-        // creates a table row
         var row = document.createElement("tr");
         row.id = "linha" + dados.codCaptura;
         row.className = "linha"+qntLines;
-        
-        if (dados.codEvento === "1"){
+
+        if (dados.codEvento === "1") {
             row.className = "fuga";
         }
-        if (dados.codEvento === "4"){
+        if (dados.codEvento === "4") {
             row.className = "fase";
         }
-	 if (dados.codEvento === "9"){
+        if (dados.codEvento === "9") {
             row.className = "cExtFase";
         }
-        if (dados.codEvento === "10"){
+        if (dados.codEvento === "10") {
             row.className = "cExtFuga";
         }
 
-
-
-        var cell = document.createElement('input');
-        cell.type = "checkbox";
-        cell.className = "w" + dados.codCaptura;
+        var mostrChk = document.createElement('input');
+        mostrChk.type = "checkbox";
+        mostrChk.className = "w" + dados.codCaptura;
         if ($("#atualiza").prop("checked")){
-            cell.disabled = "true";
+            mostrChk.disabled = "true";
         }
-//        cell.id = "checkboxequip"+qntLines;
-        cell.id = "checkboxequip"+qntLines;
-        cell.onclick = criaGraficoEquipamento;
-        row.appendChild(cell);
+        mostrChk.id = "checkboxequip"+qntLines;
+        mostrChk.onclick = criaGraficoEquipamento;
+        var td = newTd('');
+        td.appendChild(mostrChk);
+        row.appendChild(td);
+
+        row.appendChild(newTd(dados.codCaptura));
+        row.appendChild(newTd(dados.CodTomada));
+        row.appendChild(newTd(dados.CodEquip));
+        row.appendChild(newTd(dados.eficaz));
+        row.appendChild(newTd(dados.tempoUso));
+        row.appendChild(newTd(dados.dataAtual));
 
         var cell = document.createElement("td");
-        cellText = document.createTextNode(dados.codCaptura);
-        cell.appendChild(cellText);
+        if (dados.codEvento === "1" || dados.codEvento === "10"){
+            cell.id = "periculosidade" + dados.codCaptura;
+            var div = document.createElement("div");
+            periculosidade(dados, div);
+            cell.appendChild(div);
+        }
         row.appendChild(cell);
 
-        var cell = document.createElement("td");
-        cellText = document.createTextNode(dados.CodTomada);
-        cell.appendChild(cellText);
-        row.appendChild(cell);
+        var compararChk = document.createElement('input');
+        compararChk.type = "checkbox";
+        compararChk.name = "comparar";
+        compararChk.className = dados.CodEquip;
+        compararChk.id = dados.codCaptura;
+        compararChk.onclick = criaGraficoBarraLinha;
+        td = newTd('');
+        td.appendChild(compararChk)
+        row.appendChild(td);
 
-        var cell = document.createElement("td");
-        cellText = document.createTextNode(dados.CodEquip);
-        cell.appendChild(cellText);
-        row.appendChild(cell);
-
-        var cell = document.createElement("td");
-        cellText = document.createTextNode(dados.eficaz);
-        cell.appendChild(cellText);
-        row.appendChild(cell);
-
-        var cell = document.createElement("td");
-        cellText = document.createTextNode(dados.tempoUso);
-        cell.appendChild(cellText);
-        row.appendChild(cell);
-
-        var cell = document.createElement("td");
-        cellText = document.createTextNode(dados.dataAtual);
-        cell.appendChild(cellText);
-        row.appendChild(cell);
-        
-        var cell = document.createElement("td");
-	 if (dados.codEvento === "1" || dados.codEvento === "10"){
-       	 cell.id = "periculosidade" + dados.codCaptura;
-	        var div = document.createElement("div");
-       	 periculosidade(dados, div);
-	        cell.appendChild(div);
-	 }
-        row.appendChild(cell);
-
-        var cell = document.createElement('input');
-        cell.type = "checkbox";
-        cell.name = "comparar";
-        cell.className = dados.CodEquip;
-        cell.id = dados.codCaptura;
-        cell.onclick = criaGraficoBarraLinha;
-        row.appendChild(cell);
-        
         tblBody.insertBefore(row, tblBody.firstChild);
     }
-    
+
     function ultimaCaptura() {
 
         $.ajax({
@@ -458,7 +469,7 @@
 
                     dados = dados.slice(0).reverse();
                     ultimoCodCaptura = dados[0].codCaptura-1;
-                    
+
                     firstCap = ultimoCodCaptura;
                     atualizaTable();
                 } else {
@@ -483,7 +494,7 @@
             $("#fft").prop("disabled","");
         }
     }
-    
+
     function iniciaFFT() {
         $.ajax({
             type: 'post',
@@ -506,7 +517,7 @@
             }
         });
     }
-    
+
     function insereFFT(codCaptura){
         var div = document.getElementById("container"+codCaptura);
         var divbarra = document.createElement("div");
@@ -515,9 +526,9 @@
         divbarra.className = "divbarra";
         divbarra.style = "height : 350px";
         div.appendChild(divbarra);
-        
+
         var $divCont = $('#divbarra' + codCaptura);
-        
+
         $.ajax({
             url: baseUrl + "index.php/Ultimascapturadas/barra", //requisita novo gráfico
             dataType: 'json',
@@ -572,7 +583,7 @@
             }
         });
     }
-    
+
     function criaGraficoBarraLinha() {
         var id = $(this).attr('id'); //pega o id do checkbox clicado, contendo o código de captura
         var checkadoID = document.getElementById(id).checked; //verifica se o checkbox foi clicado true == sim, false == não
@@ -626,7 +637,6 @@
                     graficos.splice(x, 1);
                 }
             }
-            --checkClicados;
         }
 
         //para construir a tabela de similaridade
@@ -640,34 +650,34 @@
             }
         }
     } //OK
-       
+
     function visualization(){
-	var valVizu = $("#visualization").val();
-	if (valVizu > 1 && valVizu < 9){
-		atualizando = 1;
-		window.clearTimeout(timeUpdate);
-		window.setTimeout(function(){
-		    limitGraf = $("#visualization").val();
-		    for(var i = qntLines; i >= 0; i--){
-		        $('#checkboxequip'+i).prop("checked", false);
-		    }
-		    $("#divMain").empty();
-		    contGraf = 0;
-		    geraGraficoInit();
-		    atualizando = 0;
-		    atualizaTable();
-		}, 1010);
-	} else {
-		$("#visualization").val(limitGraf);	
-	}
+        var valVizu = $("#visualization").val();
+        if (valVizu > 1 && valVizu < 9){
+            atualizando = 1;
+            window.clearTimeout(timeUpdate);
+            window.setTimeout(function(){
+                limitGraf = $("#visualization").val();
+                for(var i = qntLines; i >= 0; i--){
+                    $('#checkboxequip'+i).prop("checked", false);
+                }
+                $("#divMain").empty();
+                contGraf = 0;
+                geraGraficoInit();
+                atualizando = 0;
+                atualizaTable();
+            }, 1010);
+        } else {
+            $("#visualization").val(limitGraf);
+        }
     }
-     
+
     function fase(){
         atualizando = 1;
         window.clearTimeout(timeUpdate);
         $("#fase").prop("disabled","false");
         $("#fuga").prop("disabled","false");
-        
+
         if ($("#fase").prop("checked")){
             initFaseFuga();
             fasefuga = "fasefuga";
@@ -683,13 +693,13 @@
             }
         }
     }
-    
+
     function fuga(){
         atualizando = 1;
         window.clearTimeout(timeUpdate);
         $("#fuga").prop("disabled","false");
         $("#fase").prop("disabled","false");
-        
+
         if ($("#fuga").prop("checked")){
             initFaseFuga();
             fasefuga = "fasefuga";
@@ -705,27 +715,18 @@
             }
         }
     }
-    
-    function deslocaGrafico(cod1, cod2){
-        var w = 750, h = 450, url = "popup_grafico_deslocada?cod1="+cod1+"&cod2="+cod2, title = "popupGrafico";
-        var left = (screen.width/2)-(w/2);
-        var top = (screen.height/2)-(h/2);
-        return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
-    }
-    
-    function periculosidade(dados, div) {
 
-        div.className = "green-circle";
+    function periculosidade(dados, div) {
+        div.className = "green-circle center-cicle";
         if (dados.eficaz >= 0.1 && dados.eficaz < 0.5) {
             //atenção
-            div.className = "yellow-circle";
+            div.className = "yellow-circle center-cicle";
         } else if (dados.eficaz >= 0.5) {
             //perigo
-            div.className = "red-circle";
+            div.className = "red-circle center-cicle";
         }
-
-    } //OK
-</script>   
+    }
+</script>
 <script>
     function mostraTabelaSimilaridade() {
 
@@ -747,9 +748,8 @@
             },
             success: function (dados) {
                 if (dados) {
-                    HTML = dados;
                     //insere na tabela os dados calculados
-                    document.getElementById("tbodyTabelaSimilaridade").innerHTML = HTML;
+                    document.getElementById("tbodyTabelaSimilaridade").innerHTML = dados;
                 } else {
                     alert("Erro Ajax.");
                 }
@@ -757,23 +757,4 @@
         });
     }
 
-    function insereTabela() {
-        //função para inserir novas capturas na tabela
-        var tabela = document.getElementById("tbodyTabelaDados");
-        var indice = 0;
-        for (var i = 1; i < tabela.rows.length; i++) {
-            if (tabela.rows[i].cells[3].innerText === "2 - Equipamento na tomada 2") {
-                indice = i + 1;
-                break;
-            }
-        }
-        //insere <tr>
-        var row = tabela.insertRow(indice);
-        //insere <td>
-        var celula = row.insertCell(0);
-        //comteúdo do <td>
-        celula.innerHTML = "Inserido";
-        //document.getElementById("divTeste").innerHTML = indice;
-
-    }
 </script>

@@ -156,6 +156,7 @@ $lang["capture_code"] = "Código de Captura";
 //ultimasCapturas
 $lang["update"] = "Atualizar";
 $lang["visualization"] = "Visualização";
+$lang["fft"] = "FFT";
 //comparar
 $lang["valor_medio"] = "Valor Médio";
 $lang["cod_onda_padrao"] = "Cod Onda Padrão";

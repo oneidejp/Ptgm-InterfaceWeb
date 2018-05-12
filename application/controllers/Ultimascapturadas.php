@@ -21,7 +21,7 @@ class Ultimascapturadas extends MY_Controller {
         $data['headerOption'] = "<link rel='stylesheet' href=" . base_url() . "includes/css/estilo.css>" .
                 "<link rel='stylesheet' href=" . base_url() . "includes/css/abas.css>" .
                 "<link rel='stylesheet' href=" . base_url() . "includes/bootstrapTable/bootstrap-table.min.css>" . 
-                "<link rel='stylesheet' href=" . base_url() . "includes/css/estilosLeo.css>" . 
+                "<link rel='stylesheet' href=" . base_url() . "includes/css/estilos.css>" .
                 "<script src=" . base_url() . "includes/bootstrapTable/bootstrap-table.min.js></script>" .
                 "<script src=" . base_url() . "includes/dataTables/jquery.dataTables.min.js></script>" .
                 "<script src=" . base_url() . "includes/js/highcharts.js></script>" .

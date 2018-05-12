@@ -72,7 +72,6 @@ class Comunicacao extends MY_Controller {
         $data['footerHide'] = 'true';
         $data['headerOption'] = "<link rel='stylesheet' href=" . base_url() . "includes/css/estilo.css>" .
                 "\t\t<link rel='stylesheet' href=" . base_url() . "includes/css/abas.css>" .
-                "\t\t<link rel='stylesheet' href=" . base_url() . "includes/css/estilosLeo.css>" .
                 "\t\t<script src=" . base_url() . "includes/js/highcharts.js></script>" .
                 "\t\t<script src=" . base_url() . "includes/js/graficosdetalhes.js></script>" .
                 "\t\t<script src=" . base_url() . "includes/js/exporting.js></script>" .

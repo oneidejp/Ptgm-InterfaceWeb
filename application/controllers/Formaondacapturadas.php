@@ -21,7 +21,6 @@ class Formaondacapturadas extends MY_Controller {
         $data['headerOption'] = "<link rel='stylesheet' href=" . base_url() . "includes/css/estilo.css>" .
                 "<link rel='stylesheet' href=" . base_url() . "includes/css/abas.css>" .
                 "<link rel='stylesheet' href=" . base_url() . "includes/bootstrapTable/bootstrap-table.min.css>" . 
-                "<link rel='stylesheet' href=" . base_url() . "includes/css/estilosLeo.css>" . 
                 "<link rel='stylesheet' href=" . base_url() . "includes/dataTables/jquery.dataTables.min.css>" .
                 "<link rel='stylesheet' href=" . base_url() . "includes/js/jquery-ui-1.11.4.custom/jquery-ui.min.css>" . 
                 "<link rel='stylesheet' href=" . base_url() . "includes/Timepicker/jquery-ui-timepicker-addon.css>" . 
