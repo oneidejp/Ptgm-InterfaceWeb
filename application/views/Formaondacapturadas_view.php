@@ -95,6 +95,7 @@
     document.body.style = "padding-bottom: 10px; padding-top: 70px;";
     var j = 0, cont = 0, checkClicados = 0, lock = 0, atualizando = 0;
     var qntLines = 0;
+    var graphColorVet = ["#f15c80","#8085e9","#f7a35c","#90ed7d","#434348","#7cb5ec"];
     var table = $('#tableFormaonda').DataTable( {
         "order": [[ 0, "desc" ]]
     } ); //========================
