@@ -245,15 +245,23 @@ if(limit > 0){
                     success: function (dados) {
                         if (dados) {
                             var chart = $('#barra').highcharts();
+//                            var colors = Highcharts.getOptions().colors;
+//                            chart.color = colors[0];
+                            
+                            
                             chart.addSeries({
                                 name: id,
-                                data: dados.barra
+                                data: dados.barra,
+                                color: graphColorVet[graphColorVet.length-1]
                             });
                             var chart = $('#linha').highcharts();
+                            
                             chart.addSeries({
                                 name: id,
-                                data: dados.linha
+                                data: dados.linha,
+                                color: graphColorVet[graphColorVet.length-1]
                             });
+                            graphColorVet.pop();
                         } else
                             alert("Erro Ajax.");
                     }
@@ -271,6 +279,7 @@ if(limit > 0){
                 if (graficos[x] === id) {
                     var chart = $('#barra').highcharts();
                     if (chart.series.length) {
+                        graphColorVet.push(chart.series[x].color);
                         chart.series[x].remove();
                     }
                     var chart = $('#linha').highcharts();
@@ -331,6 +340,7 @@ if(limit > 0){
                 chart.series[x].remove();
             var chart = $('#linha').highcharts();
                 chart.series[x].remove();
+                chart.colorCounter = 0;
             graficos.splice(x, 1);
             if(document.getElementById("tabelaSimilaridade").rows[x+1] !== undefined)
                 document.getElementById("tabelaSimilaridade").deleteRow(x+1);
