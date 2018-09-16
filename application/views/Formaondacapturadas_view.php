@@ -157,17 +157,18 @@ if(limit > 0){
                 Limit: limit
             },
             success: function (dados) {
+				//console.log(dados);
                 if (dados) {
                     while (j < dados.length) {
                         var evento;
                         var cod = dados[j].codCaptura;
                         var checkbox = "<input name='comparar' id="+cod+" type='checkbox' onclick='criaGraficoBarraLinha("+cod+")'>";
                         if (dados[j].codEvento === "1" || dados[j].codEvento === "10"){
-			   	var classper = periculosidade(dados[j]);
-                        	var peri = "<div style='align: left;' class="+classper+">";
+							var classper = periculosidade(dados[j]);
+							var peri = "<div id=periculosidade style='align: left;' class="+classper+">";
                         } else {
-			   	var peri = " "; 
-			   }
+							var peri = " "; 
+						}
                         table.row.add([
                             cod,
                             dados[j].codUsoSala,
@@ -187,9 +188,8 @@ if(limit > 0){
                         $('#tableFormaonda tbody tr:last').addClass( evento );
                         j++;
                     }
-		$("#loader").addClass("hidden");
-                } 
-                else {
+					$("#loader").addClass("hidden");
+                } else {
                     alert("Erro Ajax.");
                 }
             }
@@ -202,10 +202,10 @@ if(limit > 0){
     function limitSet(){
         if($("#limitcheckbox").prop("checked")) {
             $("#limit").prop("disabled", "true");
-	    $("#limit").val(0);
+			$("#limit").val(0);
         } else {
             $("#limit").prop("disabled", "");
-	    $("#limit").val(0);
+			$("#limit").val(0);
         }
     }
     
@@ -219,13 +219,21 @@ if(limit > 0){
     function periculosidade(dados) {
         var classdiv;
         classdiv = "green-circle";
-        if (dados.eficaz >= 0.1 && dados.eficaz < 0.5) {
+        /*if (dados.eficaz >= 0.1 && dados.eficaz < 0.5) {
             //atenção
             classdiv = "yellow-circle";
         } else if (dados.eficaz >= 0.5) {
             //perigo
             classdiv = "red-circle";
+        }*/
+        if (dados.periculosidade_corrente == 2) {
+            //atenção
+            classdiv = "yellow-circle";
+        } else if (dados.periculosidade_corrente == 3) {
+            //perigo
+            classdiv = "red-circle";
         }
+
         return classdiv;
     } //OK
     function criaGraficoBarraLinha(id) {

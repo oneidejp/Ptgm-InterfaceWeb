@@ -10,7 +10,7 @@ class formaondacapturadas_model extends CI_Model{
 	function get_all_data($equipment, $fase, $fuga, $datestart, $dateend, $limit){
             $codEventOR = "(cap.codEvento = $fuga OR cap.codEvento = $fase)";
             
-            $this->db->select("cap.codCaptura, cap.codEvento, uso.codUsoSala, cap.valorMedio,cap.CodTomada, cap.CodEquip, equip.desc, cap.eficaz, equip.tempoUso, cap.dataAtual, cap.codEvento");
+            $this->db->select("cap.codCaptura, cap.codEvento, uso.codUsoSala, cap.valorMedio,cap.CodTomada, cap.CodEquip, equip.desc, cap.eficaz, equip.tempoUso, cap.dataAtual, cap.codEvento, cap.periculosidade_corrente, cap.periculosidade_frequencia, cap.periculosidade_similaridade");
             $this->db->from ('capturaatual cap, usosalacaptura uso, equipamento equip');
             $this->db->where('cap.codCaptura = uso.codCaptura');
             $this->db->where('equip.codEquip = cap.codEquip');
