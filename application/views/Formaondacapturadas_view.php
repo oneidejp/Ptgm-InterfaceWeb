@@ -166,11 +166,11 @@
 							var peri = '';
 							if (dados[j].codEvento === "1" || dados[j].codEvento === "10"){
 								var classper = periculosidade(dados[j].periculosidade_corrente);
-								peri = "<div id=periculosidade_corrente class="+classper+"></div>";
+								peri = "<button data-toggle='tooltip' data-placement='top' title='corrente' id=periculosidade_corrente class="+classper+"></button>";
 								classper = periculosidade(dados[j].periculosidade_frequencia);
-								peri += "<div id=periculosidade_frequencia class="+classper+"></div>";
+								peri += "<button data-toggle='tooltip' data-placement='top' title='frequência' id=periculosidade_frequencia class="+classper+"></button>";
 								classper = periculosidade(dados[j].periculosidade_similaridade);
-								peri += "<div id=periculosidade_similaridade class="+classper+"></div>";
+								peri += "<button  data-toggle='tooltip' data-placement='top' title='similaridade' id=periculosidade_similaridade class="+classper+"></button>";
 							} else {
 								peri = " "; 
 							}
