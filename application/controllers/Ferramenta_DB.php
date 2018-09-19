@@ -19,7 +19,6 @@ class Ferramenta_DB extends MY_Controller {
     public function index() {
         $data['title'] = $this->lang->line('Ferramenta_DB');
         $data['headerOption'] = "<link rel='stylesheet' href=" . base_url() . "includes/css/estilo.css>" .
-                "<link rel='stylesheet' href=" . base_url() . "includes/css/estilosLeo.css>" .
                 "<link rel='stylesheet' href=" . base_url() . "includes/css/abas.css>";
         $this->load->template('Ferramenta_DB_view', $data);
     }

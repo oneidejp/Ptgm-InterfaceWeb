@@ -448,9 +448,11 @@ if ( ! is_php('5.4'))
 	{
 		if ( ! empty($RTR->routes['404_override']))
 		{
+			
 			if (sscanf($RTR->routes['404_override'], '%[^/]/%s', $error_class, $error_method) !== 2)
 			{
 				$error_method = 'index';
+				
 			}
 
 			$error_class = ucfirst($error_class);
@@ -465,6 +467,7 @@ if ( ! is_php('5.4'))
 				// Were we in a directory? If so, check for a global override
 				elseif ( ! empty($RTR->directory) && file_exists(APPPATH.'controllers/'.$error_class.'.php'))
 				{
+					
 					require_once(APPPATH.'controllers/'.$error_class.'.php');
 					if (($e404 = ! class_exists($error_class, FALSE)) === FALSE)
 					{
@@ -497,6 +500,7 @@ if ( ! is_php('5.4'))
 
 	if ($method !== '_remap')
 	{
+		
 		$params = array_slice($URI->rsegments, 2);
 	}
 
@@ -529,6 +533,7 @@ if ( ! is_php('5.4'))
  *  Call the requested method
  * ------------------------------------------------------
  */
+
 	call_user_func_array(array(&$CI, $method), $params);
 
 	// Mark a benchmark end point

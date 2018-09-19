@@ -1,5 +1,4 @@
 <link rel="stylesheet" href="<?php echo base_url('includes/css/menu.css') ?>"><!--estilo do menu -->
-<link rel="stylesheet" href="<?php echo base_url('includes/css/estilo.css') ?>">
 <div class="container-fluid">
     <div class="row-fluid menu">
         <ul class="dropdown">
