@@ -4,7 +4,7 @@ $(function () {
 		chart: {
             type: 'column',
               // Edit chart spacing
-            spacingBottom: 0,
+            spacingBottom: 0
         },
         title: {
             text: ''
@@ -46,11 +46,11 @@ $(function () {
         chart: {
             type: 'spline',
             // Edit chart spacing
-            spacingBottom: 0,
+            spacingBottom: 0
 
         },
         legend: {
-            enabled: false
+            enabled: true
         },
         title: {
             text: ''
@@ -74,7 +74,9 @@ $(function () {
         yAxis: {
             title: {
                 text: 'Corrente (mA)'
-            },
+            }
+        },
+        tooltip: {
         }
     });
 });

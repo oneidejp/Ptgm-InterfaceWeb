@@ -8,13 +8,17 @@ $lang["insert"] = "Inserir";
 $lang["clean_up"] = "Limpar";
 $lang["cancel"] = "Cancelar";
 $lang["alter"] = "Alterar";
+$lang["model_page"] = "Página de modelo!";
+
 //menu
 $lang["control"] = "Controle";
 $lang["control_panel"] = "Painel de Controle";
 $lang["last_captured"] = "Últimas Capturadas";
 $lang["fo_captured"] = "FO Capturadas";
+$lang["communication"] = "Comunicação";
 $lang["use_room"] = "Uso de Salas";
 $lang["standard"] = "Padrão";
+$lang["config_database"] = "Configuração BD";
 $lang["insert_menu"] = "Cadastros";
 $lang["equipments"] = "Equipamentos";
 $lang["kind"] = "Tipo";
@@ -30,6 +34,9 @@ $lang["kinds of standards"] = "Tipos de Padrões";
 $lang["events"] = "Eventos";
 $lang["user"] = "Usuário";
 $lang["help"] = "Ajuda";
+$lang["web_interface"] = "Interface Web Protegemed";
+$lang["exit"] = "Sair";
+$lang["options"] = "Opções";
 //página de login
 $lang["login"] = "Login";
 $lang["email_address"] = "Endereço de Email";
@@ -43,6 +50,7 @@ $lang["page_title_cadastre_user"] = "Cadastrar Usuário";
 $lang["page_title_consult_user"] = "Consultar Usuário";
 $lang["form_alter_title_user"] = "Alterar Usuário";
 $lang["form_alter_title_password"] = "Alterar Senha";
+$lang["table_title_user"] = "Usuários";
 $lang["name"] = "Nome";
 $lang["email"] = "Email";
 $lang["level"] = "Nível";
@@ -142,15 +150,49 @@ $lang["effective"] = "Eficaz";
 $lang["use"] = "Uso";
 $lang["date"] = "Data";
 $lang["compare"] = "Comparar";
-$lang["empty"] = "Vazio";
+$lang["dangerousness"] = "Periculosidade";
+$lang["similarity"] = "Similaridade";
+$lang["capture_code"] = "Código de Captura";
+//ultimasCapturas
+$lang["update"] = "Atualizar";
+$lang["visualization"] = "Visualização";
+$lang["fft"] = "FFT";
 //comparar
 $lang["valor_medio"] = "Valor Médio";
 $lang["cod_onda_padrao"] = "Cod Onda Padrão";
 $lang["phase"] = "Fase";
-$lang["flight"] = "Fuga";
+$lang["leakage"] = "Fuga";
 //alertas
 $lang["record"] = "Gravar";
 $lang["comment_alert"] = "Comentário Alerta";
+//FO capturadas
+$lang["datestart"] = "Data Inicio";
+$lang["dateend"] = "Data Fim";
+//capture
+$lang["select_command"] = "Selecione o Comando";
+$lang["select_command_capture"] = "Capturar";
+$lang["select_module"] = "Selecione o Módulo";
+$lang["select_equipment"] = "Selecione o Equipamento";
+$lang["select_outlet"] = "Selecione a Tomada";
+$lang["select_channel"] = "Selecione o Canal";
+$lang["select_limit"] = "Limite";
+$lang["button_send"] = "Enviar";
+$lang["reset"] = "Reiniciar";
+$lang["connect"] = "Conectar";
+$lang["test"] = "Testar";
+$lang["event"] = "Evento";
+
+//pagina modulo
+$lang["page_title_cadastre_module"] = "Cadastrar Modulo";
+$lang["page_title_consult_module"] = "Consultar Modulo";
+$lang["form_alter_title_module"] = "Alterar Modulo";
+$lang["table_title_module"] = "Modulo";
+$lang["last_on"] = "Ultimo Liga";
+$lang["module"] = "Modulo";
+
+//ferramenta_db
+$lang["Ferramenta_DB"] = "Ferramentas DB";
+$lang["loading_db"] = "Carregando Backup";
 
 
 ?>
