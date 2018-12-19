@@ -136,64 +136,69 @@
         }
         
 	
-	limit = $("#limit").val();
-	if (limit < 0 || limit > 10000){
-		alert("Value limit invalid " + limit);
-		limit = $("#limit").val(0);
-	}
-        
-if(limit > 0){
-	$("#loader").removeClass("hidden");
-        $.ajax({
-            type: 'post',
-            dataType: 'json', //tipo de retorno
-            url: baseUrl + "index.php/Formaondacapturadas/getDataTable", //arquivo onde serão buscados os dados
-            data: {
-                Fase: fase,
-                Fuga: fuga,
-                Equipment: equipamento,
-                Datestart: datestart,
-                Dateend: dateend,
-                Limit: limit
-            },
-            success: function (dados) {
-                if (dados) {
-                    while (j < dados.length) {
-                        var evento;
-                        var cod = dados[j].codCaptura;
-                        var checkbox = "<input name='comparar' id="+cod+" type='checkbox' onclick='criaGraficoBarraLinha("+cod+")'>";
-                        if (dados[j].codEvento === "1" || dados[j].codEvento === "10"){
-			   	var classper = periculosidade(dados[j]);
-                        	var peri = "<div style='align: left;' class="+classper+">";
-                        } else {
-			   	var peri = " "; 
-			   }
-                        table.row.add([
-                            cod,
-                            dados[j].codUsoSala,
-                            dados[j].CodTomada,
-                            dados[j].CodEquip,
-                            dados[j].valorMedio,
-                            dados[j].eficaz,
-                            peri,
-                            dados[j].dataAtual,
-                            checkbox
-                        ]).draw(false);
-                        
-                        if(dados[j].codEvento === "1") evento = "fuga";
-                        if(dados[j].codEvento === "4") evento = "fase";
-                        if(dados[j].codEvento === "9") evento = "cExtFase";
-                        if(dados[j].codEvento === "10") evento = "cExtFuga";
-                        $('#tableFormaonda tbody tr:last').addClass( evento );
-                        j++;
-                    }
-		$("#loader").addClass("hidden");
-                } 
-                else {
-                    alert("Erro Ajax.");
-                }
-            }
-        });
+		limit = $("#limit").val();
+		if (limit < 0 || limit > 10000){
+			alert("Value limit invalid " + limit);
+			limit = $("#limit").val(0);
+		}
+			
+		if(limit > 0){
+		$("#loader").removeClass("hidden");
+			$.ajax({
+				type: 'post',
+				dataType: 'json', //tipo de retorno
+				url: baseUrl + "index.php/Formaondacapturadas/getDataTable", //arquivo onde serão buscados os dados
+				data: {
+					Fase: fase,
+					Fuga: fuga,
+					Equipment: equipamento,
+					Datestart: datestart,
+					Dateend: dateend,
+					Limit: limit
+				},
+				success: function (dados) {
+					//console.log(dados);
+					if (dados) {
+						while (j < dados.length) {
+							var evento;
+							var cod = dados[j].codCaptura;
+							var checkbox = "<input name='comparar' id="+cod+" type='checkbox' onclick='criaGraficoBarraLinha("+cod+")'>";
+							var peri = '';
+							if (dados[j].codEvento === "1" || dados[j].codEvento === "10"){
+								var classper = periculosidade(dados[j].periculosidade_corrente);
+								peri = "<button data-toggle='tooltip' data-placement='top' title='corrente' id=periculosidade_corrente class="+classper+"></button>";
+								classper = periculosidade(dados[j].periculosidade_frequencia);
+								peri += "<button data-toggle='tooltip' data-placement='top' title='frequência' id=periculosidade_frequencia class="+classper+"></button>";
+								classper = periculosidade(dados[j].periculosidade_similaridade);
+								peri += "<button  data-toggle='tooltip' data-placement='top' title='similaridade' id=periculosidade_similaridade class="+classper+"></button>";
+							} else {
+								peri = " "; 
+							}
+							table.row.add([
+								cod,
+								dados[j].codUsoSala,
+								dados[j].CodTomada,
+								dados[j].CodEquip,
+								dados[j].valorMedio,
+								dados[j].eficaz,
+								peri,
+								dados[j].dataAtual,
+								checkbox
+							]).draw(false);
+							
+							if(dados[j].codEvento === "1") evento = "fuga";
+							if(dados[j].codEvento === "4") evento = "fase";
+							if(dados[j].codEvento === "9") evento = "cExtFase";
+							if(dados[j].codEvento === "10") evento = "cExtFuga";
+							$('#tableFormaonda tbody tr:last').addClass( evento );
+							j++;
+						}
+						$("#loader").addClass("hidden");
+					} else {
+						alert("Erro Ajax.");
+					}
+				}
+			});
         } else {
            table.clear().draw();
         }
@@ -202,10 +207,10 @@ if(limit > 0){
     function limitSet(){
         if($("#limitcheckbox").prop("checked")) {
             $("#limit").prop("disabled", "true");
-	    $("#limit").val(0);
+			$("#limit").val(0);
         } else {
             $("#limit").prop("disabled", "");
-	    $("#limit").val(0);
+			$("#limit").val(0);
         }
     }
     
@@ -216,16 +221,18 @@ if(limit > 0){
         var top = (screen.height/2)-(h/2);
         return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
     }
-    function periculosidade(dados) {
+    function periculosidade(value) {
         var classdiv;
         classdiv = "green-circle";
-        if (dados.eficaz >= 0.1 && dados.eficaz < 0.5) {
+
+        if (value == 2) {
             //atenção
             classdiv = "yellow-circle";
-        } else if (dados.eficaz >= 0.5) {
+        } else if (value == 3) {
             //perigo
             classdiv = "red-circle";
         }
+
         return classdiv;
     } //OK
     function criaGraficoBarraLinha(id) {
